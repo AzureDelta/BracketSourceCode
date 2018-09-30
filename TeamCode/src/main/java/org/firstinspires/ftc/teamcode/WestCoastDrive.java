@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 
 //*In theory* this should also be compatible with tank drive.
 
-@TeleOp(name = "WestCoastDrive", group = "TeleOp")
+@TeleOp(name ="WestCoastDrive", group ="Pushbot")
 public class WestCoastDrive extends LinearOpMode{
 
     /* Declare OpMode members. */
