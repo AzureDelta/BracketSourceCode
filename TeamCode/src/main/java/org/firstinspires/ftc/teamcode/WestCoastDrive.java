@@ -19,6 +19,7 @@ public class WestCoastDrive extends LinearOpMode{
     {
 
         robot.init(hardwareMap);
+        //loads hardwareMap
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Shock drone going live!");    //
