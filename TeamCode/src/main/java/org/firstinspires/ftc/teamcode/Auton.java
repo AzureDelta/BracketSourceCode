@@ -26,8 +26,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class Auton extends LinearOpMode {
     VuforiaLocalizer vuforia;
-
     HardwareConfig      robot = new HardwareConfig();
+    private Elapsed
 
 
 
