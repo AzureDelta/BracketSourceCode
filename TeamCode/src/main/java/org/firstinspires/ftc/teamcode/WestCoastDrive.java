@@ -38,6 +38,7 @@ public class WestCoastDrive extends LinearOpMode{
 
         telemetry.addData("Say", "ASSUMING DIRECT CONTROL");    //
         telemetry.update();
+
         while(opModeIsActive())
         {
             //tank drive code

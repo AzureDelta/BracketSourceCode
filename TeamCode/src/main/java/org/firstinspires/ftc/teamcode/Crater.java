@@ -36,8 +36,11 @@ public class Crater extends LinearOpMode {
     static final double DEGREES = (1120)/360; //calculates counts per degree
 
     @Override
-    public void init() {
-        telemetry.addData("Status", "DogeCV 2018.0 - Gold Align Example");
+
+    public void runOpMode() {
+
+        //this section of the code runs what would normally be run in the initialization method
+        //consider abstracting later
 
         detector = new GoldAlignDetector();
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
@@ -56,20 +59,18 @@ public class Crater extends LinearOpMode {
         detector.ratioScorer.perfectRatio = 1.0;
 
         detector.enable();
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
+        //write main portion of the opMode here
 
-    }
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
+        //this section of the code runs what normally would be written in the stop method
 
-    public void runOpMode() {
-
-    }
-
-    @Override
-    public void stop() {
         detector.disable();
+
     }
+
 
     public void drive(double speed, double distance, double timeout) {
         //declares target point storage variables
