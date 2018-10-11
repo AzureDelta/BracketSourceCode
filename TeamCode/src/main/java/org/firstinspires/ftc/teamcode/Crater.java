@@ -20,6 +20,8 @@ public class Crater extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();   //Configs hardware
 
+    private GoldAlignDetector detector;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double PI = 3.1415; //pi
@@ -34,8 +36,39 @@ public class Crater extends LinearOpMode {
     static final double DEGREES = (1120)/360; //calculates counts per degree
 
     @Override
+    public void init() {
+        telemetry.addData("Status", "DogeCV 2018.0 - Gold Align Example");
+
+        detector = new GoldAlignDetector();
+        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
+
+        // Optional Tuning
+        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
+        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
+        detector.downscale = 0.4; // How much to downscale the input frames
+
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.maxAreaScorer.weight = 0.005;
+
+        detector.ratioScorer.weight = 5;
+        detector.ratioScorer.perfectRatio = 1.0;
+
+        detector.enable();
+
+
+    }
+
+    @Override
+
     public void runOpMode() {
-        
+
+    }
+
+    @Override
+    public void stop() {
+        detector.disable();
     }
 
     public void drive(double speed, double distance, double timeout) {
