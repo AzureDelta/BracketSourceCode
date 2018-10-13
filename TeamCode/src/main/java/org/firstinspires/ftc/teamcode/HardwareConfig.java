@@ -20,8 +20,6 @@ public class HardwareConfig {
     public DcMotor armL = null;
     public DcMotor armR = null;
     public DcMotor intake = null;
-    public Servo upleftClaw = null;//legacy code, can be removed
-    public Servo uprightClaw = null;//legacy code, can be removed
 
     public static final double MID_SERVO = 0.5;//legacy code, can be removed
     public ColorSensor colorSensor;//legacy code, can be removed
@@ -87,7 +85,7 @@ public class HardwareConfig {
         slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //Not using encoders for non drive train to allow for more direct control of power.
         //Arm uses encoders to make sure motors stay in sync
 

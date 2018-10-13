@@ -80,6 +80,8 @@ public class Crater extends LinearOpMode {
                 rotationCount++;
 
             }else{
+                //brandon i'm useless but would this work
+                return;
                 //figure out how to abort the program here
             }
 
