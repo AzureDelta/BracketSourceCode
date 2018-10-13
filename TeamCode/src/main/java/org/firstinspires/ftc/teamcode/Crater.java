@@ -63,12 +63,92 @@ public class Crater extends LinearOpMode {
 
         //write main portion of the opMode here
 
+        //lower the robot
+        rotateArm(0.5, 1120, 10);
+
+        //declare counter variable
+        int rotationCount = 0;
+
+        //runs loop until robot is aligned with mineral
+        while(detector.getAligned()!=true){
+            if(detector.getXPosition()<170){
+                turn(0.25,-3*DEGREES, 3);
+                rotationCount--;
+
+            }else if (detector.getXPosition()>170){
+                turn(0.25,3*DEGREES, 3);
+                rotationCount++;
+
+            }else{
+                //figure out how to abort the program here
+            }
+
+            //drive to crater
+            //current implementation of rotation count is a placeholder
+            drive(0.5, 3*FEET, 10);
+            turn(0.25, 3*rotationCount*DEGREES, 5);
+            drive(0.5, 5*rotationCount*DEGREES, 3);
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         //this section of the code runs what normally would be written in the stop method
 
         detector.disable();
 
+    }
+
+    public void rotateArm(double speed, double distance, double timeout){
+        int targetL;
+        int targetR;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            targetL = robot.armL.getCurrentPosition() + (int) (distance);
+            targetR = robot.armR.getCurrentPosition() + (int) (distance);
+            robot.armL.setTargetPosition(targetL);
+            robot.armR.setTargetPosition(targetR);
+
+            // Turn On RUN_TO_POSITION
+            robot.armL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.armR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            robot.armL.setPower(Math.abs(speed));
+            robot.armR.setPower(Math.abs(speed));;
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+            while (opModeIsActive() &&
+
+                    (runtime.seconds() < timeout) &&
+                    (robot.armL.isBusy() && robot.motorFR.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", targetL, targetR);
+                telemetry.addData("Path2", "Running at %7d :%7d",
+                        robot.armL.getCurrentPosition(),
+                        robot.armR.getCurrentPosition());
+                telemetry.update();
+            }
+
+
+            // Stop all motion;
+            robot.armL.setPower(0);
+            robot.armR.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.armR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 
 

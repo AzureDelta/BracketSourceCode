@@ -17,7 +17,8 @@ public class HardwareConfig {
     public DcMotor motorRR = null;
     public DcMotor motorRL = null;
     public DcMotor slide = null;
-    public DcMotor arm = null;
+    public DcMotor armL = null;
+    public DcMotor armR = null;
     public DcMotor intake = null;
     public Servo upleftClaw = null;//legacy code, can be removed
     public Servo uprightClaw = null;//legacy code, can be removed
@@ -46,7 +47,8 @@ public class HardwareConfig {
         motorRR = hwMap.get(DcMotor.class, "motorRR");
         motorRL = hwMap.get(DcMotor.class, "motorRL");
         slide = hwMap.get(DcMotor.class, "slide");
-        arm = hwMap.get(DcMotor.class, "arm");
+        armL = hwMap.get(DcMotor.class, "armL");
+        armR = hwMap.get(DcMotor.class, "armR");
         intake = hwMap.get(DcMotor.class, "intake");
         colorSensor = hwMap.colorSensor.get("color");//legacy code, can be removed
 
@@ -60,7 +62,8 @@ public class HardwareConfig {
         motorRR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
         motorRL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         slide.setDirection(DcMotor.Direction.FORWARD);//requires testing
-        arm.setDirection(DcMotor.Direction.FORWARD);//requires testing
+        armL.setDirection(DcMotor.Direction.FORWARD);//requires testing
+        armR.setDirection(DcMotor.Direction.REVERSE);//requires testing
         intake.setDirection(DcMotor.Direction.FORWARD);//requires testing
 
 
@@ -70,7 +73,8 @@ public class HardwareConfig {
         motorRR.setPower(0);
         motorRL.setPower(0);
         slide.setPower(0);
-        arm.setPower(0);
+        armL.setPower(0);
+        armR.setPower(0);
         intake.setPower(0);
 
 
@@ -82,8 +86,10 @@ public class HardwareConfig {
         motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //Not using encoders for non drive train to allow for more direct control of power.
+        //Arm uses encoders to make sure motors stay in sync
 
 
     }
