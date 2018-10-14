@@ -51,10 +51,6 @@ public class HardwareConfig {
         colorSensor = hwMap.colorSensor.get("color");//legacy code, can be removed
 
 
-        upleftClaw = hwMap.get(Servo.class, "upleft_hand");//legacy code, can be removed
-        uprightClaw = hwMap.get(Servo.class, "upright_hand");//legacy code, can be removed
-
-
         motorFR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
         motorFL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         motorRR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
