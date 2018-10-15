@@ -18,7 +18,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class Crater extends LinearOpMode {
 
     AutonomousControls auto = new AutonomousControls(); //AutonomousControls
-    LandAndSort LandAndSort = new LandAndSort();
+    LandAndSort landAndSort = new LandAndSort();
+    CraterPartTwo crater = new CraterPartTwo();
 
     private GoldAlignDetector detector;
 
@@ -58,7 +59,8 @@ public class Crater extends LinearOpMode {
         detector.enable();
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        LandAndSort.partOne();
+        landAndSort.partOne();
+        crater.partTwo();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -18,7 +18,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class Depot extends LinearOpMode {
 
     AutonomousControls auto = new AutonomousControls(); //AutonomousControls
-    LandAndSort LandAndSort = new LandAndSort();
+    LandAndSort landAndSort = new LandAndSort();
+    DepotPartTwo depot = new DepotPartTwo();
 
     private GoldAlignDetector detector;
 
@@ -58,7 +59,8 @@ public class Depot extends LinearOpMode {
         detector.enable();
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        LandAndSort.partOne();
+        landAndSort.partOne();
+        depot.partTwo();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 

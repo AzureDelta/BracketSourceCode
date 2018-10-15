@@ -40,7 +40,7 @@ public class LandAndSort {
         //write main portion of the opMode here
 
         //lower the robot
-        auto.rotateArm(0.5, 1120, 10);
+        auto.rotateArm(0.5, 1120);
 
         //declare counter variable
         int rotationCount = 0;
@@ -48,11 +48,11 @@ public class LandAndSort {
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true) {
             if (detector.getXPosition() < 170) {
-                auto.turn(0.25, -3 * DEGREES, 3);
+                auto.turn(0.25, -3 * DEGREES);
                 rotationCount--;
 
             } else if (detector.getXPosition() > 170) {
-                auto.turn(0.25, 3 * DEGREES, 3);
+                auto.turn(0.25, 3 * DEGREES);
                 rotationCount++;
 
             } else {
@@ -64,8 +64,8 @@ public class LandAndSort {
 
             //drive to crater
             //current implementation of rotation count is a placeholder
-            auto.drive(0.5, 3 * FEET, 10);
-            auto.turn(0.25, 3 * rotationCount * DEGREES, 5);
+            auto.drive(0.5, 19 * INCHES);
+            auto.turn(0.25, 2*3 * rotationCount * DEGREES);
         }
     }
 }

@@ -19,7 +19,43 @@ public class AutonomousControls {
 
     HardwareConfig robot = new HardwareConfig();
 
-    public void rotateArm(double speed, double distance, double timeout){
+    public void rotateIntake(double speed, double distance, double timeout){
+        int targetL;
+        int targetR;
+
+        // Ensure that the opmode is still active
+
+        // Determine new target position, and pass to motor controller
+        targetL = robot.armL.getCurrentPosition() + (int) (distance);
+        targetR = robot.armR.getCurrentPosition() + (int) (distance);
+        robot.armL.setTargetPosition(targetL);
+        robot.armR.setTargetPosition(targetR);
+
+        // Turn On RUN_TO_POSITION
+        robot.armL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        robot.armL.setPower(Math.abs(speed));
+        robot.armR.setPower(Math.abs(speed));;
+
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+        // its target position, the motion will stop.  This is "safer" in the event that the robot will
+        // always end the motion as soon as possible.
+        // However, if you require that BOTH motors have finished their moves before the robot continues
+        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+        // Stop all motion;
+        robot.armL.setPower(0);
+        robot.armR.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        robot.armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void rotateArm(double speed, double distance){
         int targetL;
         int targetR;
 
@@ -56,7 +92,7 @@ public class AutonomousControls {
     }
 
 
-    public void drive(double speed, double distance, double timeout) {
+    public void drive(double speed, double distance) {
         //declares target point storage variables
         int targetFL;
         int targetFR;
@@ -105,7 +141,7 @@ public class AutonomousControls {
 
     }
 
-    public void turn(double speed, double angle, double timeout){
+    public void turn(double speed, double angle){
         //declares target point storage variables
         int targetFL;
         int targetFR;
