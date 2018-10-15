@@ -9,7 +9,6 @@ import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="Crater", group="Auto")
 
@@ -18,7 +17,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class Crater extends LinearOpMode {
 
-    AutonomousControls auto = new AutonomousControls(); //Autonomous Controls
+    AutonomousControls auto = new AutonomousControls(); //AutonomousControls
+    LandAndSort LandAndSort = new LandAndSort();
 
     private GoldAlignDetector detector;
 
@@ -58,36 +58,7 @@ public class Crater extends LinearOpMode {
         detector.enable();
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        //write main portion of the opMode here
-
-        //lower the robot
-        auto.rotateArm(0.5, 1120, 10);
-
-        //declare counter variable
-        int rotationCount = 0;
-
-        //runs loop until robot is aligned with mineral
-        while(detector.getAligned()!=true){
-            if(detector.getXPosition()<170){
-                auto.turn(0.25,-3*DEGREES, 3);
-                rotationCount--;
-
-            }else if (detector.getXPosition()>170){
-                auto.turn(0.25,3*DEGREES, 3);
-                rotationCount++;
-
-            }else{
-                //brandon i'm useless but would this work
-                return;
-                //figure out how to abort the program here
-            }
-
-            //drive to crater
-            //current implementation of rotation count is a placeholder
-            auto.drive(0.5, 3*FEET, 10);
-            auto.turn(0.25, 3*rotationCount*DEGREES, 5);
-            auto.drive(0.5, 5*rotationCount*DEGREES, 3);
-        }
+        LandAndSort.partOne();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,6 +67,4 @@ public class Crater extends LinearOpMode {
         detector.disable();
 
     }
-
-
 }

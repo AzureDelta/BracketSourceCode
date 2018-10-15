@@ -29,6 +29,8 @@ public class WestCoastDrive extends LinearOpMode{
         double FRvalue;
         double RLvalue;
         double RRvalue;
+        double armPower;
+        int intakeToggle;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Shock drone going live!");    //
@@ -54,17 +56,27 @@ public class WestCoastDrive extends LinearOpMode{
             FRvalue =  + Y + X + R;
             RLvalue =  - Y -X+ R;
             RRvalue =  + Y -X + R;
+            armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
+
+            if(gamepad1.a=true){
+                robot.intakeL.setPower(0.75);
+                robot.intakeR.setPower(0.75);
+            }
 
             //maxes the values at 1
             FLvalue = Range.clip(FLvalue, -1, 1 );
             FRvalue = Range.clip(FRvalue, -1, 1 );
             RLvalue = Range.clip(RLvalue, -1, 1 );
             RRvalue = Range.clip(RRvalue, -1, 1 );
+            armPower = Range.clip(armPower, -1, 1);
+
 
             robot.motorFL.setPower(FLvalue);
             robot.motorFR.setPower(FRvalue);
             robot.motorRL.setPower(RLvalue);
             robot.motorRR.setPower(RRvalue);
+            robot.armL.setPower(armPower);
+            robot.armR.setPower(armPower);
 
             idle();
         }
