@@ -30,6 +30,8 @@ public class WestCoastDrive extends LinearOpMode{
         double RLvalue;
         double RRvalue;
         double armPower;
+        double armDown;
+        double armUp;
         int intakeToggle;
 
         // Send telemetry message to signify robot waiting;
@@ -50,13 +52,15 @@ public class WestCoastDrive extends LinearOpMode{
             R=gamepad1.right_stick_x;
             X=gamepad1.left_stick_x;
             Y=gamepad1.left_stick_y;
+            armUp = Range.clip(gamepad1.right_trigger, 0, 1);
+            armDown = -Range.clip(gamepad1.left_trigger, 0, 1);
 
             // Combine drive and turn for blended motion.
             FLvalue =  - Y + X +R;
             FRvalue =  + Y + X + R;
             RLvalue =  - Y -X+ R;
             RRvalue =  + Y -X + R;
-            armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
+            armPower = (armUp+armDown);
 
             if(gamepad1.a=true){
                 robot.intakeL.setPower(0.75);
@@ -68,8 +72,6 @@ public class WestCoastDrive extends LinearOpMode{
             FRvalue = Range.clip(FRvalue, -1, 1 );
             RLvalue = Range.clip(RLvalue, -1, 1 );
             RRvalue = Range.clip(RRvalue, -1, 1 );
-            armPower = Range.clip(armPower, -1, 1);
-
 
             robot.motorFL.setPower(FLvalue);
             robot.motorFR.setPower(FRvalue);

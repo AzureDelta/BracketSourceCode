@@ -75,6 +75,17 @@ public class HardwareConfig {
         intakeL.setPower(0);
         intakeR.setPower(0);
 
+        //set zero power behavior
+        motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.

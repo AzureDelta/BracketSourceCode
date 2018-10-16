@@ -27,14 +27,6 @@ public class LandAndSort {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
-    static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
-    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
-    static final double FEET = 12 * INCHES; //calculates counts per foot
-    static final double DEGREES = (1120) / 360; //calculates counts per degree
-
     public void partOne() {
 
         //write main portion of the opMode here
@@ -48,11 +40,11 @@ public class LandAndSort {
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true) {
             if (detector.getXPosition() < 170) {
-                auto.turn(0.25, -3 * DEGREES);
+                auto.turn(0.25, -3 * auto.DEGREES);
                 rotationCount--;
 
             } else if (detector.getXPosition() > 170) {
-                auto.turn(0.25, 3 * DEGREES);
+                auto.turn(0.25, 3 * auto.DEGREES);
                 rotationCount++;
 
             } else {
@@ -64,8 +56,8 @@ public class LandAndSort {
 
             //drive to crater
             //current implementation of rotation count is a placeholder
-            auto.drive(0.5, 19 * INCHES);
-            auto.turn(0.25, 2*3 * rotationCount * DEGREES);
+            auto.drive(0.5, 19 * auto.INCHES);
+            auto.turn(0.25, 2*3 * rotationCount * auto.DEGREES);
         }
     }
 }
