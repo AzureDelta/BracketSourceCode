@@ -56,31 +56,51 @@ public class WestCoastDrive extends LinearOpMode{
             armDown = -Range.clip(gamepad1.left_trigger, 0, 1);
 
             // Combine drive and turn for blended motion.
-            FLvalue =  - Y + X +R;
+            /*FLvalue =  - Y + X +R;
             FRvalue =  + Y + X + R;
             RLvalue =  - Y -X+ R;
             RRvalue =  + Y -X + R;
+            */
             armPower = (armUp+armDown);
 
-            if(gamepad1.a=true){
-                robot.intakeL.setPower(0.75);
-                robot.intakeR.setPower(0.75);
+            if(gamepad1.right_trigger > 0.1)
+                armPower = 1;
+            else if (gamepad1.left_trigger > 0.1)
+                armPower = -1;
+            else
+                armPower = 0;
+
+
+            FLvalue = -Y + X;
+            FRvalue = -Y - X;
+
+            if(gamepad1.a){
+                //robot.intakeL.setPower(0.75);
+                //robot.intakeR.setPower(0.75);
+            }
+            else if (gamepad1.b) {
+                //robot.intakeL.setPower(-0.75);
+                //robot.intakeR.setPower(-0.75);
+            }
+            else {
+                //robot.intakeL.setPower(0);
+                //robot.intakeR.setPower(0);
             }
 
             //maxes the values at 1
             FLvalue = Range.clip(FLvalue, -1, 1 );
             FRvalue = Range.clip(FRvalue, -1, 1 );
-            RLvalue = Range.clip(RLvalue, -1, 1 );
-            RRvalue = Range.clip(RRvalue, -1, 1 );
+            RLvalue = Range.clip(FLvalue, -1, 1 );
+            RRvalue = Range.clip(FRvalue, -1, 1 );
 
             robot.motorFL.setPower(FLvalue);
             robot.motorFR.setPower(FRvalue);
             robot.motorRL.setPower(RLvalue);
             robot.motorRR.setPower(RRvalue);
-            robot.armL.setPower(armPower);
-            robot.armR.setPower(armPower);
+            //robot.armL.setPower(armPower);
+            //robot.armR.setPower(armPower);
 
-            idle();
+            //idle();
         }
     }
 }
