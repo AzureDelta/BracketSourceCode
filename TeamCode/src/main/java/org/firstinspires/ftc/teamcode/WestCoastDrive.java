@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
+    public static final double SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfig robot           = new HardwareConfig();   //Configs hardware
@@ -22,13 +23,10 @@ public class WestCoastDrive extends LinearOpMode{
         robot.init(hardwareMap);
         //loads hardwareMap
 
-        double R;
-        double X;
-        double Y;
-        double FLvalue;
-        double FRvalue;
-        double RLvalue;
-        double RRvalue;
+        double drive;
+        double turn;
+        double leftValue;
+        double rightValue;
         double armPower;
         int intakeToggle;
 
@@ -43,69 +41,44 @@ public class WestCoastDrive extends LinearOpMode{
 
         while(opModeIsActive())
         {
-            //tank drive code
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             // This way it's also easy to just drive straight, or just turn.
-            R=gamepad1.right_stick_x;
-            X=gamepad1.left_stick_x;
-            Y=gamepad1.left_stick_y;
+            drive = -gamepad1.left_stick_y;
+            turn  =  gamepad1.right_stick_x;
 
             // Combine drive and turn for blended motion.
-            /*FLvalue =  - Y + X +R;
-            FRvalue =  + Y + X + R;
-            RLvalue =  - Y -X+ R;
-            RRvalue =  + Y -X + R;
-<<<<<<< HEAD
-            */
-            armPower = (armUp+armDown);
-=======
+            leftValue  = drive + turn;
+            rightValue = drive - turn;
+
             armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
->>>>>>> parent of 9707380... Zero Power Behavior Update
-
-            if(gamepad1.right_trigger > 0.1)
-                armPower = 1;
-            else if (gamepad1.left_trigger > 0.1)
-                armPower = -1;
-            else
-                armPower = 0;
-
-
-            FLvalue = -Y + X;
-            FRvalue = -Y - X;
 
             if(gamepad1.a){
-                //robot.intakeL.setPower(0.75);
-                //robot.intakeR.setPower(0.75);
+                robot.intakeL.setPower(0.75);
+                robot.intakeR.setPower(0.75);
             }
             else if (gamepad1.b) {
-                //robot.intakeL.setPower(-0.75);
-                //robot.intakeR.setPower(-0.75);
+                robot.intakeL.setPower(-0.75);
+                robot.intakeR.setPower(-0.75);
             }
             else {
-                //robot.intakeL.setPower(0);
-                //robot.intakeR.setPower(0);
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
             }
 
             //maxes the values at 1
-            FLvalue = Range.clip(FLvalue, -1, 1 );
-            FRvalue = Range.clip(FRvalue, -1, 1 );
-<<<<<<< HEAD
-            RLvalue = Range.clip(FLvalue, -1, 1 );
-            RRvalue = Range.clip(FRvalue, -1, 1 );
-=======
-            RLvalue = Range.clip(RLvalue, -1, 1 );
-            RRvalue = Range.clip(RRvalue, -1, 1 );
-            armPower = Range.clip(armPower, -1, 1);
+            leftValue = Range.clip(leftValue, -SPEED, SPEED);
+            rightValue = Range.clip(rightValue, -SPEED, SPEED);
+            armPower = Range.clip(armPower, -0.1, 0.1);
 
->>>>>>> parent of 9707380... Zero Power Behavior Update
 
-            robot.motorFL.setPower(FLvalue);
-            robot.motorFR.setPower(FRvalue);
-            robot.motorRL.setPower(RLvalue);
-            robot.motorRR.setPower(RRvalue);
-            //robot.armL.setPower(armPower);
-            //robot.armR.setPower(armPower);
+
+            robot.motorFL.setPower(leftValue);
+            robot.motorFR.setPower(rightValue);
+            robot.motorRL.setPower(leftValue);
+            robot.motorRR.setPower(rightValue);
+            robot.armL.setPower(armPower);
+            robot.armR.setPower(armPower);
 
             //idle();
         }
