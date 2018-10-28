@@ -30,8 +30,6 @@ public class WestCoastDrive extends LinearOpMode{
         double RLvalue;
         double RRvalue;
         double armPower;
-        double armDown;
-        double armUp;
         int intakeToggle;
 
         // Send telemetry message to signify robot waiting;
@@ -52,16 +50,18 @@ public class WestCoastDrive extends LinearOpMode{
             R=gamepad1.right_stick_x;
             X=gamepad1.left_stick_x;
             Y=gamepad1.left_stick_y;
-            armUp = Range.clip(gamepad1.right_trigger, 0, 1);
-            armDown = -Range.clip(gamepad1.left_trigger, 0, 1);
 
             // Combine drive and turn for blended motion.
             /*FLvalue =  - Y + X +R;
             FRvalue =  + Y + X + R;
             RLvalue =  - Y -X+ R;
             RRvalue =  + Y -X + R;
+<<<<<<< HEAD
             */
             armPower = (armUp+armDown);
+=======
+            armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
+>>>>>>> parent of 9707380... Zero Power Behavior Update
 
             if(gamepad1.right_trigger > 0.1)
                 armPower = 1;
@@ -90,8 +90,15 @@ public class WestCoastDrive extends LinearOpMode{
             //maxes the values at 1
             FLvalue = Range.clip(FLvalue, -1, 1 );
             FRvalue = Range.clip(FRvalue, -1, 1 );
+<<<<<<< HEAD
             RLvalue = Range.clip(FLvalue, -1, 1 );
             RRvalue = Range.clip(FRvalue, -1, 1 );
+=======
+            RLvalue = Range.clip(RLvalue, -1, 1 );
+            RRvalue = Range.clip(RRvalue, -1, 1 );
+            armPower = Range.clip(armPower, -1, 1);
+
+>>>>>>> parent of 9707380... Zero Power Behavior Update
 
             robot.motorFL.setPower(FLvalue);
             robot.motorFR.setPower(FRvalue);

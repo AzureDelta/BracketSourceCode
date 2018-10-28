@@ -75,6 +75,7 @@ public class HardwareConfig {
         //intakeL.setPower(0);
         //intakeR.setPower(0);
 
+<<<<<<< HEAD
         //set zero power behavior
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -86,6 +87,8 @@ public class HardwareConfig {
         //intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+=======
+>>>>>>> parent of 9707380... Zero Power Behavior Update
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
