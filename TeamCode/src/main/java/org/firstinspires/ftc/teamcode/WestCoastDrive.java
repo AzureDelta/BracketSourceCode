@@ -48,25 +48,21 @@ public class WestCoastDrive extends LinearOpMode{
             turn  =  gamepad1.right_stick_x;
 
             // Combine drive and turn for blended motion.
-            leftValue  = drive + turn;
-            rightValue = drive - turn;
+            leftValue  = -(drive + turn);
+            rightValue = -(drive - turn);
 
             armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
 
             if(gamepad1.a){
-                robot.intakeL.setPower(0.75);
-                robot.intakeR.setPower(0.75);
+                robot.intakeL.setPower(0.1);
+                robot.intakeR.setPower(0.1);
             }
             else if (gamepad1.b) {
-                robot.intakeL.setPower(-0.75);
-                robot.intakeR.setPower(-0.75);
-            }
-            else {
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
+                robot.intakeL.setPower(-0.1);
+                robot.intakeR.setPower(-0.1);
             }
 
-            //maxes the values at 1
+            //sets maxes for each value
             leftValue = Range.clip(leftValue, -SPEED, SPEED);
             rightValue = Range.clip(rightValue, -SPEED, SPEED);
             armPower = Range.clip(armPower, -0.1, 0.1);

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,9 @@ import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="Crater", group="Auto")
 
@@ -24,6 +28,8 @@ public class Crater extends LinearOpMode {
     private GoldAlignDetector detector;
 
     private ElapsedTime runtime = new ElapsedTime();
+    
+
 
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
@@ -32,6 +38,12 @@ public class Crater extends LinearOpMode {
     static final double INCHES = (COUNTS_PER_MOTOR_REV*0.5)/(WHEEL_DIAMETER_INCHES*Math.PI); //calculates counts per inch
     static final double FEET = 12 * INCHES; //calculates counts per foot
     static final double DEGREES = (1120)/360; //calculates counts per degree
+    // The IMU sensor object
+    BNO055IMU imu;
+
+    // State used for updating telemetry
+    Orientation angles;
+    Acceleration gravity;
 
     @Override
 

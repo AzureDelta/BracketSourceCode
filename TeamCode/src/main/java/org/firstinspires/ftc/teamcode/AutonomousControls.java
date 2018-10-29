@@ -141,7 +141,7 @@ public class AutonomousControls {
 
     }
 
-    public void turn(double speed, double angle){
+    public void turn(double speed, double angle) {
         //declares target point storage variables
         int targetFL;
         int targetFR;
@@ -149,10 +149,10 @@ public class AutonomousControls {
         int targetRR;
 
         //rotates counter clockwise based on angle
-        targetFL = robot.motorFL.getCurrentPosition() + (int) (COUNTS_PER_ROTATION-angle);
-        targetFR = robot.motorFR.getCurrentPosition() + (int) (COUNTS_PER_ROTATION+angle);
-        targetRL = robot.motorRL.getCurrentPosition() + (int) (COUNTS_PER_ROTATION-angle);
-        targetRR = robot.motorRR.getCurrentPosition() + (int) (COUNTS_PER_ROTATION+angle);
+        targetFL = robot.motorFL.getCurrentPosition() + (int) (COUNTS_PER_ROTATION - angle);
+        targetFR = robot.motorFR.getCurrentPosition() + (int) (COUNTS_PER_ROTATION + angle);
+        targetRL = robot.motorRL.getCurrentPosition() + (int) (COUNTS_PER_ROTATION - angle);
+        targetRR = robot.motorRR.getCurrentPosition() + (int) (COUNTS_PER_ROTATION + angle);
         robot.motorFL.setTargetPosition(targetFL);
         robot.motorFR.setTargetPosition(targetFR);
         robot.motorRL.setTargetPosition(targetRL);
@@ -188,6 +188,5 @@ public class AutonomousControls {
         robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         }
     }
