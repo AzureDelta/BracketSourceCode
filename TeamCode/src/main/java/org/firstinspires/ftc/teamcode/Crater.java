@@ -22,22 +22,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class Crater extends LinearOpMode {
 
     AutonomousControls auto = new AutonomousControls(); //AutonomousControls
-    LandAndSort landAndSort = new LandAndSort();
-    CraterPartTwo crater = new CraterPartTwo();
 
     private GoldAlignDetector detector;
 
     private ElapsedTime runtime = new ElapsedTime();
-    
 
 
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV*DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV*0.5)/(WHEEL_DIAMETER_INCHES*Math.PI); //calculates counts per inch
+    static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
+    static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     static final double FEET = 12 * INCHES; //calculates counts per foot
-    static final double DEGREES = (1120)/360; //calculates counts per degree
+    static final double DEGREES = (1120) / 360; //calculates counts per degree
+
     // The IMU sensor object
     BNO055IMU imu;
 
@@ -56,6 +54,8 @@ public class Crater extends LinearOpMode {
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
 
+        AutonomousControls auto = new AutonomousControls(); //AutonomousControls
+
         // Optional Tuning
         detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
         detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
@@ -69,10 +69,62 @@ public class Crater extends LinearOpMode {
         detector.ratioScorer.perfectRatio = 1.0;
 
         detector.enable();
+
+        telemetry.addData("Say", "Insertion checklist complete. All systems GO.");    //
+        telemetry.update();
+
+        waitForStart();
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        landAndSort.partOne();
-        crater.partTwo();
+        //write main portion of the opMode here
+
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Say", "Dropping Dusty!");    //
+        telemetry.update();
+
+        //lower the robot
+        auto.rotateArm(0.5, 1120);
+
+        //declare counter variable
+        int rotationCount = 0;
+
+        //declare sentinel variable
+        boolean runLoop = true;
+
+        telemetry.addData("Say", "I'm going for missile lock!");    //
+        telemetry.update();
+
+        //runs loop until robot is aligned with mineral
+        while (detector.getAligned() != true&&runLoop==true) {
+            if (detector.getXPosition() < 170) {
+                auto.turn(0.25, -3 * DEGREES);
+                rotationCount--;
+
+            } else if (detector.getXPosition() > 170) {
+                auto.turn(0.25, 3 * DEGREES);
+                rotationCount++;
+
+            } else {
+                //performs 4B0R7N173
+                runLoop = false;
+                telemetry.addData("Say", "I lost him Goose!");    //
+                telemetry.update();
+            }
+
+            if(runLoop==true) {
+
+                telemetry.addData("Say", "I've got a good lock! Firing!");    //
+                telemetry.update();
+
+                //drive to crater
+                //current implementation of rotation count is a placeholder
+                auto.drive(0.5, 19 * INCHES);
+                auto.turn(0.25, 2 * 3 * rotationCount * DEGREES);
+                telemetry.addData("Say", "This is Voodoo Three, remaining MiGs are bugging out. \n" +
+                        "This is Maverick, requesting fly-by.");
+                telemetry.update();
+            }
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
