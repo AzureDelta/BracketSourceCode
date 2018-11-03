@@ -83,7 +83,7 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        auto.rotateArm(0.5, 1120);
+        rotateArm(0.5, 1120);
 
         //declare counter variable
         int rotationCount = 0;
@@ -101,7 +101,7 @@ public class Crater extends LinearOpMode {
                 rotationCount--;
 
             } else if (detector.getXPosition() > 170) {
-                auto.turn(0.25, 3 * DEGREES);
+                turn(0.25, 3 * DEGREES);
                 rotationCount++;
 
             } else {
@@ -118,8 +118,8 @@ public class Crater extends LinearOpMode {
 
                 //drive to crater
                 //current implementation of rotation count is a placeholder
-                auto.drive(0.5, 19 * INCHES);
-                auto.turn(0.25, 2 * 3 * rotationCount * DEGREES);
+                drive(0.5, 19 * INCHES);
+                turn(0.25, 2 * 3 * rotationCount * DEGREES);
                 telemetry.addData("Say", "This is Voodoo Three, remaining MiGs are bugging out. \n" +
                         "This is Maverick, requesting fly-by.");
                 telemetry.update();
