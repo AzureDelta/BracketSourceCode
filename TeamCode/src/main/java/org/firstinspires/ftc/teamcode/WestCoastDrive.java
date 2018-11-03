@@ -31,12 +31,12 @@ public class WestCoastDrive extends LinearOpMode{
         int intakeToggle;
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Shock drone going live!");    //
+        telemetry.addData("Say", "Shock drone going live!");
         telemetry.update();
 
         waitForStart();
 
-        telemetry.addData("Say", "ASSUMING DIRECT CONTROL");    //
+        telemetry.addData("Say", "ASSUMING DIRECT CONTROL");
         telemetry.update();
 
         while(opModeIsActive())
@@ -75,6 +75,10 @@ public class WestCoastDrive extends LinearOpMode{
             robot.motorRR.setPower(rightValue);
             robot.armL.setPower(armPower);
             robot.armR.setPower(armPower);
+
+            telemetry.addData("Say", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
+                    "Power: "+ drive +"        Turn: "+turn);
+            telemetry.update();
 
             //idle();
         }
