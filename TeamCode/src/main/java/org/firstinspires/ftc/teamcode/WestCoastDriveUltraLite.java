@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name ="WestCoastDriveLite", group ="TeleOp")
 public class WestCoastDriveUltraLite extends LinearOpMode{
-    public static final double SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfigUltraLite robot           = new HardwareConfigUltraLite();   //Configs hardware
@@ -48,8 +47,8 @@ public class WestCoastDriveUltraLite extends LinearOpMode{
             rightValue = -(drive - turn);
 
             //sets maxes for each value
-            leftValue = Range.clip(leftValue, -SPEED, SPEED);
-            rightValue = Range.clip(rightValue, -SPEED, SPEED);
+            leftValue = Range.clip(leftValue, -1, 1);
+            rightValue = Range.clip(rightValue, -1, 1);
 
 
 
