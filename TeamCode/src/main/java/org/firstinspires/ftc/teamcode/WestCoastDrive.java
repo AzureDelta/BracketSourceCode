@@ -5,12 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
+import java.util.*;
 
 //*In theory* this should also be compatible with tank drive.
 
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
-    public static final double SPEED = 0.5;
+    public static final double SPEED = 0.75;
+    public static final double ARM_SPEED = 0.1;
 
     /* Declare OpMode members. */
     HardwareConfig robot           = new HardwareConfig();   //Configs hardware
@@ -28,15 +30,17 @@ public class WestCoastDrive extends LinearOpMode{
         double leftValue;
         double rightValue;
         double armPower;
-        int intakeToggle;
+        boolean runIntake = false;
+        boolean reverseIntake = false;
+        boolean stopIntake = true;
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Shock drone going live!");
+        telemetry.addData("Status", "Shock drone going live!");
         telemetry.update();
 
         waitForStart();
 
-        telemetry.addData("Say", "ASSUMING DIRECT CONTROL");
+        telemetry.addData("Status", "ASSUMING DIRECT CONTROL");
         telemetry.update();
 
         while(opModeIsActive())
@@ -51,21 +55,53 @@ public class WestCoastDrive extends LinearOpMode{
             leftValue  = -(drive + turn);
             rightValue = -(drive - turn);
 
+            //applies speed limiter
+            leftValue *= SPEED;
+            rightValue *= SPEED;
+
+            //apply acceleration curve for additional driver control
+            leftValue *= Math.abs(leftValue);
+            rightValue *= Math.abs(rightValue);
+
+            //right trigger raises, left trigger lowers
             armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
 
-            if(gamepad1.a){
-                robot.intakeL.setPower(0.1);
-                robot.intakeR.setPower(0.1);
+            //applies acceleration curve
+            armPower *= Math.abs(armPower);
+
+            armPower *= ARM_SPEED;
+
+            if(gamepad1.a == true){
+                runIntake = true;
+                reverseIntake = false;
+                stopIntake = false;
             }
-            else if (gamepad1.b) {
-                robot.intakeL.setPower(-0.1);
-                robot.intakeR.setPower(-0.1);
+            if(gamepad1.x == true) {
+                runIntake = false;
+                reverseIntake = true;
+                stopIntake = false;
+            }
+            if(gamepad1.b == true) {
+                runIntake = false;
+                reverseIntake = false;
+                stopIntake = true;
+            }
+
+            if(runIntake){
+                robot.intakeL.setPower(0.75);
+                robot.intakeR.setPower(0.75);
+            } else if (reverseIntake == true) {
+                robot.intakeL.setPower(-0.75);
+                robot.intakeR.setPower(-0.75);
+            } else {
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
             }
 
             //sets maxes for each value
             leftValue = Range.clip(leftValue, -SPEED, SPEED);
             rightValue = Range.clip(rightValue, -SPEED, SPEED);
-            armPower = Range.clip(armPower, -0.1, 0.1);
+            armPower = Range.clip(armPower, -ARM_SPEED, ARM_SPEED);
 
 
 
@@ -76,7 +112,7 @@ public class WestCoastDrive extends LinearOpMode{
             robot.armL.setPower(armPower);
             robot.armR.setPower(armPower);
 
-            telemetry.addData("Say", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
+            telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn);
             telemetry.update();
     }

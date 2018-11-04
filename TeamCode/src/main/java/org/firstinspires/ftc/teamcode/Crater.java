@@ -70,7 +70,7 @@ public class Crater extends LinearOpMode {
 
         detector.enable();
 
-        telemetry.addData("Say", "Insertion checklist complete. All systems GO.");    //
+        telemetry.addData("Status", "Insertion checklist complete. All systems GO.");    //
         telemetry.update();
 
         waitForStart();
@@ -79,7 +79,7 @@ public class Crater extends LinearOpMode {
         //write main portion of the opMode here
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Dropping Dusty!");
+        telemetry.addData("Status", "Dropping Dusty!");
         telemetry.update();
 
         //lower the robot
@@ -91,7 +91,7 @@ public class Crater extends LinearOpMode {
         //declare sentinel variable
         boolean runLoop = true;
 
-        telemetry.addData("Say", "I'm going for missile lock!");
+        telemetry.addData("Status", "I'm going for missile lock!");
         telemetry.update();
 
         //runs loop until robot is aligned with mineral
@@ -99,18 +99,18 @@ public class Crater extends LinearOpMode {
             if (detector.getXPosition() < 320) {
                 auto.turn(0.25, -3 * DEGREES);
                 rotationCount--;
-                telemetry.addData("Say", "Target left.");
+                telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
                 turn(0.25, 3 * DEGREES);
                 rotationCount++;
-                telemetry.addData("Say", "Target Right");
+                telemetry.addData("Status", "Target Right");
                 telemetry.update();
             } else {
                 //performs 4B0R7N173
                 runLoop = false;
-                telemetry.addData("Say", "I lost him Goose!");
+                telemetry.addData("Status", "I lost him Goose!");
                 telemetry.update();
             }
 

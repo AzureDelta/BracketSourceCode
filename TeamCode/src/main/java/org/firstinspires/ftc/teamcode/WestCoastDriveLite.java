@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name ="WestCoastDriveLite", group ="TeleOp")
 public class WestCoastDriveLite extends LinearOpMode{
-    public static final double SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfigLite robot           = new HardwareConfigLite();   //Configs hardware
@@ -27,12 +26,12 @@ public class WestCoastDriveLite extends LinearOpMode{
         double rightValue;
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Shock drone going live!");
+        telemetry.addData("Status", "Shock drone going live!");
         telemetry.update();
 
         waitForStart();
 
-        telemetry.addData("Say", "ASSUMING DIRECT CONTROL");
+        telemetry.addData("Status", "ASSUMING DIRECT CONTROL");
         telemetry.update();
 
         while(opModeIsActive())
@@ -48,15 +47,15 @@ public class WestCoastDriveLite extends LinearOpMode{
             rightValue = -(drive - turn);
 
             //sets maxes for each value
-            leftValue = Range.clip(leftValue, -SPEED, SPEED);
-            rightValue = Range.clip(rightValue, -SPEED, SPEED);
+            leftValue = Range.clip(leftValue, -1, 1);
+            rightValue = Range.clip(rightValue, -1, 1);
 
             robot.motorFL.setPower(leftValue);
             robot.motorFR.setPower(rightValue);
             robot.motorRL.setPower(leftValue);
             robot.motorRR.setPower(rightValue);
 
-            telemetry.addData("Say", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
+            telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn);
             telemetry.update();
 
