@@ -79,9 +79,11 @@ public class WestCoastDrive extends LinearOpMode{
             telemetry.addData("Say", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn);
             telemetry.update();
-
-            //idle();
-        }
     }
 }
 
+
+
+
+                    //idle();
+                    }
