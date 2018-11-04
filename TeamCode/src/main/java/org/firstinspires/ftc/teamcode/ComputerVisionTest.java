@@ -3,14 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="CV Test", group="Auto")
 
@@ -19,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class ComputerVisionTest extends LinearOpMode {
 
-    HardwareConfig robot = new HardwareConfig();
+    HardwareConfigLite robot = new HardwareConfigLite();
 
     private GoldAlignDetector detector;
 
