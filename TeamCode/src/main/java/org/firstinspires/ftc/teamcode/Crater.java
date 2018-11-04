@@ -96,14 +96,17 @@ public class Crater extends LinearOpMode {
 
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true&&runLoop==true) {
-            if (detector.getXPosition() < 170) {
+            if (detector.getXPosition() < 320) {
                 auto.turn(0.25, -3 * DEGREES);
                 rotationCount--;
+                telemetry.addData("Say", "Target left.");
+                telemetry.update();
 
-            } else if (detector.getXPosition() > 170) {
+            } else if (detector.getXPosition() > 320) {
                 turn(0.25, 3 * DEGREES);
                 rotationCount++;
-
+                telemetry.addData("Say", "Target Right");
+                telemetry.update();
             } else {
                 //performs 4B0R7N173
                 runLoop = false;
@@ -111,19 +114,21 @@ public class Crater extends LinearOpMode {
                 telemetry.update();
             }
 
-            if(runLoop==true) {
 
-                telemetry.addData("Say", "I've got a good lock! Firing!");
-                telemetry.update();
+        }
 
-                //drive to crater
-                //current implementation of rotation count is a placeholder
-                drive(0.5, 19 * INCHES);
-                turn(0.25, 2 * 3 * rotationCount * DEGREES);
-                telemetry.addData("Say", "This is Voodoo Three, remaining MiGs are bugging out. \n" +
-                        "This is Maverick, requesting fly-by.");
-                telemetry.update();
-            }
+        if(runLoop==true) {
+
+            telemetry.addData("Say", "I've got a good lock! Firing!");
+            telemetry.update();
+
+            //drive to crater
+            //current implementation of rotation count is a placeholder
+            drive(0.5, 19 * INCHES);
+            turn(0.25, 2 * 3 * rotationCount * DEGREES);
+            telemetry.addData("Say", "This is Voodoo Three, remaining MiGs are bugging out. \n" +
+                    "This is Maverick, requesting fly-by.");
+            telemetry.update();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
