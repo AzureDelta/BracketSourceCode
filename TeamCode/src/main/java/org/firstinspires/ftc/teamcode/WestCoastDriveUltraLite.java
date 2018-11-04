@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.util.Range;
 //*In theory* this should also be compatible with tank drive.
 
 @TeleOp(name ="WestCoastDriveLite", group ="TeleOp")
-public class WestCoastDriveLite extends LinearOpMode{
+public class WestCoastDriveUltraLite extends LinearOpMode{
     public static final double SPEED = 0.5;
 
     /* Declare OpMode members. */
-    HardwareConfigLite robot           = new HardwareConfigLite();   //Configs hardware
+    HardwareConfigUltraLite robot           = new HardwareConfigUltraLite();   //Configs hardware
 
 
     @Override
@@ -51,10 +51,10 @@ public class WestCoastDriveLite extends LinearOpMode{
             leftValue = Range.clip(leftValue, -SPEED, SPEED);
             rightValue = Range.clip(rightValue, -SPEED, SPEED);
 
+
+
             robot.motorFL.setPower(leftValue);
             robot.motorFR.setPower(rightValue);
-            robot.motorRL.setPower(leftValue);
-            robot.motorRR.setPower(rightValue);
 
             telemetry.addData("Say", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn);
