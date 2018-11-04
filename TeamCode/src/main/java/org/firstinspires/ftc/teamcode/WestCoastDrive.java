@@ -13,6 +13,7 @@ import java.util.*;
 public class WestCoastDrive extends LinearOpMode{
     public static final double SPEED = 0.75;
     public static final double ARM_SPEED = 0.1;
+    public static final double INTAKE_SPEED = 0.75;
 
     /* Declare OpMode members. */
     HardwareConfig robot           = new HardwareConfig();   //Configs hardware
@@ -55,13 +56,15 @@ public class WestCoastDrive extends LinearOpMode{
             leftValue  = -(drive + turn);
             rightValue = -(drive - turn);
 
+            //apply acceleration curve for additional driver control
+            leftValue *= Math.abs(leftValue);
+            rightValue *= Math.abs(rightValue);
+
             //applies speed limiter
             leftValue *= SPEED;
             rightValue *= SPEED;
 
-            //apply acceleration curve for additional driver control
-            leftValue *= Math.abs(leftValue);
-            rightValue *= Math.abs(rightValue);
+
 
             //right trigger raises, left trigger lowers
             armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
@@ -88,11 +91,11 @@ public class WestCoastDrive extends LinearOpMode{
             }
 
             if(runIntake){
-                robot.intakeL.setPower(0.75);
-                robot.intakeR.setPower(0.75);
+                robot.intakeL.setPower(INTAKE_SPEED);
+                robot.intakeR.setPower(INTAKE_SPEED);
             } else if (reverseIntake == true) {
-                robot.intakeL.setPower(-0.75);
-                robot.intakeR.setPower(-0.75);
+                robot.intakeL.setPower(-INTAKE_SPEED);
+                robot.intakeR.setPower(-INTAKE_SPEED);
             } else {
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
