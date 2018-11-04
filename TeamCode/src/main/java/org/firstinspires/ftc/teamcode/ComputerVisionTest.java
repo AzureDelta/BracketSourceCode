@@ -63,12 +63,12 @@ public class ComputerVisionTest extends LinearOpMode {
         telemetry.update();
 
         //runs loop until robot is aligned with mineral
-        while (detector.getAligned() != true&&runLoop==true) {
-            if (detector.getXPosition() < 170) {
+        while (detector.getAligned() != true && runLoop == true) {
+            if (detector.getXPosition() < 320) {
                 telemetry.addData("Say", "Target left.");
                 telemetry.update();
 
-            } else if (detector.getXPosition() > 170) {
+            } else if (detector.getXPosition() > 320) {
                 telemetry.addData("Say", "Target Right");
                 telemetry.update();
 
@@ -79,21 +79,21 @@ public class ComputerVisionTest extends LinearOpMode {
                 telemetry.update();
             }
 
-            if(runLoop==true) {
 
-                telemetry.addData("Say", "I've got a good lock! Firing!");
-                telemetry.update();
-                telemetry.addData("Say", "This is Voodoo Three, remaining MiGs are bugging out. \n" +
-                        "This is Maverick, requesting fly-by.");
-                telemetry.update();
-            }
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        if (runLoop == true) {
 
-        //this section of the code runs what normally would be written in the stop method
+            telemetry.addData("Say", "I've got a good lock! Firing!");
+            telemetry.update();
 
-        detector.disable();
+            ////////////////////////////////////////////////////////////////////////////////////////////
+
+            //this section of the code runs what normally would be written in the stop method
+
+            detector.disable();
+
+        }
 
     }
 
