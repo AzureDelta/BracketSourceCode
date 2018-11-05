@@ -47,8 +47,8 @@ public class WestCoastDriveLite extends LinearOpMode{
             rightValue = -(drive - turn);
 
             //sets maxes for each value
-            leftValue = Range.clip(leftValue, -1, 1);
-            rightValue = Range.clip(rightValue, -1, 1);
+            leftValue = Range.clip(leftValue, -0.9, 0.9);
+            rightValue = Range.clip(rightValue, -0.9, 0.9);
 
             robot.motorFL.setPower(leftValue);
             robot.motorFR.setPower(rightValue);

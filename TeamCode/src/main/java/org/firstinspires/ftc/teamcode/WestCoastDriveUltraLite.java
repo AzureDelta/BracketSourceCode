@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 
 //*In theory* this should also be compatible with tank drive.
 
-@TeleOp(name ="WestCoastDriveLite", group ="TeleOp")
+@TeleOp(name ="WestCoastDriveUltraLite", group ="TeleOp")
 public class WestCoastDriveUltraLite extends LinearOpMode{
 
     /* Declare OpMode members. */
