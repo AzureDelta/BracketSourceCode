@@ -37,7 +37,7 @@ public class AutonomousControls {
 
         // reset the timeout time and start motion.
         robot.armL.setPower(Math.abs(speed));
-        robot.armR.setPower(Math.abs(speed));;
+        robot.armR.setPower(Math.abs(speed));
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
