@@ -52,8 +52,6 @@ public class WestCoastDriveLite extends LinearOpMode{
 
             robot.motorFL.setPower(leftValue);
             robot.motorFR.setPower(rightValue);
-            robot.motorRL.setPower(leftValue);
-            robot.motorRR.setPower(rightValue);
 
             telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn);

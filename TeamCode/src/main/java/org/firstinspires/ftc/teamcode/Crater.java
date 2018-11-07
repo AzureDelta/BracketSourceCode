@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Universal Autonomous", group="Auto")
+@Autonomous(name="Dropping Dusty Divot", group="Auto")
 
 /* Declare OpMode members. */
 
@@ -119,16 +119,23 @@ public class Crater extends LinearOpMode {
 
         if(runLoop==true) {
 
-            telemetry.addData("Say", "I've got a good lock! Firing!");
+            telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
             //drive to crater
             //current implementation of rotation count is a placeholder
             drive(0.5, 19 * INCHES);
-            turn(0.25, 2 * 3 * rotationCount * DEGREES);
-            telemetry.addData("Say", "This is Voodoo Three, remaining MiGs are bugging out. \n" +
-                    "This is Maverick, requesting fly-by.");
+            telemetry.addData("Status", "Performing correction burn.");
             telemetry.update();
+            turn(0.25, 2 * 3 * rotationCount * DEGREES);
+            telemetry.addData("Status", "Performing suicide burn.");
+            telemetry.update();
+            if(Math.abs(rotationCount)>19) {
+                drive(0.5, 19 * INCHES);
+            } else {
+                drive(0.5, 19 * INCHES);
+            }
+
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
