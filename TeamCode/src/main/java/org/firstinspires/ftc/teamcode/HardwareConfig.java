@@ -16,7 +16,6 @@ public class HardwareConfig {
     public DcMotor motorFL = null;
     public DcMotor motorRR = null;
     public DcMotor motorRL = null;
-    //public DcMotor slide = null;
     public DcMotor armL = null;
     public DcMotor armR = null;
     public DcMotor intakeL = null;
@@ -41,23 +40,19 @@ public class HardwareConfig {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        motorFR = hwMap.get(DcMotor.class, "motorFR");
-        motorFL = hwMap.get(DcMotor.class, "motorFL");
-        motorRR = hwMap.get(DcMotor.class, "motorRR");
-        motorRL = hwMap.get(DcMotor.class, "motorRL");
-        //slide = hwMap.get(DcMotor.class, "slide");
-        armL = hwMap.get(DcMotor.class, "armL");
-        armR = hwMap.get(DcMotor.class, "armR");
-        intakeL = hwMap.get(DcMotor.class, "intakeL");
-        intakeR = hwMap.get(DcMotor.class, "intakeR");
-        //colorSensor = hwMap.colorSensor.get("color");//legacy code, can be removed
-
+        motorFR = hwMap.get(DcMotor.class, "fr");
+        motorFL = hwMap.get(DcMotor.class, "fl");
+        motorRR = hwMap.get(DcMotor.class, "rr");
+        motorRL = hwMap.get(DcMotor.class, "rl");
+        armL = hwMap.get(DcMotor.class, "al");
+        armR = hwMap.get(DcMotor.class, "ar");
+        intakeL = hwMap.get(DcMotor.class, "il");
+        intakeR = hwMap.get(DcMotor.class, "ir");
 
         motorFR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
         motorFL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         motorRR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
         motorRL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        //slide.setDirection(DcMotor.Direction.FORWARD);//requires testing
         armL.setDirection(DcMotor.Direction.FORWARD);//requires testing
         armR.setDirection(DcMotor.Direction.REVERSE);//requires testing
         intakeL.setDirection(DcMotor.Direction.FORWARD);//requires testing
@@ -69,7 +64,6 @@ public class HardwareConfig {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-        //slide.setPower(0);
         armL.setPower(0);
         armR.setPower(0);
         intakeL.setPower(0);
@@ -80,7 +74,6 @@ public class HardwareConfig {
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        //slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -93,7 +86,6 @@ public class HardwareConfig {
         motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

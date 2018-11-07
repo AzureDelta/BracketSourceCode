@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Dropping Dusty Divot", group="Auto")
+@Autonomous(name="Dusty Divot (CRATER)", group="Auto")
 
 /* Declare OpMode members. */
 
@@ -84,6 +84,12 @@ public class Crater extends LinearOpMode {
 
         //lower the robot
         rotateArm(0.5, 1120);
+        //detach arm
+        turn(0.5, -60*DEGREES);
+        //store arm
+        rotateArm(0.5, -1120);
+        //reset position
+        turn(0.5, 60*DEGREES);
 
         //declare counter variable
         int rotationCount = 0;
@@ -131,8 +137,10 @@ public class Crater extends LinearOpMode {
             telemetry.addData("Status", "Performing suicide burn.");
             telemetry.update();
             if(Math.abs(rotationCount)>19) {
+                //long drive from sides
                 drive(0.5, 19 * INCHES);
             } else {
+                //short drive from center
                 drive(0.5, 19 * INCHES);
             }
 
