@@ -54,8 +54,6 @@ public class Crater extends LinearOpMode {
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
 
-        AutonomousControls auto = new AutonomousControls(); //AutonomousControls
-
         // Optional Tuning
         detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
         detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
@@ -103,7 +101,7 @@ public class Crater extends LinearOpMode {
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true&&runLoop==true) {
             if (detector.getXPosition() < 320) {
-                auto.turn(0.25, -3 * DEGREES);
+                turn(0.25, -3 * DEGREES);
                 rotationCount--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();

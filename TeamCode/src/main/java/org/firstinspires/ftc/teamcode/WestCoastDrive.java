@@ -11,9 +11,9 @@ import java.util.*;
 
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
-    public static final double SPEED = 0.9;
+    public static final double SPEED = 0.75;
     public static final double ARM_SPEED = 0.1;
-    public static final double INTAKE_SPEED = 0.9;
+    public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfig robot           = new HardwareConfig();   //Configs hardware
@@ -67,10 +67,9 @@ public class WestCoastDrive extends LinearOpMode{
 
 
             //right trigger raises, left trigger lowers
-            armPower = (gamepad1.right_trigger-gamepad1.left_trigger);
-
-            //applies acceleration curve
-            armPower *= Math.abs(armPower);
+            //both gamepads can control the arm
+            //gamepad2 can use left stick for fine arm control
+            armPower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
 
             armPower *= ARM_SPEED;
 
