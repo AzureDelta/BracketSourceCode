@@ -11,4 +11,9 @@
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 dependencies {
+<<<<<<< HEAD
+=======
+    implementation project(':openCVLibrary3')
+    implementation project(':DogeCV')
+>>>>>>> parent of 7e725ab... updating the FTC Robot Controller
 }
