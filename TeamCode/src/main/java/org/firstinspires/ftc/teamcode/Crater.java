@@ -138,7 +138,7 @@ public class Crater extends LinearOpMode {
             //CENTER OF THE LANDER TO A THE CRATER IS ROUGHLY 1.8 TILES IF LOOKING AT IT STRAIGHT ON
             //1.8 tiles is equal to approximately 42.3 inches (THIS IS A HIGH ESTIMATE)
             //According to the field setup guide, it is more around 34.
-            //
+            //Brandon, I don't know the values to change, but I did some calculations
 
             drive(0.5, 19 * INCHES);
             telemetry.addData("Status", "Performing correction burn.");
