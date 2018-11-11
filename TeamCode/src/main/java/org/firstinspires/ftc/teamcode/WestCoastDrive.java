@@ -115,7 +115,8 @@ public class WestCoastDrive extends LinearOpMode{
             robot.armR.setPower(armPower);
 
             telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
-                    "Power: "+ drive +"        Turn: "+turn);
+                    "Power: "+ drive +"        Turn: "+turn+"\n"+
+            "Arm Power: "+armPower+"     Intake Power: "+INTAKE_SPEED);
             telemetry.update();
     }
 }
