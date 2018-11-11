@@ -12,7 +12,7 @@ import java.util.*;
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
     public static final double SPEED = 0.75;
-    public static final double ARM_SPEED = 0.1;
+    public static final double ARM_SPEED = 0.5;
     public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
