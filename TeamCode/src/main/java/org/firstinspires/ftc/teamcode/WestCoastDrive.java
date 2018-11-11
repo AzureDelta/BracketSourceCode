@@ -12,7 +12,7 @@ import java.util.*;
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
     public static final double SPEED = 0.75;
-    public static final double ARM_SPEED = 0.1;
+    public static final double ARM_SPEED = 1;
     public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
@@ -93,8 +93,8 @@ public class WestCoastDrive extends LinearOpMode{
                 robot.intakeL.setPower(INTAKE_SPEED);
                 robot.intakeR.setPower(INTAKE_SPEED);
             } else if (reverseIntake == true) {
-                robot.intakeL.setPower(-INTAKE_SPEED);
-                robot.intakeR.setPower(-INTAKE_SPEED);
+                robot.intakeL.setPower(-0.1);
+                robot.intakeR.setPower(-0.1);
             } else {
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
