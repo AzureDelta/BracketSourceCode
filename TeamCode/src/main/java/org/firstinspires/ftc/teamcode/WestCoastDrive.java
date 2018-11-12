@@ -11,13 +11,10 @@ import java.util.*;
 
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
-<<<<<<< HEAD
 
     public static final double ARM_SPEED = 1;
-=======
     public static final double SPEED = 0.75;
     public static final double ARM_SPEED = 0.5;
->>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
     public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
@@ -149,4 +146,4 @@ public class WestCoastDrive extends LinearOpMode{
 
 
                     //idle();
-                    }
+}
