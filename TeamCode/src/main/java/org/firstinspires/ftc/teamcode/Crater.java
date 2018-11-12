@@ -76,7 +76,6 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-<<<<<<< HEAD
         rotateArm(0.5, 10*1120*0.25);
         //detach arm
         turn(0.25, -4*Math.PI*INCHES);
@@ -84,7 +83,6 @@ public class Crater extends LinearOpMode {
         rotateArm(0.25, -10*1120*0.25);
         //reset position
         turn(0.025, 4*Math.PI*INCHES);
-=======
         rotateArm(DRIVE_SPEED, 1120);
         //detach arm
         turn(DRIVE_SPEED, -60*DEGREES);
@@ -92,7 +90,6 @@ public class Crater extends LinearOpMode {
         rotateArm(DRIVE_SPEED, -1120);
         //reset position
         turn(DRIVE_SPEED, 60*DEGREES);
->>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
 
         //declare counter variable
         int rotationCount = 0;
@@ -106,21 +103,15 @@ public class Crater extends LinearOpMode {
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true && runLoop==true && runtime.seconds()<20) {
             if (detector.getXPosition() < 320) {
-<<<<<<< HEAD
                 turn(0.25, -50);
-=======
                 turn(DRIVE_SPEED, -3 * DEGREES);
->>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
                 rotationCount--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
-<<<<<<< HEAD
                 turn(0.25, 50);
-=======
                 turn(DRIVE_SPEED, 3 * DEGREES);
->>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
                 rotationCount++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
@@ -145,9 +136,6 @@ public class Crater extends LinearOpMode {
             //drive to crater
             //current implementation of rotation count is a placeholder
 
-<<<<<<< HEAD
-
-=======
             //CENTER OF THE LANDER TO A THE CRATER IS ROUGHLY 1.8 TILES IF LOOKING AT IT STRAIGHT ON
             //1.8 tiles is equal to approximately 42.3 inches (THIS IS A HIGH ESTIMATE)
             //According to the field setup guide, it is more around 34.
@@ -159,7 +147,7 @@ public class Crater extends LinearOpMode {
             turn(0.25, 2 * 3 * rotationCount * DEGREES);
             telemetry.addData("Status", "Performing suicide burn.");
             telemetry.update();
->>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
+
             if(Math.abs(rotationCount)>19) {
                 //INCHES IS EQUAL TO: (1120 X 0.5) / (4.0 X 3.14)
                 //TO CALCULATE INCHES
