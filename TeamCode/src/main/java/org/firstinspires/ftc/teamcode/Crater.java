@@ -34,6 +34,9 @@ public class Crater extends LinearOpMode {
     static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     static final double FEET = 12 * INCHES; //calculates counts per foot
     static final double DEGREES = (1120) / 360; //calculates counts per degree
+    public static final double ARM_SPEED = 0.1;
+    public static final double DRIVE_SPEED = 0.5;
+
 
     @Override
 
@@ -73,6 +76,7 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
+<<<<<<< HEAD
         rotateArm(0.5, 10*1120*0.25);
         //detach arm
         turn(0.25, -4*Math.PI*INCHES);
@@ -80,6 +84,15 @@ public class Crater extends LinearOpMode {
         rotateArm(0.25, -10*1120*0.25);
         //reset position
         turn(0.025, 4*Math.PI*INCHES);
+=======
+        rotateArm(DRIVE_SPEED, 1120);
+        //detach arm
+        turn(DRIVE_SPEED, -60*DEGREES);
+        //store arm
+        rotateArm(DRIVE_SPEED, -1120);
+        //reset position
+        turn(DRIVE_SPEED, 60*DEGREES);
+>>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
 
         //declare counter variable
         int rotationCount = 0;
@@ -93,13 +106,21 @@ public class Crater extends LinearOpMode {
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true && runLoop==true && runtime.seconds()<20) {
             if (detector.getXPosition() < 320) {
+<<<<<<< HEAD
                 turn(0.25, -50);
+=======
+                turn(DRIVE_SPEED, -3 * DEGREES);
+>>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
                 rotationCount--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
+<<<<<<< HEAD
                 turn(0.25, 50);
+=======
+                turn(DRIVE_SPEED, 3 * DEGREES);
+>>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
                 rotationCount++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
@@ -118,10 +139,27 @@ public class Crater extends LinearOpMode {
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
+            //ONE TILE IS 23.5 INCHES X 23.5 INCHES
+            //TWO TITLES ARE 47 INCHES X 47 INCHES
+
             //drive to crater
             //current implementation of rotation count is a placeholder
 
+<<<<<<< HEAD
 
+=======
+            //CENTER OF THE LANDER TO A THE CRATER IS ROUGHLY 1.8 TILES IF LOOKING AT IT STRAIGHT ON
+            //1.8 tiles is equal to approximately 42.3 inches (THIS IS A HIGH ESTIMATE)
+            //According to the field setup guide, it is more around 34.
+            //Brandon, I don't know the values to change, but I did some calculations
+
+            drive(0.5, 19 * INCHES);
+            telemetry.addData("Status", "Performing correction burn.");
+            telemetry.update();
+            turn(0.25, 2 * 3 * rotationCount * DEGREES);
+            telemetry.addData("Status", "Performing suicide burn.");
+            telemetry.update();
+>>>>>>> e610d78f6c0761eea2b503c9b36ed0e444705952
             if(Math.abs(rotationCount)>19) {
                 //INCHES IS EQUAL TO: (1120 X 0.5) / (4.0 X 3.14)
                 //TO CALCULATE INCHES
@@ -206,21 +244,23 @@ public class Crater extends LinearOpMode {
         // Turn On RUN_TO_POSITION
         robot.armL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(opModeIsActive()) {
 
-        // reset the timeout time and start motion.
-        robot.armL.setPower(Math.abs(speed));
-        robot.armR.setPower(Math.abs(speed));;
+            // reset the timeout time and start motion.
+            robot.armL.setPower(Math.abs(speed));
+            robot.armR.setPower(Math.abs(speed));
 
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
 
-        // Stop all motion;
-        robot.armL.setPower(0);
-        robot.armR.setPower(0);
+            // Stop all motion;
+            robot.armL.setPower(0);
+            robot.armR.setPower(0);
+        }
 
         // Turn off RUN_TO_POSITION
         robot.armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -251,23 +291,26 @@ public class Crater extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // reset the timeout time and start motion.
-        robot.motorFL.setPower(Math.abs(speed));
-        robot.motorFR.setPower(Math.abs(speed));
-        robot.motorRL.setPower(Math.abs(speed));
-        robot.motorRR.setPower(Math.abs(speed));
 
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+        if(opModeIsActive()) {
+            robot.motorFL.setPower(Math.abs(speed));
+            robot.motorFR.setPower(Math.abs(speed));
+            robot.motorRL.setPower(Math.abs(speed));
+            robot.motorRR.setPower(Math.abs(speed));
 
-        // Stop all motion;
-        robot.motorFL.setPower(0);
-        robot.motorFR.setPower(0);
-        robot.motorRL.setPower(0);
-        robot.motorRR.setPower(0);
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+            // Stop all motion;
+            robot.motorFL.setPower(0);
+            robot.motorFR.setPower(0);
+            robot.motorRL.setPower(0);
+            robot.motorRR.setPower(0);
+        }
 
         // Turn off RUN_TO_POSITION
         robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -300,29 +343,43 @@ public class Crater extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // reset the timeout time and start motion.
-        robot.motorFL.setPower(Math.abs(speed));
-        robot.motorFR.setPower(Math.abs(speed));
-        robot.motorRL.setPower(Math.abs(speed));
-        robot.motorRR.setPower(Math.abs(speed));
+        if(opModeIsActive()) {
 
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            // reset the timeout time and start motion.
+            robot.motorFL.setPower(Math.abs(speed));
+            robot.motorFR.setPower(Math.abs(speed));
+            robot.motorRL.setPower(Math.abs(speed));
+            robot.motorRR.setPower(Math.abs(speed));
 
-        // Stop all motion;
-        robot.motorFL.setPower(0);
-        robot.motorFR.setPower(0);
-        robot.motorRL.setPower(0);
-        robot.motorRR.setPower(0);
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+            // Stop all motion;
+            robot.motorFL.setPower(0);
+            robot.motorFR.setPower(0);
+            robot.motorRL.setPower(0);
+            robot.motorRR.setPower(0);
+        }
 
         // Turn off RUN_TO_POSITION
         robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void timeRotateArm(double time){
+        // Step 1:  Drive forward for 3 seconds
+        robot.armL.setPower(ARM_SPEED);
+        robot.armR.setPower(ARM_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
     }
 }
