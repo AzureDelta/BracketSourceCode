@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
@@ -13,12 +14,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Dropping Dusty Divot (CRATER FULL)", group="Auto")
+@Autonomous(name="Looting Dusty Depot (CRATER HALF)", group="Auto")
 
 /* Declare OpMode members. */
 
 
-public class Crater extends LinearOpMode {
+public class Depot extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();
 
@@ -39,6 +40,7 @@ public class Crater extends LinearOpMode {
 
     public void runOpMode() {
         robot.init(hardwareMap);
+
         //this section of the code runs what would normally be run in the initialization method
         //consider abstracting later
 
@@ -72,20 +74,13 @@ public class Crater extends LinearOpMode {
         telemetry.addData("Status", "Dropping Dusty!");
         telemetry.update();
 
-        //lower the robot
-        rotateArm(0.5, 10*1120*0.25);
-        //detach arm
-        turn(0.25, -4*Math.PI*INCHES);
-        //store arm
-        rotateArm(0.25, -10*1120*0.25);
-        //reset position
-        turn(0.025, 4*Math.PI*INCHES);
-
+        drive(0.5, 4*INCHES);
         //declare counter variable
         int rotationCount = 0;
 
         //declare sentinel variable
         boolean runLoop = true;
+        boolean runAttack = false;
 
         telemetry.addData("Status", "I'm going for missile lock!");
         telemetry.update();
@@ -97,12 +92,15 @@ public class Crater extends LinearOpMode {
                 rotationCount--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
+                runAttack=true;
+
 
             } else if (detector.getXPosition() > 320) {
                 turn(0.25, 50);
                 rotationCount++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
+                runAttack=true;
             } else {
                 //performs 4B0R7N173
                 runLoop = false;
@@ -110,7 +108,11 @@ public class Crater extends LinearOpMode {
                 telemetry.update();
             }
 
-
+            if(runAttack==false){
+                telemetry.addData("Status", "Target lost.");
+                telemetry.update();
+            }
+            idle();
         }
 
         if(runLoop==true) {
@@ -121,28 +123,31 @@ public class Crater extends LinearOpMode {
             //drive to crater
             //current implementation of rotation count is a placeholder
 
-
-            if(Math.abs(rotationCount)>19) {
-                //INCHES IS EQUAL TO: (1120 X 0.5) / (4.0 X 3.14)
-                //TO CALCULATE INCHES
-                //long drive from sides
-                drive(0.25, Math.sqrt(24*(3.7/2.7)*INCHES));
-                drive(0.25, 19 * INCHES);
-                turn(0.25,  rotationCount * 50);
-                telemetry.addData("Status", "Performing correction burn.");
+            if(runAttack) {
+                if (Math.abs(rotationCount) > 5) {
+                    //INCHES IS EQUAL TO: (1120 X 0.5) / (4.0 X 3.14)
+                    //TO CALCULATE INCHES
+                    //INCHES IS EQUAL TO 44.58598726
+                    //long drive from sides
+                  //  drive(0.25, Math.sqrt(24 * (3.7 / 2.7) * INCHES));
+                    drive(0.25, 38.2934);
+                    drive(0.25, 19 * INCHES);
+                    turn(0.25, rotationCount * 50);
+                    telemetry.addData("Status", "Performing correction burn.");
+                    telemetry.update();
+                } else {
+                    //short drive from center
+                    //drive(0.25, Math.sqrt(24 * (3.2 / 2.7) * INCHES));
+                    drive(0.25, 35.6121);
+                    turn(0.25, rotationCount * 50);
+                    telemetry.addData("Status", "Performing correction burn.");
+                    telemetry.update();
+                }
+                telemetry.addData("Status", "Performing suicide burn.");
                 telemetry.update();
-            } else {
-
-                //short drive from center
-                drive(0.25, Math.sqrt(24*(3.2/2.7)*INCHES));
-                turn(0.25, rotationCount * 50);
-                telemetry.addData("Status", "Performing correction burn.");
-                telemetry.update();
-
+                //drive(0.25, 24 * (1.3 / 2.7) * INCHES);
+                drive(0.25, 22.69837);
             }
-            telemetry.addData("Status", "Performing suicide burn.");
-            telemetry.update();
-            drive(0.25,24*(1.3/2.7)*INCHES);
 
 
         }
