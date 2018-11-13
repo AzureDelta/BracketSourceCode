@@ -35,6 +35,10 @@ public class Depot extends LinearOpMode {
     static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     static final double FEET = 12 * INCHES; //calculates counts per foot
     static final double DEGREES = (1120) / 360; //calculates counts per degree
+    /*
+    660 counts of encoder = 4 inches
+    1 inch = 165 counts
+    */
 
     @Override
 
