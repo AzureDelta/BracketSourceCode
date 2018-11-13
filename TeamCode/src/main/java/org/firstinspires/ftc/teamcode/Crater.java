@@ -155,7 +155,6 @@ public class Crater extends LinearOpMode {
                 //INCHES IS EQUAL TO: (1120 X 0.5) / (4.0 X 3.14)
                 //TO CALCULATE INCHES
                 //long drive from sides
-                double numberThing = Math.sqrt(24*(3.7/2.7)*INCHES);
                 drive(0.25, Math.sqrt(24*(3.7/2.7)*INCHES));
                 drive(0.25, 19 * INCHES);
                 turn(0.25,  rotationCount * 50);
