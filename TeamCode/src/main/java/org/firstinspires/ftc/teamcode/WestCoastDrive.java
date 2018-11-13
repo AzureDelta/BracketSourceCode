@@ -11,8 +11,10 @@ import java.util.*;
 
 @TeleOp(name ="WestCoastDrive", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
+
+    public static final double ARM_SPEED = 1;
     public static final double SPEED = 0.75;
-    public static final double ARM_SPEED = 0.5;
+    //public static final double ARM_SPEED = 0.5;
     public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
@@ -33,7 +35,8 @@ public class WestCoastDrive extends LinearOpMode{
         double armPower;
         boolean runIntake = false;
         boolean reverseIntake = false;
-        boolean stopIntake = true;
+        boolean slowIntake = false;
+        double SPEED = 0.5;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Shock drone going live!");
@@ -76,25 +79,43 @@ public class WestCoastDrive extends LinearOpMode{
             if(gamepad1.a == true){
                 runIntake = true;
                 reverseIntake = false;
-                stopIntake = false;
+                slowIntake = false;
             }
             if(gamepad1.x == true) {
                 runIntake = false;
                 reverseIntake = true;
-                stopIntake = false;
+                slowIntake = false;
             }
             if(gamepad1.b == true) {
                 runIntake = false;
                 reverseIntake = false;
-                stopIntake = true;
+                slowIntake = false;
             }
-
+            if(gamepad1.a == true){
+                runIntake = true;
+                reverseIntake = false;
+                slowIntake = false;
+            }
+            if(gamepad1.y == true){
+                runIntake = false;
+                reverseIntake = false;
+                slowIntake = true;
+            }
+            if(gamepad1.dpad_up == true){
+                SPEED = 1;
+            }
+            if(gamepad1.dpad_down==true) {
+                SPEED = 0.3;
+            }
             if(runIntake){
                 robot.intakeL.setPower(INTAKE_SPEED);
                 robot.intakeR.setPower(INTAKE_SPEED);
-            } else if (reverseIntake == true) {
-                robot.intakeL.setPower(-INTAKE_SPEED);
-                robot.intakeR.setPower(-INTAKE_SPEED);
+            } else if (reverseIntake) {
+                robot.intakeL.setPower(-0.1);
+                robot.intakeR.setPower(-0.1);
+            } else if (slowIntake){
+                robot.intakeL.setPower(0.1);
+                robot.intakeR.setPower(0.1);
             } else {
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
@@ -125,4 +146,4 @@ public class WestCoastDrive extends LinearOpMode{
 
 
                     //idle();
-                    }
+}
