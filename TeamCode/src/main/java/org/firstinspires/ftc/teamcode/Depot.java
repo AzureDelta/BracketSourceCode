@@ -35,6 +35,10 @@ public class Depot extends LinearOpMode {
     static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     static final double FEET = 12 * INCHES; //calculates counts per foot
     static final double DEGREES = (1120) / 360; //calculates counts per degree
+    /*
+    660 counts of encoder = 4 inches
+    1 inch = 165 counts
+    */
 
     @Override
 
@@ -130,15 +134,24 @@ public class Depot extends LinearOpMode {
                     //INCHES IS EQUAL TO 44.58598726
                     //long drive from sides
                   //  drive(0.25, Math.sqrt(24 * (3.7 / 2.7) * INCHES));
+<<<<<<< HEAD
                     drive(0.25, 38.2934);
                     //drive(0.25, 19 * INCHES);
+=======
+                  //38.2934 inches
+                    //165 x 38.2934
+                    drive(0.25, 6318.411);
+                    drive(0.25, 19 * INCHES);
+>>>>>>> 51428d95f011fb95d74ab97eba753a48123ac040
                     turn(0.25, rotationCount * 50);
                     telemetry.addData("Status", "Performing correction burn.");
                     telemetry.update();
                 } else {
                     //short drive from center
                     //drive(0.25, Math.sqrt(24 * (3.2 / 2.7) * INCHES));
-                    drive(0.25, 35.6121);
+                    //35.6121 inches
+                    //165 x 35.6121
+                    drive(0.25, 5875.997);
                     turn(0.25, rotationCount * 50);
                     telemetry.addData("Status", "Performing correction burn.");
                     telemetry.update();
@@ -146,7 +159,8 @@ public class Depot extends LinearOpMode {
                 telemetry.addData("Status", "Performing suicide burn.");
                 telemetry.update();
                 //drive(0.25, 24 * (1.3 / 2.7) * INCHES);
-                drive(0.25, 22.69837);
+
+                drive(0.25, 3745.231);
             }
 
 

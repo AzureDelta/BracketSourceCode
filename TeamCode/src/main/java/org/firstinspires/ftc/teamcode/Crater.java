@@ -36,7 +36,10 @@ public class Crater extends LinearOpMode {
     static final double DEGREES = (1120) / 360; //calculates counts per degree
     public static final double ARM_SPEED = 0.1;
     public static final double DRIVE_SPEED = 0.5;
-
+    /*
+    660 counts of encoder = 4 inches
+    1 inch = 165 counts
+    */
 
     @Override
 
