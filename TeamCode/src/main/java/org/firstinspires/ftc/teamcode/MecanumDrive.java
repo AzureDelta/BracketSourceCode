@@ -56,16 +56,16 @@ public class MecanumDrive extends LinearOpMode{
             Y=gamepad1.left_stick_y;
 
             // Combine drive and turn for blended motion.
-            powerFL =  - Y + X +R;
+            powerFL =  - Y + X + R;
             powerFR =  + Y + X + R;
-            powerRL =  - Y -X+ R;
-            powerRR =  + Y -X + R;
+            powerRL =  - Y - X + R;
+            powerRR =  + Y - X + R;
 
             //maxes the values at 1
             powerFL = Range.clip(powerFL, -SPEED, SPEED);
             powerFR = Range.clip(powerFR, -SPEED, SPEED);
             powerRL = Range.clip(powerRL, -SPEED, SPEED);
-            powerRR = Range.clip(powerFR, -SPEED, SPEED);
+            powerRR = Range.clip(powerRR, -SPEED, SPEED);
 
             robot.motorFL.setPower(powerFL);
             robot.motorFR.setPower(powerFR);
