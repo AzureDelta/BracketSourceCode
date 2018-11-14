@@ -134,15 +134,12 @@ public class Depot extends LinearOpMode {
                     //INCHES IS EQUAL TO 44.58598726
                     //long drive from sides
                   //  drive(0.25, Math.sqrt(24 * (3.7 / 2.7) * INCHES));
-<<<<<<< HEAD
                     drive(0.25, 38.2934);
                     //drive(0.25, 19 * INCHES);
-=======
                   //38.2934 inches
                     //165 x 38.2934
                     drive(0.25, 6318.411);
                     drive(0.25, 19 * INCHES);
->>>>>>> 51428d95f011fb95d74ab97eba753a48123ac040
                     turn(0.25, rotationCount * 50);
                     telemetry.addData("Status", "Performing correction burn.");
                     telemetry.update();
