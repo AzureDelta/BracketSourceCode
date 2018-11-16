@@ -65,7 +65,7 @@ public class MecanumDrive extends LinearOpMode{
             powerFL = Range.clip(powerFL, -SPEED, SPEED);
             powerFR = Range.clip(powerFR, -SPEED, SPEED);
             powerRL = Range.clip(powerRL, -SPEED, SPEED);
-            powerRR = Range.clip(powerFR, -SPEED, SPEED);
+            powerRR = Range.clip(powerRR, -SPEED, SPEED);
 
             robot.motorFL.setPower(powerFL);
             robot.motorFR.setPower(powerFR);
