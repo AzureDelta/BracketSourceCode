@@ -13,7 +13,6 @@ import java.util.*;
 public class WestCoastDrive extends LinearOpMode{
 
     public static final double ARM_SPEED = 1;
-    public static final double SPEED = 0.75;
     //public static final double ARM_SPEED = 0.5;
     public static final double INTAKE_SPEED = 0.5;
 
@@ -30,13 +29,18 @@ public class WestCoastDrive extends LinearOpMode{
 
         double drive;
         double turn;
+        double strafe;
         double leftValue;
         double rightValue;
+        double powerFL;
+        double powerFR;
+        double powerRL;
+        double powerRR;
         double armPower;
         boolean runIntake = false;
         boolean reverseIntake = false;
         boolean slowIntake = false;
-        double SPEED = 0.5;
+        double speed = 0.5;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Shock drone going live!");
@@ -54,27 +58,52 @@ public class WestCoastDrive extends LinearOpMode{
             // This way it's also easy to just drive straight, or just turn.
             drive = -gamepad1.left_stick_y;
             turn  =  gamepad1.right_stick_x;
+            strafe = gamepad1.left_stick_x;
+
 
             // Combine drive and turn for blended motion.
-            leftValue  = -(drive + turn);
-            rightValue = -(drive - turn);
+            leftValue  = -drive + turn;
+            rightValue = drive - turn;
+            powerFL = leftValue - strafe;
+            powerFR = rightValue + strafe;
+            powerRL = leftValue + strafe;
+            powerRR = rightValue - strafe;
 
             //apply acceleration curve for additional driver control
-            leftValue *= Math.abs(leftValue);
-            rightValue *= Math.abs(rightValue);
+            powerFL *= Math.abs(powerFL);
+            powerFR *= Math.abs(powerFR);
+            powerRL *= Math.abs(powerRL);
+            powerRR *= Math.abs(powerRR);
 
             //applies speed limiter
-            leftValue *= SPEED;
-            rightValue *= SPEED;
+            powerFL *= speed;
+            powerFR *= speed;
+            powerRL *= speed;
+            powerRR *= speed;
 
+            //makes sure motor values aren't insane
+            powerFL = Range.clip(powerFL, -speed, speed);
+            powerFR = Range.clip(powerFR, -speed, speed);
+            powerRL = Range.clip(powerRL, -speed, speed);
+            powerRR = Range.clip(powerRR, -speed, speed);
 
+            //sets motor power
+            robot.motorFL.setPower(powerFL);
+            robot.motorFR.setPower(powerFR);
+            robot.motorRL.setPower(powerRL);
+            robot.motorRR.setPower(powerRR);
 
             //right trigger raises, left trigger lowers
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
             armPower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
-
             armPower *= ARM_SPEED;
+
+            //sets maxes for each value
+            armPower = Range.clip(armPower, -ARM_SPEED, ARM_SPEED);
+
+            robot.armL.setPower(armPower);
+            robot.armR.setPower(armPower);
 
             if(gamepad1.a == true){
                 runIntake = true;
@@ -102,10 +131,10 @@ public class WestCoastDrive extends LinearOpMode{
                 slowIntake = true;
             }
             if(gamepad1.dpad_up == true){
-                SPEED = 1;
+                speed = 1;
             }
             if(gamepad1.dpad_down==true) {
-                SPEED = 0.3;
+                speed = 0.5;
             }
             if(runIntake){
                 robot.intakeL.setPower(INTAKE_SPEED);
@@ -121,19 +150,7 @@ public class WestCoastDrive extends LinearOpMode{
                 robot.intakeR.setPower(0);
             }
 
-            //sets maxes for each value
-            leftValue = Range.clip(leftValue, -SPEED, SPEED);
-            rightValue = Range.clip(rightValue, -SPEED, SPEED);
-            armPower = Range.clip(armPower, -ARM_SPEED, ARM_SPEED);
 
-
-
-            robot.motorFL.setPower(leftValue);
-            robot.motorFR.setPower(rightValue);
-            robot.motorRL.setPower(leftValue);
-            robot.motorRR.setPower(rightValue);
-            robot.armL.setPower(armPower);
-            robot.armR.setPower(armPower);
 
             telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn+"\n"+
