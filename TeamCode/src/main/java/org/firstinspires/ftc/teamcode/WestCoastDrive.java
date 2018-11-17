@@ -29,7 +29,6 @@ public class WestCoastDrive extends LinearOpMode{
 
         double drive;
         double turn;
-        double strafe;
         double leftValue;
         double rightValue;
         double powerFL;
@@ -58,16 +57,15 @@ public class WestCoastDrive extends LinearOpMode{
             // This way it's also easy to just drive straight, or just turn.
             drive = -gamepad1.left_stick_y;
             turn  =  gamepad1.right_stick_x;
-            strafe = gamepad1.left_stick_x;
 
 
             // Combine drive and turn for blended motion.
             leftValue  = -drive + turn;
             rightValue = drive - turn;
-            powerFL = leftValue - strafe;
-            powerFR = rightValue + strafe;
-            powerRL = leftValue + strafe;
-            powerRR = rightValue - strafe;
+            powerFL = leftValue;
+            powerFR = rightValue;
+            powerRL = leftValue;
+            powerRR = rightValue;
 
             //apply acceleration curve for additional driver control
             powerFL *= Math.abs(powerFL);
