@@ -9,7 +9,7 @@ import java.util.*;
 
 //*In theory* this should also be compatible with tank drive.
 
-@TeleOp(name ="WestCoastDrive", group ="TeleOp")
+@TeleOp(name ="WestCoastDrive (LEGACY)", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
 
     public static final double ARM_SPEED = 1;
