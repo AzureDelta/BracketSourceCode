@@ -82,21 +82,16 @@ public class Crater extends LinearOpMode {
         //lower the robot
         rotateArm(0.5, 10*1120*0.25);
         //detach arm
-        turn(0.25, -4*Math.PI*INCHES);
+        strafe(0.5, -3*INCHES*M);
         //store arm
         rotateArm(0.25, -10*1120*0.25);
         //reset position
-        turn(0.025, 4*Math.PI*INCHES);
-        rotateArm(DRIVE_SPEED, 1120);
+        drive(0.5, 3*INCHES*M);
         //detach arm
-        turn(DRIVE_SPEED, -60*DEGREES);
-        //store arm
-        rotateArm(DRIVE_SPEED, -1120);
-        //reset position
-        turn(DRIVE_SPEED, 60*DEGREES);
+        strafe(0.5, 3*INCHES*M);
 
         //declare counter variable
-        int rotationCount = 0;
+        int aimAdjustment = 0;
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -107,19 +102,17 @@ public class Crater extends LinearOpMode {
         //runs loop until robot is aligned with mineral
         while (detector.getAligned() != true && runLoop==true && runtime.seconds()<20) {
             if (detector.getXPosition() < 320) {
-                turn(0.25, -50);
-                turn(DRIVE_SPEED, -3 * DEGREES);
-                rotationCount--;
+                strafe(DRIVE_SPEED, -0.1*INCHES*M);
+                aimAdjustment--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
-                turn(0.25, 50);
-                turn(DRIVE_SPEED, 3 * DEGREES);
-                rotationCount++;
+                strafe(DRIVE_SPEED, 0.1*INCHES*M);
+                aimAdjustment++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
-            } else {
+            } else if (!detector.isFound()){
                 //performs 4B0R7N173
                 runLoop = false;
                 telemetry.addData("Status", "I lost him Goose!");
@@ -148,32 +141,6 @@ public class Crater extends LinearOpMode {
             drive(0.5, 19 * INCHES);
             telemetry.addData("Status", "Performing correction burn.");
             telemetry.update();
-            turn(0.25, 2 * 3 * rotationCount * DEGREES);
-            telemetry.addData("Status", "Performing suicide burn.");
-            telemetry.update();
-
-            if(Math.abs(rotationCount)>19) {
-                //INCHES IS EQUAL TO: (1120 X 0.5) / (4.0 X 3.14)
-                //TO CALCULATE INCHES
-                //long drive from sides
-                drive(0.25, Math.sqrt(24*(3.7/2.7)*INCHES));
-                drive(0.25, 19 * INCHES);
-                turn(0.25,  rotationCount * 50);
-                telemetry.addData("Status", "Performing correction burn.");
-                telemetry.update();
-            } else {
-
-                //short drive from center
-                drive(0.25, Math.sqrt(24*(3.2/2.7)*INCHES));
-                turn(0.25, rotationCount * 50);
-                telemetry.addData("Status", "Performing correction burn.");
-                telemetry.update();
-
-            }
-            telemetry.addData("Status", "Performing suicide burn.");
-            telemetry.update();
-            drive(0.25,24*(1.3/2.7)*INCHES);
-
 
         }
 
