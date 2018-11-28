@@ -86,7 +86,6 @@ public class Crater extends LinearOpMode {
         //store arm
         actuate(-0.5, 1.9);
         //reset position
-        drive(0.5, 3*INCHES*M);
         drive(0.5, 3 * INCHES * M);
         //detach arm
         strafe(0.5, 3 * INCHES * M);
