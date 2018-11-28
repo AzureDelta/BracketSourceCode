@@ -102,8 +102,8 @@ public class MainTeleOp extends LinearOpMode{
             //sets maxes for each value
             armPower = Range.clip(armPower, -ARM_SPEED, ARM_SPEED);
 
-            robot.armL.setPower(armPower);
-            robot.armR.setPower(armPower);
+            robot.slide.setPower(armPower);
+            robot.actuator.setPower(armPower);
 
             if(gamepad1.a == true){
                 runIntake = true;

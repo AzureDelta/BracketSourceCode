@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Dropping Dusty Divot (CRATER FULL)", group="Auto")
+@Autonomous(name = "Dropping Dusty Divot (CRATER FULL)", group = "Auto")
 
 /* Declare OpMode members. */
 
@@ -34,7 +34,7 @@ public class Crater extends LinearOpMode {
     static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     static final double FEET = 12 * INCHES; //calculates counts per foot
     static final double DEGREES = (1120) / 360; //calculates counts per degree
-    public static final double M = (2/Math.sqrt(2));
+    public static final double M = (2 / Math.sqrt(2));
     public static final double ARM_SPEED = 0.1;
     public static final double DRIVE_SPEED = 0.5;
     /*
@@ -80,15 +80,16 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        rotateArm(0.5, 10*1120*0.25);
+        actuate(0.5, 1.9);
         //detach arm
-        strafe(0.5, -3*INCHES*M);
+        strafe(0.5, -3 * INCHES * M);
         //store arm
-        rotateArm(0.25, -10*1120*0.25);
+        actuate(-0.5, 1.9);
         //reset position
         drive(0.5, 3*INCHES*M);
+        drive(0.5, 3 * INCHES * M);
         //detach arm
-        strafe(0.5, 3*INCHES*M);
+        strafe(0.5, 3 * INCHES * M);
 
         //declare counter variable
         int aimAdjustment = 0;
@@ -100,19 +101,19 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //runs loop until robot is aligned with mineral
-        while (detector.getAligned() != true && runLoop==true && runtime.seconds()<20) {
+        while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
             if (detector.getXPosition() < 320) {
-                strafe(DRIVE_SPEED, -0.1*INCHES*M);
+                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
                 aimAdjustment--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
-                strafe(DRIVE_SPEED, 0.1*INCHES*M);
+                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
                 aimAdjustment++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
-            } else if (!detector.isFound()){
+            } else if (!detector.isFound()) {
                 //performs 4B0R7N173
                 runLoop = false;
                 telemetry.addData("Status", "I lost him Goose!");
@@ -122,7 +123,7 @@ public class Crater extends LinearOpMode {
 
         }
 
-        if(runLoop==true) {
+        if (runLoop == true) {
 
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
@@ -152,25 +153,26 @@ public class Crater extends LinearOpMode {
 
     }
 
-    public void rotateIntake(double speed, double distance, double timeout){
+    public void rotateIntake(double speed, double distance, double timeout) {
         int targetL;
         int targetR;
 
         // Ensure that the opmode is still active
 
         // Determine new target position, and pass to motor controller
-        targetL = robot.armL.getCurrentPosition() + (int) (distance);
-        targetR = robot.armR.getCurrentPosition() + (int) (distance);
-        robot.armL.setTargetPosition(targetL);
-        robot.armR.setTargetPosition(targetR);
+        targetL = robot.slide.getCurrentPosition() + (int) (distance);
+        targetR = robot.actuator.getCurrentPosition() + (int) (distance);
+        robot.slide.setTargetPosition(targetL);
+        robot.actuator.setTargetPosition(targetR);
 
         // Turn On RUN_TO_POSITION
-        robot.armL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.actuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // reset the timeout time and start motion.
-        robot.armL.setPower(Math.abs(speed));
-        robot.armR.setPower(Math.abs(speed));;
+        robot.slide.setPower(Math.abs(speed));
+        robot.actuator.setPower(Math.abs(speed));
+        ;
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -180,34 +182,34 @@ public class Crater extends LinearOpMode {
         // onto the next step, use (isBusy() || isBusy()) in the loop test.
 
         // Stop all motion;
-        robot.armL.setPower(0);
-        robot.armR.setPower(0);
+        robot.slide.setPower(0);
+        robot.actuator.setPower(0);
 
         // Turn off RUN_TO_POSITION
-        robot.armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void rotateArm(double speed, double distance){
+    public void rotateArm(double speed, double distance) {
         int targetL;
         int targetR;
 
         // Ensure that the opmode is still active
 
         // Determine new target position, and pass to motor controller
-        targetL = robot.armL.getCurrentPosition() + (int) (distance);
-        targetR = robot.armR.getCurrentPosition() + (int) (distance);
-        robot.armL.setTargetPosition(targetL);
-        robot.armR.setTargetPosition(targetR);
+        targetL = robot.slide.getCurrentPosition() + (int) (distance);
+        targetR = robot.actuator.getCurrentPosition() + (int) (distance);
+        robot.slide.setTargetPosition(targetL);
+        robot.actuator.setTargetPosition(targetR);
 
         // Turn On RUN_TO_POSITION
-        robot.armL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if(opModeIsActive()) {
+        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.actuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (opModeIsActive()) {
 
             // reset the timeout time and start motion.
-            robot.armL.setPower(Math.abs(speed));
-            robot.armR.setPower(Math.abs(speed));
+            robot.slide.setPower(Math.abs(speed));
+            robot.actuator.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -217,13 +219,13 @@ public class Crater extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
 
             // Stop all motion;
-            robot.armL.setPower(0);
-            robot.armR.setPower(0);
+            robot.slide.setPower(0);
+            robot.actuator.setPower(0);
         }
 
         // Turn off RUN_TO_POSITION
-        robot.armL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -251,7 +253,7 @@ public class Crater extends LinearOpMode {
         robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // reset the timeout time and start motion.
 
-        if(opModeIsActive()) {
+        if (opModeIsActive()) {
             robot.motorFL.setPower(Math.abs(speed));
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
@@ -302,7 +304,7 @@ public class Crater extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if(opModeIsActive()) {
+        if (opModeIsActive()) {
 
             // reset the timeout time and start motion.
             robot.motorFL.setPower(Math.abs(speed));
@@ -330,6 +332,7 @@ public class Crater extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public void strafe(double speed, double distance) {
         //declares target point storage variables
         int targetFL;
@@ -354,7 +357,7 @@ public class Crater extends LinearOpMode {
         robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // reset the timeout time and start motion.
 
-        if(opModeIsActive()) {
+        if (opModeIsActive()) {
             robot.motorFL.setPower(Math.abs(speed));
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
@@ -382,13 +385,22 @@ public class Crater extends LinearOpMode {
 
     }
 
-    public void timeRotateArm(double time){
+    public void actuate(double speed, double time) {
         // Step 1:  Drive forward for 3 seconds
-        robot.armL.setPower(ARM_SPEED);
-        robot.armR.setPower(ARM_SPEED);
+        robot.actuator.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Status:", "Actuating", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+    public void intake(double speed, double time) {
+        // Step 1:  Drive forward for 3 seconds
+        robot.intakeL.setPower(speed);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
         }
     }
