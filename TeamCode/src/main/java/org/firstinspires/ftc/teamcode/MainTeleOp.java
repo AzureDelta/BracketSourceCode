@@ -12,9 +12,9 @@ import java.util.*;
 @TeleOp(name ="TeleOp (CLICK THIS ONE ISAAC)", group ="TeleOp")
 public class MainTeleOp extends LinearOpMode{
 
-    public static final double ARM_SPEED = 1;
+    public static final double ARM_SPEED = 0.9;
     //public static final double ARM_SPEED = 0.5;
-    public static final double INTAKE_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.9;
 
     /* Declare OpMode members. */
     HardwareConfig robot           = new HardwareConfig();   //Configs hardware
@@ -36,7 +36,7 @@ public class MainTeleOp extends LinearOpMode{
         double powerFR;
         double powerRL;
         double powerRR;
-        double armPower;
+        double slidePower;
         boolean runIntake = false;
         boolean reverseIntake = false;
         boolean slowIntake = false;
@@ -53,6 +53,12 @@ public class MainTeleOp extends LinearOpMode{
 
         while(opModeIsActive())
         {
+            if(gamepad1.dpad_up == true){
+                speed *= 2;
+            }
+            if(gamepad1.dpad_down==true) {
+                speed /= 2;
+            }
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             // This way it's also easy to just drive straight, or just turn.
@@ -96,14 +102,13 @@ public class MainTeleOp extends LinearOpMode{
             //right trigger raises, left trigger lowers
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
-            armPower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
-            armPower *= ARM_SPEED;
+            slidePower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
+            slidePower *= ARM_SPEED;
 
             //sets maxes for each value
-            armPower = Range.clip(armPower, -ARM_SPEED, ARM_SPEED);
+            slidePower = Range.clip(slidePower, -ARM_SPEED, ARM_SPEED);
 
-            robot.slide.setPower(armPower);
-            robot.actuator.setPower(armPower);
+            robot.slide.setPower(slidePower);
 
             if(gamepad1.a == true){
                 runIntake = true;
@@ -130,31 +135,21 @@ public class MainTeleOp extends LinearOpMode{
                 reverseIntake = false;
                 slowIntake = true;
             }
-            if(gamepad1.dpad_up == true){
-                speed = 1;
-            }
-            if(gamepad1.dpad_down==true) {
-                speed = 0.5;
-            }
             if(runIntake){
                 robot.intakeL.setPower(INTAKE_SPEED);
-                robot.intakeR.setPower(INTAKE_SPEED);
             } else if (reverseIntake) {
                 robot.intakeL.setPower(-0.1);
-                robot.intakeR.setPower(-0.1);
             } else if (slowIntake){
                 robot.intakeL.setPower(0.1);
-                robot.intakeR.setPower(0.1);
             } else {
                 robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
             }
 
 
 
-            telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
-                    "Power: "+ drive +"        Turn: "+turn+"\n"+
-                    "Arm Power: "+armPower+"     Intake Power: "+INTAKE_SPEED);
+            telemetry.addData("Status", "Speed: " + speed + "\n" +
+                    "Power: "+ drive +"        Turn: "+turn+"        Strafe: " +strafe+"\n"+
+                    "Slide Power: "+slidePower+"     Intake Power: "+INTAKE_SPEED);
             telemetry.update();
         }
     }
