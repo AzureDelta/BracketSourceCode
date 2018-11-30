@@ -114,12 +114,52 @@ public class Crater extends LinearOpMode {
                 telemetry.update();
             } else if (!detector.isFound()) {
                 //performs 4B0R7N173
-                runLoop = false;
-                telemetry.addData("Status", "I lost him Goose!");
+                telemetry.addData("Status", "I lost him Goose! Adjusting right!");
                 telemetry.update();
+
+                strafe(DRIVE_SPEED, 19*INCHES);
+                while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
+                    if (detector.getXPosition() < 320) {
+                        strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                        aimAdjustment--;
+                        telemetry.addData("Status", "Target left.");
+                        telemetry.update();
+
+                    } else if (detector.getXPosition() > 320) {
+                        strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                        aimAdjustment++;
+                        telemetry.addData("Status", "Target Right");
+                        telemetry.update();
+                    } else if (!detector.isFound()) {
+                        //performs 4B0R7N173
+                        telemetry.addData("Status", "I lost him Goose! Adjusting Left!");
+                        telemetry.update();
+
+                        strafe(DRIVE_SPEED, 19*INCHES);
+                        while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
+                            if (detector.getXPosition() < 320) {
+                                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                                aimAdjustment--;
+                                telemetry.addData("Status", "Target left.");
+                                telemetry.update();
+
+                            } else if (detector.getXPosition() > 320) {
+                                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                                aimAdjustment++;
+                                telemetry.addData("Status", "Target Right");
+                                telemetry.update();
+                            } else if (!detector.isFound()) {
+                                //performs 4B0R7N173
+                                telemetry.addData("Status", "He's gone!");
+                                telemetry.update();
+
+                                runLoop = false;
+                            }
+
+                        }
+                    }
+                }
             }
-
-
         }
 
         if (runLoop == true) {
