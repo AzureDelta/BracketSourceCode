@@ -84,69 +84,19 @@ public class Crater extends LinearOpMode {
         telemetry.addData("Status", "I'm going for missile lock!");
         telemetry.update();
 
-        //runs loop until robot is aligned with mineral
-        /*
-        while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
-            if (detector.getXPosition() < 320) {
-                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                OFFSET--;
-                telemetry.addData("Status", "Target left.");
-                telemetry.update();
+        searchAndDestroy();
 
-            } else if (detector.getXPosition() > 320) {
-                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                OFFSET++;
-                telemetry.addData("Status", "Target Right");
-                telemetry.update();
-            } else if (!detector.isFound()) {
-                //performs 4B0R7N173
-                telemetry.addData("Status", "I lost him Goose! Adjusting right!");
-                telemetry.update();
-
-                strafe(DRIVE_SPEED, 19*INCHES);
-                while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
-                    if (detector.getXPosition() < 320) {
-                        strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                        OFFSET--;
-                        telemetry.addData("Status", "Target left.");
-                        telemetry.update();
-
-                    } else if (detector.getXPosition() > 320) {
-                        strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                        OFFSET++;
-                        telemetry.addData("Status", "Target Right");
-                        telemetry.update();
-                    } else if (!detector.isFound()) {
-                        //performs 4B0R7N173
-                        telemetry.addData("Status", "I lost him Goose! Adjusting Left!");
-                        telemetry.update();
-
-                        strafe(DRIVE_SPEED, 19*INCHES);
-                        while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
-                            if (detector.getXPosition() < 320) {
-                                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                                OFFSET--;
-                                telemetry.addData("Status", "Target left.");
-                                telemetry.update();
-
-                            } else if (detector.getXPosition() > 320) {
-                                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                                OFFSET++;
-                                telemetry.addData("Status", "Target Right");
-                                telemetry.update();
-                            } else if (!detector.isFound()) {
-                                //performs 4B0R7N173
-                                telemetry.addData("Status", "He's gone!");
-                                telemetry.update();
-
-                                runLoop = false;
-                            }
-                        }
-                    }
-                }
-            }
+        if(!detector.isFound()){
+            strafe(DRIVE_SPEED, -5*INCHES*M);
+            searchAndDestroy();
         }
-        */
+
+        if(!detector.isFound()){
+            strafe(DRIVE_SPEED, 10*INCHES*M);
+            searchAndDestroy();
+        }
+
+        //runs loop until robot is aligned with mineral
 
         if (runLoop == true) {
 
