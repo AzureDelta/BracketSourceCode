@@ -26,6 +26,7 @@ public class Crater extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
     static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
+    static final double FEET = 12 * INCHES;
     double OFFSET = 0;
     public static final double M = (2 / Math.sqrt(2));
     public static final double DRIVE_SPEED = 0.5;
@@ -84,27 +85,27 @@ public class Crater extends LinearOpMode {
         telemetry.addData("Status", "I'm going for missile lock!");
         telemetry.update();
 
-        searchAndDestroy();
+        //length diagonally across a tile is 33.9411255
+        //basically 34
 
+        searchAndDestroy();
         if(!detector.isFound()){
-            strafe(DRIVE_SPEED, -5*INCHES*M);
+            strafe(DRIVE_SPEED, M * -17 * INCHES);
             searchAndDestroy();
         }
-
         if(!detector.isFound()){
-            strafe(DRIVE_SPEED, 10*INCHES*M);
+            strafe(DRIVE_SPEED, M * ((2*FEET) + (12 * INCHES)));
             searchAndDestroy();
         }
 
         //runs loop until robot is aligned with mineral
 
-        if (runLoop == true) {
+        if (detector.isFound()) {
 
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
-            //ONE TILE IS 23.5 INCHES X 23.5 INCHES
-            //TWO TITLES ARE 47 INCHES X 47 INCHES
+            //ONE TILE IS 24 INCHES X 24 INCHES
 
             //drive to crater
             //current implementation of rotation count is a placeholder
@@ -114,9 +115,7 @@ public class Crater extends LinearOpMode {
             //According to the field setup guide, it is more around 34.
             //Brandon, I don't know the values to change, but I did some calculations
 
-            drive(0.5, 19 * INCHES);
-            telemetry.addData("Status", "Performing correction burn.");
-            telemetry.update();
+            drive(0.5, M * 2 * FEET);
 
         }
 
@@ -144,7 +143,7 @@ public class Crater extends LinearOpMode {
             }
         }
     }
-    
+
     public void drive(double speed, double distance) {
         //declares target point storage variables
         int targetFL;
