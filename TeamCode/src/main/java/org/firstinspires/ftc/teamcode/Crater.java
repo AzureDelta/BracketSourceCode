@@ -144,74 +144,7 @@ public class Crater extends LinearOpMode {
             }
         }
     }
-
-       public void rotateIntake(double speed, double distance, double timeout) {
-            int targetL;
-
-        // Ensure that the opmode is still active
-
-        // Determine new target position, and pass to motor controller
-        targetL = robot.intakeL.getCurrentPosition() + (int) (distance);
-        robot.intakeL.setTargetPosition(targetL);
-
-        // Turn On RUN_TO_POSITION
-        robot.intakeL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        robot.intakeL.setPower(Math.abs(speed));
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-        // Stop all motion;
-        robot.intakeL.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        robot.intakeL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void rotateArm(double speed, double distance) {
-        int targetL;
-        int targetR;
-
-        // Ensure that the opmode is still active
-
-        // Determine new target position, and pass to motor controller
-        targetL = robot.slide.getCurrentPosition() + (int) (distance);
-        targetR = robot.actuator.getCurrentPosition() + (int) (distance);
-        robot.slide.setTargetPosition(targetL);
-        robot.actuator.setTargetPosition(targetR);
-
-        // Turn On RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (opModeIsActive()) {
-
-            // reset the timeout time and start motion.
-            robot.slide.setPower(Math.abs(speed));
-            robot.actuator.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-            // Stop all motion;
-            robot.slide.setPower(0);
-            robot.actuator.setPower(0);
-        }
-
-        // Turn off RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
+    
     public void drive(double speed, double distance) {
         //declares target point storage variables
         int targetFL;
