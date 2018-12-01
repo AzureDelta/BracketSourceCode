@@ -10,37 +10,25 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
 @Autonomous(name = "Dropping Dusty Divot (CRATER FULL)", group = "Auto")
 
 /* Declare OpMode members. */
-
 
 public class Crater extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();
 
     private GoldAlignDetector detector;
-
     private ElapsedTime runtime = new ElapsedTime();
-
 
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
-    static final double FEET = 12 * INCHES; //calculates counts per foot
-    static final double DEGREES = (1120) / 360; //calculates counts per degree
+    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
+    double OFFSET = 0;
     public static final double M = (2 / Math.sqrt(2));
-    public static final double ARM_SPEED = 0.1;
     public static final double DRIVE_SPEED = 0.5;
-    /*
-    660 counts of encoder = 4 inches
-    1 inch = 165 counts
-    */
 
     @Override
 
@@ -80,18 +68,15 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        actuate(0.5, 1.9);
+        actuate(0.9, 1.9);
         //detach arm
-        strafe(0.5, -3 * INCHES * M);
+        strafe(DRIVE_SPEED, -2 * INCHES * M);
         //store arm
-        actuate(-0.5, 1.9);
+        actuate(-0.9, 1.9);
         //reset position
-        drive(0.5, 3 * INCHES * M);
+        drive(DRIVE_SPEED, 2 * INCHES * M);
         //detach arm
-        strafe(0.5, 3 * INCHES * M);
-
-        //declare counter variable
-        int aimAdjustment = 0;
+        strafe(DRIVE_SPEED, 2 * INCHES * M);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -100,16 +85,17 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //runs loop until robot is aligned with mineral
+        /*
         while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
             if (detector.getXPosition() < 320) {
                 strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                aimAdjustment--;
+                OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
                 strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                aimAdjustment++;
+                OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
             } else if (!detector.isFound()) {
@@ -121,13 +107,13 @@ public class Crater extends LinearOpMode {
                 while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
                     if (detector.getXPosition() < 320) {
                         strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                        aimAdjustment--;
+                        OFFSET--;
                         telemetry.addData("Status", "Target left.");
                         telemetry.update();
 
                     } else if (detector.getXPosition() > 320) {
                         strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                        aimAdjustment++;
+                        OFFSET++;
                         telemetry.addData("Status", "Target Right");
                         telemetry.update();
                     } else if (!detector.isFound()) {
@@ -139,13 +125,13 @@ public class Crater extends LinearOpMode {
                         while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
                             if (detector.getXPosition() < 320) {
                                 strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                                aimAdjustment--;
+                                OFFSET--;
                                 telemetry.addData("Status", "Target left.");
                                 telemetry.update();
 
                             } else if (detector.getXPosition() > 320) {
                                 strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                                aimAdjustment++;
+                                OFFSET++;
                                 telemetry.addData("Status", "Target Right");
                                 telemetry.update();
                             } else if (!detector.isFound()) {
@@ -155,12 +141,12 @@ public class Crater extends LinearOpMode {
 
                                 runLoop = false;
                             }
-
                         }
                     }
                 }
             }
         }
+        */
 
         if (runLoop == true) {
 
@@ -192,26 +178,37 @@ public class Crater extends LinearOpMode {
 
     }
 
-    public void rotateIntake(double speed, double distance, double timeout) {
-        int targetL;
-        int targetR;
+    public void searchAndDestroy(){
+        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            if (detector.getXPosition() < 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                OFFSET--;
+                telemetry.addData("Status", "Target left.");
+                telemetry.update();
+
+            } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                OFFSET++;
+                telemetry.addData("Status", "Target Right");
+                telemetry.update();
+            }
+        }
+    }
+
+       public void rotateIntake(double speed, double distance, double timeout) {
+            int targetL;
 
         // Ensure that the opmode is still active
 
         // Determine new target position, and pass to motor controller
-        targetL = robot.slide.getCurrentPosition() + (int) (distance);
-        targetR = robot.actuator.getCurrentPosition() + (int) (distance);
-        robot.slide.setTargetPosition(targetL);
-        robot.actuator.setTargetPosition(targetR);
+        targetL = robot.intakeL.getCurrentPosition() + (int) (distance);
+        robot.intakeL.setTargetPosition(targetL);
 
         // Turn On RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.intakeL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // reset the timeout time and start motion.
-        robot.slide.setPower(Math.abs(speed));
-        robot.actuator.setPower(Math.abs(speed));
-        ;
+        robot.intakeL.setPower(Math.abs(speed));
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -221,12 +218,10 @@ public class Crater extends LinearOpMode {
         // onto the next step, use (isBusy() || isBusy()) in the loop test.
 
         // Stop all motion;
-        robot.slide.setPower(0);
-        robot.actuator.setPower(0);
+        robot.intakeL.setPower(0);
 
         // Turn off RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.intakeL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void rotateArm(double speed, double distance) {
@@ -266,7 +261,6 @@ public class Crater extends LinearOpMode {
         robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
 
     public void drive(double speed, double distance) {
         //declares target point storage variables
@@ -425,22 +419,20 @@ public class Crater extends LinearOpMode {
     }
 
     public void actuate(double speed, double time) {
-        // Step 1:  Drive forward for 3 seconds
-        robot.actuator.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
+            robot.actuator.setPower(speed);
         }
     }
 
     public void intake(double speed, double time) {
-        // Step 1:  Drive forward for 3 seconds
-        robot.intakeL.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
+            robot.intakeL.setPower(speed);
         }
     }
 }

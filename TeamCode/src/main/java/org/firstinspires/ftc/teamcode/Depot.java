@@ -91,7 +91,7 @@ public class Depot extends LinearOpMode {
         strafe(0.5, 3 * INCHES * M);
 
         //declare counter variable
-        int aimAdjustment = 0;
+        int OFFSET = 0;
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -103,13 +103,13 @@ public class Depot extends LinearOpMode {
         while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
             if (detector.getXPosition() < 320) {
                 strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                aimAdjustment--;
+                OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320) {
                 strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                aimAdjustment++;
+                OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
             } else if (!detector.isFound()) {

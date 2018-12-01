@@ -153,9 +153,5 @@ public class MainTeleOp extends LinearOpMode{
             telemetry.update();
         }
     }
-
-
-
-
     //idle();
 }
