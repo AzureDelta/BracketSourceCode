@@ -24,7 +24,7 @@ import java.util.*;
 @TeleOp(name = "TeleOp (CLICK THIS ONE ISAAC)", group = "TeleOp")
 public class MainTeleOp extends LinearOpMode {
 
-    public static final double ARM_SPEED = 0.9;
+    public static final double ARM_SPEED = 0.95;
     //public static final double ARM_SPEED = 0.5;
     public static final double intake_SPEED = 0.9;
 
@@ -145,7 +145,7 @@ public class MainTeleOp extends LinearOpMode {
             if (runintake) {
                 robot.intakeR.setPower(intake_SPEED);
             } else if (reverseintake) {
-                robot.intakeR.setPower(-0.5);
+                robot.intakeR.setPower(-0.15);
             } else if (slowintake) {
                 robot.intakeR.setPower(0.5);
             } else {
@@ -153,9 +153,9 @@ public class MainTeleOp extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left == true || gamepad2.dpad_left == true) {
-                robot.actuator.setPower(-0.9);
+                robot.actuator.setPower(-1);
             } else if (gamepad1.dpad_right == true || gamepad2.dpad_right == true) {
-                robot.actuator.setPower(0.9);
+                robot.actuator.setPower(1);
             } else {
                 robot.actuator.setPower(0);
             }

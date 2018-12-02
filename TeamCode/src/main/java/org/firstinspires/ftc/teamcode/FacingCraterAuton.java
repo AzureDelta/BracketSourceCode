@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 /* Declare OpMode members. */
 
-public class Crater extends LinearOpMode {
+public class FacingCraterAuton extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();
 
@@ -44,7 +44,7 @@ public class Crater extends LinearOpMode {
 
         // Optional Tuning
         detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
-        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
+        detector.alignPosOffset = -110; // How far from center frame to offset this alignment zone.
         detector.downscale = 0.4; // How much to downscale the input frames
 
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
@@ -71,13 +71,13 @@ public class Crater extends LinearOpMode {
         //lower the robot
         actuate(0.9, 1.9);
         //detach arm
-        strafe(DRIVE_SPEED, -2 * INCHES * M);
+        strafe(DRIVE_SPEED, 2 * INCHES * M);
         //store arm
         actuate(-0.9, 1.9);
         //reset position
         drive(DRIVE_SPEED, 2 * INCHES * M);
         //detach arm
-        strafe(DRIVE_SPEED, 2 * INCHES * M);
+        strafe(DRIVE_SPEED, -2 * INCHES * M);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -168,7 +168,8 @@ public class Crater extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-
+            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            }
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
