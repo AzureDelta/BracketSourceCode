@@ -33,8 +33,6 @@ public class TestAuton extends LinearOpMode {
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
     static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     public static final double M = (2 / Math.sqrt(2));
-    public static final double ARM_SPEED = 0.1;
-    public static final double DRIVE_SPEED = 0.5;
     /*
     660 counts of encoder = 4 inches
     1 inch = 165 counts
