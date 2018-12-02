@@ -44,13 +44,13 @@ public class HardwareConfig {
         actuator = hwMap.get(DcMotor.class, "a");
         intakeR = hwMap.get(DcMotor.class, "ir");
 
-        motorFR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
-        motorFL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        motorRR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
-        motorRL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motorFR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
+        motorFL.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motorRR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
+        motorRL.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         slide.setDirection(DcMotor.Direction.FORWARD);//requires testing
         actuator.setDirection(DcMotor.Direction.REVERSE);//requires testing
-        intakeR.setDirection(DcMotor.Direction.FORWARD);//requires testing
+        intakeR.setDirection(DcMotor.Direction.REVERSE);//requires testing
 
         // Set all motors to zero power
         motorFR.setPower(0);
