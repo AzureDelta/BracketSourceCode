@@ -50,21 +50,21 @@ public class TestAuton extends LinearOpMode {
         //it'll wait 2.5 seconds
         sleep(2500);
         //drive, strafe, turn
-        drive(0.5, 15 * INCHES * M);
+        drive(0.5, 10 * INCHES * M);
         sleep(1000);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        strafe(0.5, 15 * INCHES * M);
+        strafe(0.5, 10 * INCHES * M);
         sleep(1000);
         //then left 4 inches
-        strafe(0.5, -15 * COUNTS_PER_ROTATION * M);
+        strafe(0.5, -10 * INCHES * M);
         sleep(1000);
         //turn clockwise
-        turn(0.5, 135);
+        turn(0.5, 4*COUNTS_PER_ROTATION*M);
         sleep(1000);
         //then turn CCW
-        turn(0.5, -15 * COUNTS_PER_ROTATION * M);
+        turn(0.5, -4 * COUNTS_PER_ROTATION * M);
         sleep(1000);
         //test intake
         intake(0.5, 3);
@@ -74,6 +74,7 @@ public class TestAuton extends LinearOpMode {
     }
 
     public void drive(double speed, double distance) {
+
         //declares target point storage variables
         int targetFL;
         int targetFR;
@@ -109,6 +110,10 @@ public class TestAuton extends LinearOpMode {
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            int counter = 0;
+            while(robot.motorFL.isBusy() && robot.motorFR.isBusy() && robot.motorRL.isBusy() && robot.motorRR.isBusy()){
+                counter++;
+            }
 
             // Stop all motion;
             robot.motorFL.setPower(0);
