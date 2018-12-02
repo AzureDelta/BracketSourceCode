@@ -10,37 +10,26 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
 @Autonomous(name = "Dropping Dusty Divot (CRATER FULL)", group = "Auto")
 
 /* Declare OpMode members. */
-
 
 public class Depot extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();
 
     private GoldAlignDetector detector;
-
     private ElapsedTime runtime = new ElapsedTime();
-
 
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
-    static final double FEET = 12 * INCHES; //calculates counts per foot
-    static final double DEGREES = (1120) / 360; //calculates counts per degree
+    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
+    static final double FEET = 12 * INCHES;
+    double OFFSET = 0;
     public static final double M = (2 / Math.sqrt(2));
-    public static final double ARM_SPEED = 0.1;
     public static final double DRIVE_SPEED = 0.5;
-    /*
-    660 counts of encoder = 4 inches
-    1 inch = 165 counts
-    */
 
     @Override
 
@@ -80,18 +69,15 @@ public class Depot extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        actuate(0.5, 1.9);
+        actuate(0.9, 1.9);
         //detach arm
-        strafe(0.5, -3 * INCHES * M);
+        strafe(DRIVE_SPEED, -2 * INCHES * M);
         //store arm
-        actuate(-0.5, 1.9);
+        actuate(-0.9, 1.9);
         //reset position
-        drive(0.5, 3 * INCHES * M);
+        drive(DRIVE_SPEED, 2 * INCHES * M);
         //detach arm
-        strafe(0.5, 3 * INCHES * M);
-
-        //declare counter variable
-        int OFFSET = 0;
+        strafe(DRIVE_SPEED, 2 * INCHES * M);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -99,36 +85,27 @@ public class Depot extends LinearOpMode {
         telemetry.addData("Status", "I'm going for missile lock!");
         telemetry.update();
 
-        //runs loop until robot is aligned with mineral
-        while (detector.getAligned() != true && runLoop == true && runtime.seconds() < 20) {
-            if (detector.getXPosition() < 320) {
-                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                OFFSET--;
-                telemetry.addData("Status", "Target left.");
-                telemetry.update();
+        //length diagonally across a tile is 33.9411255
+        //basically 34
 
-            } else if (detector.getXPosition() > 320) {
-                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                OFFSET++;
-                telemetry.addData("Status", "Target Right");
-                telemetry.update();
-            } else if (!detector.isFound()) {
-                //performs 4B0R7N173
-                runLoop = false;
-                telemetry.addData("Status", "I lost him Goose!");
-                telemetry.update();
-            }
-
-
+        searchAndDestroy();
+        if(!detector.isFound()){
+            strafe(DRIVE_SPEED, M * -17 * INCHES);
+            searchAndDestroy();
+        }
+        if(!detector.isFound()){
+            strafe(DRIVE_SPEED, M * ((2*FEET) + (12 * INCHES)));
+            searchAndDestroy();
         }
 
-        if (runLoop == true) {
+        //runs loop until robot is aligned with mineral
+
+        if (detector.isFound()) {
 
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
-            //ONE TILE IS 23.5 INCHES X 23.5 INCHES
-            //TWO TITLES ARE 47 INCHES X 47 INCHES
+            //ONE TILE IS 24 INCHES X 24 INCHES
 
             //drive to crater
             //current implementation of rotation count is a placeholder
@@ -138,9 +115,7 @@ public class Depot extends LinearOpMode {
             //According to the field setup guide, it is more around 34.
             //Brandon, I don't know the values to change, but I did some calculations
 
-            drive(0.5, 19 * INCHES);
-            telemetry.addData("Status", "Performing correction burn.");
-            telemetry.update();
+            drive(0.5, M * 2 * FEET);
 
         }
 
@@ -152,81 +127,22 @@ public class Depot extends LinearOpMode {
 
     }
 
-    public void rotateIntake(double speed, double distance, double timeout) {
-        int targetL;
-        int targetR;
+    public void searchAndDestroy(){
+        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            if (detector.getXPosition() < 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                OFFSET--;
+                telemetry.addData("Status", "Target left.");
+                telemetry.update();
 
-        // Ensure that the opmode is still active
-
-        // Determine new target position, and pass to motor controller
-        targetL = robot.slide.getCurrentPosition() + (int) (distance);
-        targetR = robot.actuator.getCurrentPosition() + (int) (distance);
-        robot.slide.setTargetPosition(targetL);
-        robot.actuator.setTargetPosition(targetR);
-
-        // Turn On RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        robot.slide.setPower(Math.abs(speed));
-        robot.actuator.setPower(Math.abs(speed));
-        ;
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-        // Stop all motion;
-        robot.slide.setPower(0);
-        robot.actuator.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void rotateArm(double speed, double distance) {
-        int targetL;
-        int targetR;
-
-        // Ensure that the opmode is still active
-
-        // Determine new target position, and pass to motor controller
-        targetL = robot.slide.getCurrentPosition() + (int) (distance);
-        targetR = robot.actuator.getCurrentPosition() + (int) (distance);
-        robot.slide.setTargetPosition(targetL);
-        robot.actuator.setTargetPosition(targetR);
-
-        // Turn On RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (opModeIsActive()) {
-
-            // reset the timeout time and start motion.
-            robot.slide.setPower(Math.abs(speed));
-            robot.actuator.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-            // Stop all motion;
-            robot.slide.setPower(0);
-            robot.actuator.setPower(0);
+            } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                OFFSET++;
+                telemetry.addData("Status", "Target Right");
+                telemetry.update();
+            }
         }
-
-        // Turn off RUN_TO_POSITION
-        robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
 
     public void drive(double speed, double distance) {
         //declares target point storage variables
@@ -385,22 +301,20 @@ public class Depot extends LinearOpMode {
     }
 
     public void actuate(double speed, double time) {
-        // Step 1:  Drive forward for 3 seconds
-        robot.actuator.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
+            robot.actuator.setPower(speed);
         }
     }
 
     public void intake(double speed, double time) {
-        // Step 1:  Drive forward for 3 seconds
-        robot.intakeL.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
+            robot.intakeR.setPower(speed);
         }
     }
 }

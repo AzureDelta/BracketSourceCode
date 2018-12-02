@@ -15,7 +15,7 @@ public class HardwareConfig {
     public DcMotor motorRL = null;
     public DcMotor slide = null;
     public DcMotor actuator = null;
-    public DcMotor intakeL = null;
+    public DcMotor intakeR = null;
 
     public static final double MID_SERVO = 0.5;//legacy code, can be removed
     //public ColorSensor colorSensor;//legacy code, can be removed
@@ -42,7 +42,7 @@ public class HardwareConfig {
         motorRL = hwMap.get(DcMotor.class, "rl");
         slide = hwMap.get(DcMotor.class, "s");
         actuator = hwMap.get(DcMotor.class, "a");
-        intakeL = hwMap.get(DcMotor.class, "il");
+        intakeR = hwMap.get(DcMotor.class, "il");
 
         motorFR.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE if using AndyMark motors
         motorFL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
@@ -50,7 +50,7 @@ public class HardwareConfig {
         motorRL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         slide.setDirection(DcMotor.Direction.FORWARD);//requires testing
         actuator.setDirection(DcMotor.Direction.REVERSE);//requires testing
-        intakeL.setDirection(DcMotor.Direction.FORWARD);//requires testing
+        intakeR.setDirection(DcMotor.Direction.FORWARD);//requires testing
 
         // Set all motors to zero power
         motorFR.setPower(0);
@@ -59,7 +59,7 @@ public class HardwareConfig {
         motorRL.setPower(0);
         slide.setPower(0);
         actuator.setPower(0);
-        intakeL.setPower(0);
+        intakeR.setPower(0);
 
         //set zero power behavior
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -68,7 +68,7 @@ public class HardwareConfig {
         motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         actuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -76,7 +76,7 @@ public class HardwareConfig {
         motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakeL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         actuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //Not using encoders for non drive train to allow for more direct control of power.

@@ -245,7 +245,7 @@ public class TestAuton extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
-            robot.intakeL.setPower(speed);
+            robot.intakeR.setPower(speed);
         }
     }
 }

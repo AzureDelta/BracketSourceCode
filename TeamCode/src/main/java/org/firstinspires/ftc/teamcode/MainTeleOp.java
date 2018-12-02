@@ -130,13 +130,13 @@ public class MainTeleOp extends LinearOpMode{
                 slowIntake = true;
             }
             if(runIntake){
-                robot.intakeL.setPower(INTAKE_SPEED);
+                robot.intakeR.setPower(INTAKE_SPEED);
             } else if (reverseIntake) {
-                robot.intakeL.setPower(-0.1);
+                robot.intakeR.setPower(-0.1);
             } else if (slowIntake){
-                robot.intakeL.setPower(0.1);
+                robot.intakeR.setPower(0.1);
             } else {
-                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
             }
 
 

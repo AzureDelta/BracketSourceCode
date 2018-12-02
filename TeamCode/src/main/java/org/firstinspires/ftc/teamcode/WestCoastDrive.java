@@ -135,13 +135,13 @@ public class WestCoastDrive extends LinearOpMode{
                 speed = 0.5;
             }
             if(runIntake){
-                robot.intakeL.setPower(INTAKE_SPEED);
+                robot.intakeR.setPower(INTAKE_SPEED);
             } else if (reverseIntake) {
-                robot.intakeL.setPower(-0.1);
+                robot.intakeR.setPower(-0.1);
             } else if (slowIntake){
-                robot.intakeL.setPower(0.1);
+                robot.intakeR.setPower(0.1);
             } else {
-                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
             }
 
 
