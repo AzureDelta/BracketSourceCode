@@ -10,7 +10,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Dropping Dusty Divot (CRATER FULL)", group = "Auto")
+@Autonomous(name = "Dropping Depot (Depot FULL)", group = "Auto")
 
 /* Declare OpMode members. */
 
@@ -91,10 +91,12 @@ public class Depot extends LinearOpMode {
         searchAndDestroy();
         if(!detector.isFound()){
             strafe(DRIVE_SPEED, M * -17 * INCHES);
+            OFFSET-=170;
             searchAndDestroy();
         }
         if(!detector.isFound()){
-            strafe(DRIVE_SPEED, M * ((2*FEET) + (12 * INCHES)));
+            strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
+            OFFSET+=340;
             searchAndDestroy();
         }
 
@@ -107,16 +109,16 @@ public class Depot extends LinearOpMode {
 
             //ONE TILE IS 24 INCHES X 24 INCHES
 
-            //drive to crater
+            //drive through
             //current implementation of rotation count is a placeholder
+            drive(DRIVE_SPEED, (M*4.5*FEET));
+            //recenters based on the value of offset
+            strafe(DRIVE_SPEED, -OFFSET*0.1*INCHES*M);
 
-            //CENTER OF THE LANDER TO A THE CRATER IS ROUGHLY 1.8 TILES IF LOOKING AT IT STRAIGHT ON
-            //1.8 tiles is equal to approximately 42.3 inches (THIS IS A HIGH ESTIMATE)
-            //According to the field setup guide, it is more around 34.
-            //Brandon, I don't know the values to change, but I did some calculations
+            //drive into the depot
+            drive(DRIVE_SPEED, M*1*FEET);
 
-            drive(0.5, M * 2 * FEET);
-
+            intake(0.9, 3);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////

@@ -91,10 +91,12 @@ public class Crater extends LinearOpMode {
         searchAndDestroy();
         if(!detector.isFound()){
             strafe(DRIVE_SPEED, M * -17 * INCHES);
+            OFFSET-=170;
             searchAndDestroy();
         }
         if(!detector.isFound()){
-            strafe(DRIVE_SPEED, M * ((2*FEET) + (12 * INCHES)));
+            strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
+            OFFSET+=340;
             searchAndDestroy();
         }
 
@@ -108,14 +110,7 @@ public class Crater extends LinearOpMode {
             //ONE TILE IS 24 INCHES X 24 INCHES
 
             //drive to crater
-            //current implementation of rotation count is a placeholder
-
-            //CENTER OF THE LANDER TO A THE CRATER IS ROUGHLY 1.8 TILES IF LOOKING AT IT STRAIGHT ON
-            //1.8 tiles is equal to approximately 42.3 inches (THIS IS A HIGH ESTIMATE)
-            //According to the field setup guide, it is more around 34.
-            //Brandon, I don't know the values to change, but I did some calculations
-
-            drive(0.5, M * 2 * FEET);
+            drive(0.5, M * ((2*FEET) + (10 * INCHES)));
 
         }
 
