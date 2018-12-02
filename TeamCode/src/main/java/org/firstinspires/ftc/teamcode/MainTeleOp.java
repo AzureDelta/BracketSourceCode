@@ -9,18 +9,19 @@ package org.firstinspires.ftc.teamcode;
 //Button X is reverse intake (toggle)
 //Button Y is slow intake (50% speed) (toggle)
 //Dpad left is actuator down (hold)
-//Dpad up is actuator up (hold)
+//Dpad right is actuator up (hold)
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
+
 import java.util.*;
 
 //*In theory* this should also be compatible with tank drive.
 
-@TeleOp(name ="TeleOp (CLICK THIS ONE ISAAC)", group ="TeleOp")
+@TeleOp(name = "TeleOp (CLICK THIS ONE ISAAC)", group = "TeleOp")
 public class MainTeleOp extends LinearOpMode {
 
     public static final double ARM_SPEED = 0.9;
@@ -28,12 +29,11 @@ public class MainTeleOp extends LinearOpMode {
     public static final double intake_SPEED = 0.9;
 
     /* Declare OpMode members. */
-    HardwareConfig robot           = new HardwareConfig();   //Configs hardware
+    HardwareConfig robot = new HardwareConfig();   //Configs hardware
 
 
     @Override
-    public void runOpMode () throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
         //loads hardwareMap
@@ -62,25 +62,24 @@ public class MainTeleOp extends LinearOpMode {
         telemetry.addData("Status", "ASSUMING DIRECT CONTROL");
         telemetry.update();
 
-        while(opModeIsActive())
-        {
+        while (opModeIsActive()) {
             //speed is
-            if(gamepad1.dpad_up || gamepad2.dpad_up){
+            if (gamepad1.dpad_up || gamepad2.dpad_up) {
                 speed = 1;
             }
-            if(gamepad1.dpad_down || gamepad2.dpad_down) {
+            if (gamepad1.dpad_down || gamepad2.dpad_down) {
                 speed = 0.5;
             }
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             // This way it's also easy to just drive straight, or just turn.
             drive = -gamepad1.left_stick_y;
-            turn  =  gamepad1.right_stick_x;
+            turn = gamepad1.right_stick_x;
             strafe = gamepad1.left_stick_x;
 
 
             // Combine drive and turn for blended motion.
-            leftValue  = drive + turn;
+            leftValue = drive + turn;
             rightValue = drive - turn;
             powerFL = leftValue + strafe;
             powerFR = rightValue - strafe;
@@ -114,7 +113,7 @@ public class MainTeleOp extends LinearOpMode {
             //right trigger raises, left trigger lowers
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
-            slidePower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
+            slidePower = (((gamepad1.right_trigger + gamepad2.right_trigger) + (-gamepad2.left_stick_y)) - (gamepad1.left_trigger + gamepad2.left_trigger));
             slidePower *= ARM_SPEED;
 
             //sets maxes for each value
@@ -122,47 +121,48 @@ public class MainTeleOp extends LinearOpMode {
 
             robot.slide.setPower(slidePower);
 
-            //button A is intake
-            //button X is reverse intake
-            //button B does nothing
-            //button Y runs a slow intake
-            if(gamepad1.a || gamepad2.a){
+            if (gamepad1.a || gamepad2.a) {
                 runintake = true;
                 reverseintake = false;
                 slowintake = false;
             }
-            if(gamepad1.x || gamepad2.x) {
+            if (gamepad1.b || gamepad2.b) {
                 runintake = false;
                 reverseintake = true;
                 slowintake = false;
             }
-            if(gamepad1.b || gamepad2.b) {
+            if (gamepad1.x || gamepad2.x) {
+                runintake = false;
+                reverseintake = false;
+                slowintake = true;
+            }
+            if (gamepad1.y || gamepad2.y) {
                 runintake = false;
                 reverseintake = false;
                 slowintake = false;
             }
 
-            if(runintake){
+            if (runintake) {
                 robot.intakeR.setPower(intake_SPEED);
             } else if (reverseintake) {
                 robot.intakeR.setPower(-0.5);
-            } else if (slowintake){
+            } else if (slowintake) {
                 robot.intakeR.setPower(0.5);
             } else {
                 robot.intakeR.setPower(0);
             }
 
-            if(gamepad1.dpad_left == true || gamepad2.dpad_left == true) {
+            if (gamepad1.dpad_left == true || gamepad2.dpad_left == true) {
                 robot.actuator.setPower(-0.9);
-            } else if(gamepad1.dpad_right == true || gamepad2.dpad_right == true) {
+            } else if (gamepad1.dpad_right == true || gamepad2.dpad_right == true) {
                 robot.actuator.setPower(0.9);
             } else {
                 robot.actuator.setPower(0);
             }
 
             telemetry.addData("Status", "Speed: " + speed + "\n" +
-                    "Power: "+ drive +"        Turn: "+turn+"        Strafe: " +strafe+"\n"+
-                    "Slide Power: "+slidePower+"     intake Power: "+intake_SPEED);
+                    "Power: " + drive + "        Turn: " + turn + "        Strafe: " + strafe + "\n" +
+                    "Slide Power: " + slidePower + "     intake Power: " + intake_SPEED);
             telemetry.update();
         }
     }
