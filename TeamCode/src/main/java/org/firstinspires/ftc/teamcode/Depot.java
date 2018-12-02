@@ -118,7 +118,7 @@ public class Depot extends LinearOpMode {
             //drive into the depot
             drive(DRIVE_SPEED, M*1*FEET);
 
-            intake(0.9, 3);
+            intake(-0.9, 3);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////

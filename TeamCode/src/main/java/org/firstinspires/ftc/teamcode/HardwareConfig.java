@@ -50,7 +50,7 @@ public class HardwareConfig {
         motorRL.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         slide.setDirection(DcMotor.Direction.FORWARD);//requires testing
         actuator.setDirection(DcMotor.Direction.REVERSE);//requires testing
-        intakeR.setDirection(DcMotor.Direction.FORWARD);//requires testing
+        intakeR.setDirection(DcMotor.Direction.REVERSE);//requires testing
 
         // Set all motors to zero power
         motorFR.setPower(0);

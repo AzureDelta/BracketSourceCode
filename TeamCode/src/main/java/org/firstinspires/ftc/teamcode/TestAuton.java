@@ -52,21 +52,21 @@ public class TestAuton extends LinearOpMode {
         //it'll wait 2.5 seconds
         sleep(2500);
         //drive, strafe, turn
-        drive(0.5, 3 * INCHES * M);
+        drive(0.5, 15 * INCHES * M);
         sleep(1000);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        strafe(0.5, 3 * INCHES * M);
+        strafe(0.5, 15 * INCHES * M);
         sleep(1000);
         //then left 4 inches
-        strafe(0.5, -3 * COUNTS_PER_ROTATION * M);
+        strafe(0.5, -15 * COUNTS_PER_ROTATION * M);
         sleep(1000);
         //turn clockwise
         turn(0.5, 135);
         sleep(1000);
         //then turn CCW
-        turn(0.5, -3 * COUNTS_PER_ROTATION * M);
+        turn(0.5, -15 * COUNTS_PER_ROTATION * M);
         sleep(1000);
         //test intake
         intake(0.5, 3);

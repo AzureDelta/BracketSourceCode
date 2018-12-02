@@ -10,7 +10,7 @@ import java.util.*;
 //*In theory* this should also be compatible with tank drive.
 
 @TeleOp(name ="TeleOp (CLICK THIS ONE ISAAC)", group ="TeleOp")
-public class MainTeleOp extends LinearOpMode{
+public class MainTeleOp extends LinearOpMode {
 
     public static final double ARM_SPEED = 0.9;
     //public static final double ARM_SPEED = 0.5;
@@ -53,11 +53,12 @@ public class MainTeleOp extends LinearOpMode{
 
         while(opModeIsActive())
         {
+            //speed is
             if(gamepad1.dpad_up == true){
-                speed *= 2;
+                speed = 1;
             }
             if(gamepad1.dpad_down==true) {
-                speed /= 2;
+                speed = 0.5;
             }
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
@@ -68,7 +69,7 @@ public class MainTeleOp extends LinearOpMode{
 
 
             // Combine drive and turn for blended motion.
-            leftValue  = -drive + turn;
+            leftValue  = drive + turn;
             rightValue = drive - turn;
             powerFL = leftValue - strafe;
             powerFR = rightValue + strafe;
@@ -110,6 +111,10 @@ public class MainTeleOp extends LinearOpMode{
 
             robot.slide.setPower(slidePower);
 
+            //button A is intake
+            //button X is reverse intake
+            //button B does nothing
+            //button  Y runs a slow intake
             if(gamepad1.a == true){
                 runIntake = true;
                 reverseIntake = false;
@@ -138,14 +143,19 @@ public class MainTeleOp extends LinearOpMode{
             if(runIntake){
                 robot.intakeR.setPower(INTAKE_SPEED);
             } else if (reverseIntake) {
-                robot.intakeR.setPower(-0.1);
+                robot.intakeR.setPower(-0.5);
             } else if (slowIntake){
-                robot.intakeR.setPower(0.1);
+                robot.intakeR.setPower(0.5);
             } else {
                 robot.intakeR.setPower(0);
             }
 
-
+            if(gamepad1.dpad_left == true) {
+                robot.actuator.setPower(-0.3);
+            }
+            if(gamepad1.dpad_right == true) {
+                robot.actuator.setPower(0.3);
+            }
 
             telemetry.addData("Status", "Speed: " + speed + "\n" +
                     "Power: "+ drive +"        Turn: "+turn+"        Strafe: " +strafe+"\n"+
