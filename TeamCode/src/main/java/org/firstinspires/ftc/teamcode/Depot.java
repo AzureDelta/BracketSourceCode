@@ -258,10 +258,10 @@ public class Depot extends LinearOpMode {
         int targetRR;
 
         // Determine new target position, and pass to motor controller
-        targetFL = robot.motorFL.getCurrentPosition() + (int) (distance);
-        targetFR = robot.motorFR.getCurrentPosition() + (int) (-distance);
-        targetRL = robot.motorRL.getCurrentPosition() + (int) (-distance);
-        targetRR = robot.motorRR.getCurrentPosition() + (int) (distance);
+        targetFL = robot.motorFL.getCurrentPosition() + (int) (-distance);
+        targetFR = robot.motorFR.getCurrentPosition() + (int) (distance);
+        targetRL = robot.motorRL.getCurrentPosition() + (int) (distance);
+        targetRR = robot.motorRR.getCurrentPosition() + (int) (-distance);
         robot.motorFL.setTargetPosition(targetFL);
         robot.motorFR.setTargetPosition(targetFR);
         robot.motorRL.setTargetPosition(targetRL);

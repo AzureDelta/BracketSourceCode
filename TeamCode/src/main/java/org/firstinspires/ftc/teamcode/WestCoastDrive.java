@@ -14,7 +14,7 @@ public class WestCoastDrive extends LinearOpMode{
 
     public static final double ARM_SPEED = 1;
     //public static final double ARM_SPEED = 0.5;
-    public static final double INTAKE_SPEED = 0.5;
+    public static final double intake_SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfig robot           = new HardwareConfig();   //Configs hardware
@@ -36,9 +36,9 @@ public class WestCoastDrive extends LinearOpMode{
         double powerRL;
         double powerRR;
         double slidePower;
-        boolean runIntake = false;
-        boolean reverseIntake = false;
-        boolean slowIntake = false;
+        boolean runintake = false;
+        boolean reverseintake = false;
+        boolean slowintake = false;
         double speed = 0.5;
 
         // Send telemetry message to signify robot waiting;
@@ -104,29 +104,29 @@ public class WestCoastDrive extends LinearOpMode{
             robot.actuator.setPower(slidePower);
 
             if(gamepad1.a == true){
-                runIntake = true;
-                reverseIntake = false;
-                slowIntake = false;
+                runintake = true;
+                reverseintake = false;
+                slowintake = false;
             }
             if(gamepad1.x == true) {
-                runIntake = false;
-                reverseIntake = true;
-                slowIntake = false;
+                runintake = false;
+                reverseintake = true;
+                slowintake = false;
             }
             if(gamepad1.b == true) {
-                runIntake = false;
-                reverseIntake = false;
-                slowIntake = false;
+                runintake = false;
+                reverseintake = false;
+                slowintake = false;
             }
             if(gamepad1.a == true){
-                runIntake = true;
-                reverseIntake = false;
-                slowIntake = false;
+                runintake = true;
+                reverseintake = false;
+                slowintake = false;
             }
             if(gamepad1.y == true){
-                runIntake = false;
-                reverseIntake = false;
-                slowIntake = true;
+                runintake = false;
+                reverseintake = false;
+                slowintake = true;
             }
             if(gamepad1.dpad_up == true){
                 speed = 1;
@@ -134,11 +134,11 @@ public class WestCoastDrive extends LinearOpMode{
             if(gamepad1.dpad_down==true) {
                 speed = 0.5;
             }
-            if(runIntake){
-                robot.intakeR.setPower(INTAKE_SPEED);
-            } else if (reverseIntake) {
+            if(runintake){
+                robot.intakeR.setPower(intake_SPEED);
+            } else if (reverseintake) {
                 robot.intakeR.setPower(-0.1);
-            } else if (slowIntake){
+            } else if (slowintake){
                 robot.intakeR.setPower(0.1);
             } else {
                 robot.intakeR.setPower(0);
@@ -148,7 +148,7 @@ public class WestCoastDrive extends LinearOpMode{
 
             telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn+"\n"+
-            "Arm Power: "+slidePower+"     Intake Power: "+INTAKE_SPEED);
+            "Arm Power: "+slidePower+"     intake Power: "+intake_SPEED);
             telemetry.update();
     }
 }

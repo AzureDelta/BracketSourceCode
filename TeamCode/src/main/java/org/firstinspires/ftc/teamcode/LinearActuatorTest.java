@@ -13,7 +13,7 @@ import java.util.*;
 public class LinearActuatorTest extends LinearOpMode {
     public static final double ARM_SPEED = 1;
     //public static final double ARM_SPEED = 0.5;
-    public static final double INTAKE_SPEED = 0.5;
+    public static final double intake_SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfigVeryLite robot           = new HardwareConfigVeryLite();   //Configs hardware
