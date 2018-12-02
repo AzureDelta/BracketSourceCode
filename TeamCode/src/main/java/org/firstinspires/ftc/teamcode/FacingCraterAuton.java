@@ -69,11 +69,13 @@ public class FacingCraterAuton extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        actuate(0.9, 1.9);
+        actuate(1.0, 12.5);
         //detach arm
         strafe(DRIVE_SPEED, 2 * INCHES * M);
         //store arm
-        actuate(-0.9, 1.9);
+/*
+        actuate(-0.9, 10);
+*/
         //reset position
         drive(DRIVE_SPEED, 2 * INCHES * M);
         //detach arm

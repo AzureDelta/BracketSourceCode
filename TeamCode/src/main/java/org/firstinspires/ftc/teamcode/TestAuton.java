@@ -70,7 +70,7 @@ public class TestAuton extends LinearOpMode {
         intake(0.5, 3);
         sleep(1000);
         //test actuator
-        actuate(0.5, 1);
+        actuate(1, 5);
     }
 
     public void drive(double speed, double distance) {

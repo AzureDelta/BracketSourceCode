@@ -21,7 +21,7 @@ import java.util.*;
 
 //*In theory* this should also be compatible with tank drive.
 
-@TeleOp(name = "TeleOp (CLICK THIS ONE ISAAC)", group = "TeleOp")
+@TeleOp(name = "Main TeleOp (tap me)", group = "TeleOp")
 public class MainTeleOp extends LinearOpMode {
 
     public static final double ARM_SPEED = 0.95;
@@ -152,9 +152,9 @@ public class MainTeleOp extends LinearOpMode {
                 robot.intakeR.setPower(0);
             }
 
-            if (gamepad1.dpad_left == true || gamepad2.dpad_left == true) {
+            if (gamepad1.dpad_left || gamepad2.dpad_down) {
                 robot.actuator.setPower(-1);
-            } else if (gamepad1.dpad_right == true || gamepad2.dpad_right == true) {
+            } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
                 robot.actuator.setPower(1);
             } else {
                 robot.actuator.setPower(0);
