@@ -75,6 +75,12 @@ public class MainTeleOp extends LinearOpMode{
             powerRL = leftValue + strafe;
             powerRR = rightValue - strafe;
 
+            //applies acceleration curve
+            powerFL *= Math.abs(powerFL);
+            powerFR *= Math.abs(powerFR);
+            powerRL *= Math.abs(powerRL);
+            powerRR *= Math.abs(powerRR);
+
             //applies speed limiter
             powerFL *= speed;
             powerFR *= speed;
