@@ -119,7 +119,7 @@ public class MainTeleOp extends LinearOpMode {
             //button A is intake
             //button X is reverse intake
             //button B does nothing
-            //button  Y runs a slow intake
+            //button Y runs a slow intake
             if(gamepad1.a || gamepad2.a){
                 runintake = true;
                 reverseintake = false;
@@ -146,9 +146,9 @@ public class MainTeleOp extends LinearOpMode {
                 robot.intakeR.setPower(0);
             }
 
-            if(gamepad1.dpad_left == true) {
+            if(gamepad1.dpad_left == true || gamepad2.dpad_left == true) {
                 robot.actuator.setPower(-0.9);
-            } else if(gamepad1.dpad_right == true) {
+            } else if(gamepad1.dpad_right == true || gamepad2.dpad_right == true) {
                 robot.actuator.setPower(0.9);
             } else {
                 robot.actuator.setPower(0);
