@@ -111,9 +111,11 @@ public class MainTeleOp extends LinearOpMode {
             robot.motorRR.setPower(powerRR);
 
             //right trigger raises, left trigger lowers
+            //THIS WAS OPPOSITE DURING THE MATCH, DOUBLE CHECK THIS
+
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
-            slidePower = (((gamepad1.right_trigger + gamepad2.right_trigger) + (-gamepad2.left_stick_y)) - (gamepad1.left_trigger + gamepad2.left_trigger));
+            slidePower = (((gamepad1.left_trigger + gamepad2.left_trigger) + (-gamepad2.left_stick_y)) - (gamepad1.right_trigger + gamepad2.right_trigger));
             slidePower *= ARM_SPEED;
 
             //sets maxes for each value
