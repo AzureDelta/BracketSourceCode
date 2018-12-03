@@ -26,7 +26,7 @@ public class MainTeleOp extends LinearOpMode {
 
     public static final double ARM_SPEED = 0.95;
     //public static final double ARM_SPEED = 0.5;
-    public static final double intake_SPEED = 0.9;
+    public static final double intake_SPEED = 0.92;
 
     /* Declare OpMode members. */
     HardwareConfig robot = new HardwareConfig();   //Configs hardware
@@ -145,16 +145,16 @@ public class MainTeleOp extends LinearOpMode {
             if (runintake) {
                 robot.intakeR.setPower(intake_SPEED);
             } else if (reverseintake) {
-                robot.intakeR.setPower(-0.15);
+                robot.intakeR.setPower(-0.125);
             } else if (slowintake) {
                 robot.intakeR.setPower(0.5);
             } else {
                 robot.intakeR.setPower(0);
             }
 
-            if (gamepad1.dpad_left || gamepad2.dpad_down) {
+            if (gamepad1.dpad_left || gamepad2.dpad_down || gamepad2.dpad_left) {
                 robot.actuator.setPower(-1);
-            } else if (gamepad1.dpad_right || gamepad2.dpad_up) {
+            } else if (gamepad1.dpad_right || gamepad2.dpad_up || gamepad2.dpad_right) {
                 robot.actuator.setPower(1);
             } else {
                 robot.actuator.setPower(0);

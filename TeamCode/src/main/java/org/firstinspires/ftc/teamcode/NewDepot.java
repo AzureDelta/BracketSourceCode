@@ -10,7 +10,8 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "New FacingDepotAuton (DogeCV Only)", group = "Auto")
+@Autonomous(name = "Experimental Depot - Mineral Only", group = "Auto")
+
 /* Declare OpMode members. */
 
 public class NewDepot extends LinearOpMode {
@@ -24,7 +25,7 @@ public class NewDepot extends LinearOpMode {
     static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
+    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80 / 120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
     static final double FEET = 12 * INCHES;
     double OFFSET = 0;
     public static final double M = (2 / Math.sqrt(2));
@@ -43,7 +44,7 @@ public class NewDepot extends LinearOpMode {
 
         // Optional Tuning
         detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
-        detector.alignPosOffset = -110; // How far from center frame to offset this alignment zone.
+        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
         detector.downscale = 0.4; // How much to downscale the input frames
 
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
@@ -64,20 +65,22 @@ public class NewDepot extends LinearOpMode {
         //write main portion of the opMode here
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Waiting for input.");
+        telemetry.addData("Status", "Dropping Dusty!");
         telemetry.update();
 
-    /*    //lower the robot
-        actuate(0.9, 1.9);
+        /*//lower the robot
+        actuate(1.0, 12.5);
         //detach arm
         strafe(DRIVE_SPEED, 2 * INCHES * M);
         //store arm
+*//*
         actuate(-0.9, 1.9);
+*//*
         //reset position
         drive(DRIVE_SPEED, 2 * INCHES * M);
         //detach arm
-        strafe(DRIVE_SPEED, -2 * INCHES * M);*/
-
+        strafe(DRIVE_SPEED, -2 * INCHES * M);
+*/
         //declare sentinel variable
         boolean runLoop = true;
 
@@ -87,38 +90,37 @@ public class NewDepot extends LinearOpMode {
         //length diagonally across a tile is 33.9411255
         //basically 34
 
-        searchAndDestroy();
-        if(!detector.isFound()){
-            strafe(DRIVE_SPEED, M * -17 * INCHES);
-            OFFSET-=170;
+      searchAndDestroy();
+        if (!detector.isFound()) {
+            strafe(0.5, -2);
+            OFFSET -= 170;
             searchAndDestroy();
         }
-        if(!detector.isFound()){
-            strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
-            OFFSET+=340;
+        if (!detector.isFound()) {
+            strafe(0.5, 4);
+            OFFSET += 340;
             searchAndDestroy();
         }
 
         //runs loop until robot is aligned with mineral
 
-        if (detector.isFound()) {
+        telemetry.addData("Status", "I've got a good lock! Firing!");
+        telemetry.update();
 
-            telemetry.addData("Status", "I've got a good lock! Firing!");
-            telemetry.update();
+        //ONE TILE IS 24 INCHES X 24 INCHES
 
-            //ONE TILE IS 24 INCHES X 24 INCHES
+        //drive through
+        //current implementation of rotation count is a placeholder
+        drive(0.5, 1.6);
+        //recenters based on the value of offset
+/*
+        strafe(0.5, -OFFSET * 0.25);
+*/
 
-            //drive through
-            //current implementation of rotation count is a placeholder
-            drive(DRIVE_SPEED, (M*4.5*FEET));
-            //recenters based on the value of offset
-            strafe(DRIVE_SPEED, -OFFSET*0.1*INCHES*M);
+        //drive into the depot
+        //drive(0.5, M * 1 * FEET);
 
-            //drive into the depot
-            drive(DRIVE_SPEED, M*1*FEET);
-
-            intake(-0.9, 3);
-        }
+        intake(0.9, 2.25);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,16 +130,16 @@ public class NewDepot extends LinearOpMode {
 
     }
 
-    public void searchAndDestroy(){
+    public void searchAndDestroy() {
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
-                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                strafe(0.5, -0.25);
                 OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
-                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                strafe(0.5, 0.25);
                 OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
@@ -145,7 +147,7 @@ public class NewDepot extends LinearOpMode {
         }
     }
 
-    public void drive(double speed, double distance) {
+    /*public void drive(double speed, double distance) {
         //declares target point storage variables
         int targetFL;
         int targetFR;
@@ -174,9 +176,11 @@ public class NewDepot extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            sleep(250);
+            int counter = 0;
+            while (robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+                counter++;
             }
-
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -197,7 +201,7 @@ public class NewDepot extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    }
+    }*/
 
     public void turn(double speed, double angle) {
         //declares target point storage variables
@@ -229,7 +233,9 @@ public class NewDepot extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            int counter = 0;
+            while (robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+                counter++;
             }
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -252,8 +258,17 @@ public class NewDepot extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
-    public void strafe(double speed, double distance) {
+    public void strafe(double speed, double time) {
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.update();
+            robot.motorFL.setPower(-speed);
+            robot.motorFR.setPower(-speed);
+            robot.motorRL.setPower(speed);
+            robot.motorRR.setPower(speed);
+        }
+    }
+    /*public void strafe(double speed, double distance) {
         //declares target point storage variables
         int targetFL;
         int targetFR;
@@ -282,7 +297,9 @@ public class NewDepot extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            int counter = 0;
+            while (robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+                counter++;
             }
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -305,7 +322,7 @@ public class NewDepot extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    }
+    }*/
 
     public void actuate(double speed, double time) {
         runtime.reset();
@@ -322,6 +339,19 @@ public class NewDepot extends LinearOpMode {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
             robot.intakeR.setPower(speed);
+        }
+    }
+
+
+    public void drive(double speed, double time) {
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Status:", "Actuating", runtime.seconds());
+            telemetry.update();
+            robot.motorFL.setPower(speed);
+            robot.motorFR.setPower(speed);
+            robot.motorRL.setPower(speed);
+            robot.motorRR.setPower(speed);
         }
     }
 }

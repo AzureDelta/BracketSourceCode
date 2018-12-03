@@ -10,7 +10,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "New FacingCraterAuton (DogeCV Only)", group = "Auto")
+@Autonomous(name = "ExperimentalCrater (Mineral only)", group = "Auto")
 
 /* Declare OpMode members. */
 
@@ -102,8 +102,6 @@ public class NewCrater extends LinearOpMode {
 
         //runs loop until robot is aligned with mineral
 
-        if (detector.isFound()) {
-
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
@@ -112,7 +110,6 @@ public class NewCrater extends LinearOpMode {
             //drive to crater
             drive(0.5, M * ((2*FEET) + (10 * INCHES)));
 
-        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 

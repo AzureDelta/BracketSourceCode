@@ -10,7 +10,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Dropping Dusty Divot (CRATER FULL)", group = "Auto")
+@Autonomous(name = "OriginalCrater", group = "Auto")
 
 /* Declare OpMode members. */
 
@@ -44,7 +44,7 @@ public class FacingCraterAuton extends LinearOpMode {
 
         // Optional Tuning
         detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
-        detector.alignPosOffset = -110; // How far from center frame to offset this alignment zone.
+        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
         detector.downscale = 0.4; // How much to downscale the input frames
 
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
