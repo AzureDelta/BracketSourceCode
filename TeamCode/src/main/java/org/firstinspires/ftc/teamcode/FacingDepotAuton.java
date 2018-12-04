@@ -10,11 +10,11 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Dropping Dusty Divot (CRATER FULL)", group = "Auto")
+@Autonomous(name = "OriginalDepot", group = "Auto")
 
 /* Declare OpMode members. */
 
-public class Crater extends LinearOpMode {
+public class FacingDepotAuton extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();
 
@@ -69,15 +69,17 @@ public class Crater extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        actuate(0.9, 1.9);
+        actuate(1.0, 12.5);
         //detach arm
-        strafe(DRIVE_SPEED, -2 * INCHES * M);
+        strafe(DRIVE_SPEED, 2 * INCHES * M);
         //store arm
+/*
         actuate(-0.9, 1.9);
+*/
         //reset position
         drive(DRIVE_SPEED, 2 * INCHES * M);
         //detach arm
-        strafe(DRIVE_SPEED, 2 * INCHES * M);
+        strafe(DRIVE_SPEED, -2 * INCHES * M);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -109,9 +111,16 @@ public class Crater extends LinearOpMode {
 
             //ONE TILE IS 24 INCHES X 24 INCHES
 
-            //drive to crater
-            drive(0.5, M * ((2*FEET) + (10 * INCHES)));
+            //drive through
+            //current implementation of rotation count is a placeholder
+            drive(DRIVE_SPEED, (M*4.5*FEET));
+            //recenters based on the value of offset
+            strafe(DRIVE_SPEED, -OFFSET*0.1*INCHES*M);
 
+            //drive into the depot
+            drive(DRIVE_SPEED, M*1*FEET);
+
+            intake(-0.9, 3);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +177,8 @@ public class Crater extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
+            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            }
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -221,6 +232,8 @@ public class Crater extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
+            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            }
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -272,6 +285,8 @@ public class Crater extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
+            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            }
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

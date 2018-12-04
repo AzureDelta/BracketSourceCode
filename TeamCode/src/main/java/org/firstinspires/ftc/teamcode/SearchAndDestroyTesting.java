@@ -10,71 +10,127 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-@Autonomous(name="TestAuton", group="Auto")
+@Autonomous(name = "Brandon's Fetish", group = "Auto")
 
 /* Declare OpMode members. */
 
-
-public class TestAuton extends LinearOpMode {
+public class SearchAndDestroyTesting extends LinearOpMode {
 
     HardwareConfig robot = new HardwareConfig();
 
     private GoldAlignDetector detector;
-
     private ElapsedTime runtime = new ElapsedTime();
 
-
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
-    static final double DRIVE_GEAR_REDUCTION = 80/120;     // This is < 1.0 if geared UP
+    static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
+    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
+    static final double FEET = 12 * INCHES;
+    double OFFSET = 0;
     public static final double M = (2 / Math.sqrt(2));
-    /*
-    660 counts of encoder = 4 inches
-    1 inch = 165 counts
-    */
+    public static final double DRIVE_SPEED = 0.5;
 
     @Override
 
     public void runOpMode() {
         robot.init(hardwareMap);
+        //this section of the code runs what would normally be run in the initialization method
+        //consider abstracting later
 
-        //send telemetry
-        telemetry.addData("Status", "Ready to run Test Autonomous");
+        detector = new GoldAlignDetector();
+        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
+
+        // Optional Tuning
+        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
+        detector.alignPosOffset = -110; // How far from center frame to offset this alignment zone.
+        detector.downscale = 0.4; // How much to downscale the input frames
+
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.maxAreaScorer.weight = 0.005;
+
+        detector.ratioScorer.weight = 5;
+        detector.ratioScorer.perfectRatio = 1.0;
+
+        detector.enable();
+
+        telemetry.addData("Status", "Insertion checklist complete. All systems GO.");    //
         telemetry.update();
 
-        //it'll wait 2.5 seconds
-        sleep(2500);
-        //drive, strafe, turn
-        drive(0.5, 10 * INCHES * M);
-        sleep(1000);
-        //positive dist. is right
-        //negative dist. is left
-        //first right 3 inches
-        strafe(0.5, 10 * INCHES * M);
-        sleep(1000);
-        //then left 4 inches
-        strafe(0.5, -10 * INCHES * M);
-        sleep(1000);
-        //turn clockwise
-        turn(0.5, 4*COUNTS_PER_ROTATION*M);
-        sleep(1000);
-        //then turn CCW
-        turn(0.5, -4 * COUNTS_PER_ROTATION * M);
-        sleep(1000);
-        //test intake
-        intake(0.5, 3);
-        sleep(1000);
-        //test actuator
-        actuate(1, 5);
+        waitForStart();
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        //write main portion of the opMode here
+
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Status", "Dropping Dusty!");
+        telemetry.update();
+
+
+        //length diagonally across a tile is 33.9411255
+        //basically 34
+
+        searchAndDestroy();
+        if(!detector.isFound()){
+            strafe(DRIVE_SPEED, M * -17 * INCHES);
+            OFFSET-=170;
+            searchAndDestroy();
+        }
+        if(!detector.isFound()){
+            strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
+            OFFSET+=340;
+            searchAndDestroy();
+        }
+
+        //runs loop until robot is aligned with mineral
+
+        if (detector.isFound()) {
+
+            telemetry.addData("Status", "I've got a good lock! Firing!");
+            telemetry.update();
+
+            //ONE TILE IS 24 INCHES X 24 INCHES
+
+            //drive through
+            //current implementation of rotation count is a placeholder
+            drive(DRIVE_SPEED, (M*4.5*FEET));
+            //recenters based on the value of offset
+            strafe(DRIVE_SPEED, -OFFSET*0.1*INCHES*M);
+
+            //drive into the depot
+            drive(DRIVE_SPEED, M*1*FEET);
+
+            intake(-0.9, 3);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        //this section of the code runs what normally would be written in the stop method
+
+        detector.disable();
+
+    }
+
+    public void searchAndDestroy(){
+        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            if (detector.getXPosition() < 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                OFFSET--;
+                telemetry.addData("Status", "Target left.");
+                telemetry.update();
+
+            } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                OFFSET++;
+                telemetry.addData("Status", "Target Right");
+                telemetry.update();
+            }
+        }
     }
 
     public void drive(double speed, double distance) {
-
         //declares target point storage variables
         int targetFL;
         int targetFR;
@@ -103,18 +159,13 @@ public class TestAuton extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
-            }
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            int counter = 0;
-            while(robot.motorFL.isBusy() && robot.motorFR.isBusy() && robot.motorRL.isBusy() && robot.motorRR.isBusy()){
-                counter++;
-            }
 
             // Stop all motion;
             robot.motorFL.setPower(0);
