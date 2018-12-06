@@ -20,6 +20,7 @@ public class Backup extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     public static final double DRIVE_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.9;
 
     @Override
 
@@ -41,7 +42,7 @@ public class Backup extends LinearOpMode {
 
         //drive through
         //current implementation of rotation count is a placeholder
-        drive(0.5, 1.6);
+        drive(DRIVE_SPEED, 1.6);
         //recenters based on the value of offset
 /*
         strafe(0.5, -OFFSET * 0.25);
@@ -50,7 +51,7 @@ public class Backup extends LinearOpMode {
         //drive into the depot
         //drive(0.5, M * 1 * FEET);
 
-        intake(0.9, 2.25);
+        intake(INTAKE_SPEED, 2.25);
     }
 
     public void strafe(double speed, double time) {
