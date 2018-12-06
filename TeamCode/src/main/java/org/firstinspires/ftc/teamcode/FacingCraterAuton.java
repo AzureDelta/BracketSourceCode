@@ -90,16 +90,16 @@ public class FacingCraterAuton extends LinearOpMode {
         //length diagonally across a tile is 33.9411255
         //basically 34
 
-        searchAndDestroy();
+        alignGold();
         if(!detector.isFound()){
             strafe(DRIVE_SPEED, M * -17 * INCHES);
             OFFSET-=170;
-            searchAndDestroy();
+            alignGold();
         }
         if(!detector.isFound()){
             strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
             OFFSET+=340;
-            searchAndDestroy();
+            alignGold();
         }
 
         //runs loop until robot is aligned with mineral
@@ -124,7 +124,7 @@ public class FacingCraterAuton extends LinearOpMode {
 
     }
 
-    public void searchAndDestroy(){
+    public void alignGold(){
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
                 strafe(DRIVE_SPEED, -0.1 * INCHES * M);
@@ -147,7 +147,6 @@ public class FacingCraterAuton extends LinearOpMode {
         int targetFR;
         int targetRL;
         int targetRR;
-
         // Determine new target position, and pass to motor controller
         targetFL = robot.motorFL.getCurrentPosition() + (int) (distance);
         targetFR = robot.motorFR.getCurrentPosition() + (int) (distance);
@@ -170,8 +169,6 @@ public class FacingCraterAuton extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
-            }
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -277,29 +274,7 @@ public class FacingCraterAuton extends LinearOpMode {
             robot.motorFR.setPower(Math.abs(speed));
             robot.motorRL.setPower(Math.abs(speed));
             robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
-            }
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-            // Stop all motion;
-            robot.motorFL.setPower(0);
-            robot.motorFR.setPower(0);
-            robot.motorRL.setPower(0);
-            robot.motorRR.setPower(0);
         }
-
-        // Turn off RUN_TO_POSITION
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     public void actuate(double speed, double time) {

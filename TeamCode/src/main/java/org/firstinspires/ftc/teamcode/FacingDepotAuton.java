@@ -90,16 +90,16 @@ public class FacingDepotAuton extends LinearOpMode {
         //length diagonally across a tile is 33.9411255
         //basically 34
 
-        searchAndDestroy();
+        alignGold();
         if(!detector.isFound()){
             strafe(DRIVE_SPEED, M * -17 * INCHES);
             OFFSET-=170;
-            searchAndDestroy();
+            alignGold();
         }
         if(!detector.isFound()){
             strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
             OFFSET+=340;
-            searchAndDestroy();
+            alignGold();
         }
 
         //runs loop until robot is aligned with mineral
@@ -131,7 +131,7 @@ public class FacingDepotAuton extends LinearOpMode {
 
     }
 
-    public void searchAndDestroy(){
+    public void alignGold(){
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
                 strafe(DRIVE_SPEED, -0.1 * INCHES * M);
