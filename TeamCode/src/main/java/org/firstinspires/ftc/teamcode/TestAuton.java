@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,7 +14,11 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
 public class TestAuton extends LinearOpMode {
 
-    TeleOpMap robot = new TeleOpMap();
+    AutonMap robot = new AutonMap();
+
+    private boolean cancerFound;
+
+    int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
 
     private GoldAlignDetector detector;
 
@@ -36,6 +41,9 @@ public class TestAuton extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
+        if (cancerSoundID != 0)
+            cancerFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, cancerSoundID);
+
         //send telemetry
         telemetry.addData("Status", "Ready to run Test Autonomous");
         telemetry.update();
@@ -43,27 +51,26 @@ public class TestAuton extends LinearOpMode {
         //it'll wait 2.5 seconds
         sleep(2500);
         //drive, strafe, turn
-        drive(0.5, 10 * INCHES * M);
+        drive(0.5, 6 * INCHES * M);
+        sleep(1000);
+        drive(0.5, -6 * INCHES * M);
         sleep(1000);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        strafe(0.5, 10 * INCHES * M);
+        strafe(0.5, 6 * INCHES * M);
         sleep(1000);
         //then left 4 inches
-        strafe(0.5, -10 * INCHES * M);
+        strafe(0.5, -6 * INCHES * M);
         sleep(1000);
-        //turn clockwise
-        turn(0.5, 4*COUNTS_PER_ROTATION*M);
-        sleep(1000);
-        //then turn CCW
-        turn(0.5, -4 * COUNTS_PER_ROTATION * M);
-        sleep(1000);
+
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, cancerSoundID);
+
         //test intake
-        intake(0.5, 3);
+/*        intake(0.5, 3);
         sleep(1000);
         //test actuator
-        actuate(1, 5);
+        actuate(1, 5);*/
     }
 
     public void drive(double speed, double distance) {
@@ -228,21 +235,21 @@ public class TestAuton extends LinearOpMode {
 
     }
 
-    public void actuate(double speed, double time) {
+/*    public void actuate(double speed, double time) {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
             robot.actuator.setPower(speed);
         }
-    }
+    }*/
 
-    public void intake(double speed, double time) {
+    /*public void intake(double speed, double time) {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
             robot.intake.setPower(speed);
         }
-    }
+    }*/
 }
