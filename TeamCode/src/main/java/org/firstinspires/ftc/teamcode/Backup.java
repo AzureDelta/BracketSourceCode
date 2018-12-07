@@ -2,20 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name = "Drive and Dump)", group = "Auto")
 
 /* Declare OpMode members. */
 
 public class Backup extends LinearOpMode {
-    HardwareConfig robot = new HardwareConfig();
+    TeleOpMap robot = new TeleOpMap();
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -78,7 +72,7 @@ public class Backup extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "intaking     Time Left: " + time, runtime.seconds());
             telemetry.update();
-            robot.intakeR.setPower(speed);
+            robot.intake.setPower(speed);
         }
     }
 

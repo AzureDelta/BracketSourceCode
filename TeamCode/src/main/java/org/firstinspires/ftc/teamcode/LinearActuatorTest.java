@@ -11,9 +11,9 @@ import java.util.*;
 
 @TeleOp(name ="Linear Actuator Test", group ="TeleOp")
 public class LinearActuatorTest extends LinearOpMode {
-    public static final double ARM_SPEED = 1;
-    //public static final double ARM_SPEED = 0.5;
-    public static final double intake_SPEED = 0.5;
+    public static final double SLIDE_SPEED = 1;
+    //public static final double SLIDE_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
     HardwareConfigVeryLite robot           = new HardwareConfigVeryLite();   //Configs hardware
@@ -38,10 +38,10 @@ public class LinearActuatorTest extends LinearOpMode {
         {
 
             actuatorPower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
-            actuatorPower *= ARM_SPEED;
+            actuatorPower *= SLIDE_SPEED;
 
             //sets maxes for each value
-            actuatorPower = Range.clip(actuatorPower, -ARM_SPEED, ARM_SPEED);
+            actuatorPower = Range.clip(actuatorPower, -SLIDE_SPEED, SLIDE_SPEED);
 
             robot.yellowJacket.setPower(actuatorPower);
         }

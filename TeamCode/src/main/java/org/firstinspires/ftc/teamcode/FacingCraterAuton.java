@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name = "OriginalCrater", group = "Auto")
 
@@ -16,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public class FacingCraterAuton extends LinearOpMode {
 
-    HardwareConfig robot = new HardwareConfig();
+    AutonMap robot = new AutonMap();
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
@@ -69,7 +67,7 @@ public class FacingCraterAuton extends LinearOpMode {
         telemetry.update();
 
         //lower the robot
-        actuate(1.0, 12.5);
+        //actuate(1.0, 12.5);
         //detach arm
         strafe(DRIVE_SPEED, 2 * INCHES * M);
         //store arm
@@ -142,107 +140,53 @@ public class FacingCraterAuton extends LinearOpMode {
     }
 
     public void drive(double speed, double distance) {
-        //declares target point storage variables
-        int targetFL;
-        int targetFR;
-        int targetRL;
-        int targetRR;
-        // Determine new target position, and pass to motor controller
-        targetFL = robot.motorFL.getCurrentPosition() + (int) (distance);
-        targetFR = robot.motorFR.getCurrentPosition() + (int) (distance);
-        targetRL = robot.motorRL.getCurrentPosition() + (int) (distance);
-        targetRR = robot.motorRR.getCurrentPosition() + (int) (distance);
-        robot.motorFL.setTargetPosition(targetFL);
-        robot.motorFR.setTargetPosition(targetFR);
-        robot.motorRL.setTargetPosition(targetRL);
-        robot.motorRR.setTargetPosition(targetRR);
-
-        // Turn On RUN_TO_POSITION
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // reset the timeout time and start motion.
-
         if (opModeIsActive()) {
-            robot.motorFL.setPower(Math.abs(speed));
-            robot.motorFR.setPower(Math.abs(speed));
-            robot.motorRL.setPower(Math.abs(speed));
-            robot.motorRR.setPower(Math.abs(speed));
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            // Resets encoder values so that it doesn't attempt to run to outdated values
+            robot.motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.motorRL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            // Stop all motion;
-            robot.motorFL.setPower(0);
-            robot.motorFR.setPower(0);
-            robot.motorRL.setPower(0);
-            robot.motorRR.setPower(0);
-        }
+            // Sets motors to run to a given encoder value
+            robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorRL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // Turn off RUN_TO_POSITION
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            // Declares target point storage variables
+            int targetFL;
+            int targetFR;
+            int targetRL;
+            int targetRR;
 
-    }
+            // Determines new target position, and pass to motor controller
+            targetFL = robot.motorFL.getCurrentPosition() + (int) (distance);
+            targetFR = robot.motorFR.getCurrentPosition() + (int) (distance);
+            targetRL = robot.motorRL.getCurrentPosition() + (int) (distance);
+            targetRR = robot.motorRR.getCurrentPosition() + (int) (distance);
+            robot.motorFL.setTargetPosition(targetFL);
+            robot.motorFR.setTargetPosition(targetFR);
+            robot.motorRL.setTargetPosition(targetRL);
+            robot.motorRR.setTargetPosition(targetRR);
 
-    public void turn(double speed, double angle) {
-        //declares target point storage variables
-        int targetFL;
-        int targetFR;
-        int targetRL;
-        int targetRR;
-
-        //rotates counter clockwise based on angle
-        targetFL = robot.motorFL.getCurrentPosition() + (int) (COUNTS_PER_ROTATION - angle);
-        targetFR = robot.motorFR.getCurrentPosition() + (int) (COUNTS_PER_ROTATION + angle);
-        targetRL = robot.motorRL.getCurrentPosition() + (int) (COUNTS_PER_ROTATION - angle);
-        targetRR = robot.motorRR.getCurrentPosition() + (int) (COUNTS_PER_ROTATION + angle);
-        robot.motorFL.setTargetPosition(targetFL);
-        robot.motorFR.setTargetPosition(targetFR);
-        robot.motorRL.setTargetPosition(targetRL);
-        robot.motorRR.setTargetPosition(targetRR);
-
-        // Turn On RUN_TO_POSITION
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if (opModeIsActive()) {
-
-            // reset the timeout time and start motion.
-            robot.motorFL.setPower(Math.abs(speed));
-            robot.motorFR.setPower(Math.abs(speed));
-            robot.motorRL.setPower(Math.abs(speed));
-            robot.motorRR.setPower(Math.abs(speed));
-            while(robot.motorFL.isBusy() || robot.motorFL.isBusy() || robot.motorRL.isBusy() || robot.motorRR.isBusy()) {
+            // Motors are set to run at a certain speed until one reaches its target position
+            while (robot.motorFL.isBusy() && robot.motorFR.isBusy() && robot.motorRL.isBusy() && robot.motorRR.isBusy()) {
+                robot.motorFL.setPower(Math.abs(speed));
+                robot.motorFR.setPower(Math.abs(speed));
+                robot.motorRL.setPower(Math.abs(speed));
+                robot.motorRR.setPower(Math.abs(speed));
+                // keep looping while we are still active, and there is time left, and both motors are running.
+                // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+                // its target position, the motion will stop.  This is "safer" in the event that the robot will
+                // always end the motion as soon as possible.
+                // However, if you require that BOTH motors have finished their moves before the robot continues
             }
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-            // Stop all motion;
-            robot.motorFL.setPower(0);
-            robot.motorFR.setPower(0);
-            robot.motorRL.setPower(0);
-            robot.motorRR.setPower(0);
         }
-
-        // Turn off RUN_TO_POSITION
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // The motors are shutdown when a motor gets to its target position
+        robot.motorFL.setPower(0);
+        robot.motorFR.setPower(0);
+        robot.motorRL.setPower(0);
+        robot.motorRR.setPower(0);
     }
 
     public void strafe(double speed, double distance) {
@@ -277,21 +221,21 @@ public class FacingCraterAuton extends LinearOpMode {
         }
     }
 
-    public void actuate(double speed, double time) {
+/*    public void actuate(double speed, double time) {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
             robot.actuator.setPower(speed);
         }
-    }
+    }*/
 
-    public void intake(double speed, double time) {
+    /*public void intake(double speed, double time) {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
-            robot.intakeR.setPower(speed);
+            robot.intake.setPower(speed);
         }
-    }
+    }*/
 }

@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name = "OriginalDepot", group = "Auto")
 
@@ -16,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public class FacingDepotAuton extends LinearOpMode {
 
-    HardwareConfig robot = new HardwareConfig();
+    TeleOpMap robot = new TeleOpMap();
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
@@ -324,7 +322,7 @@ public class FacingDepotAuton extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
-            robot.intakeR.setPower(speed);
+            robot.intake.setPower(speed);
         }
     }
 }

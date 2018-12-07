@@ -13,23 +13,18 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
 
-import java.util.*;
-
-//*In theory* this should also be compatible with tank drive.
+//*In theory* this should also be compatible with tank drive, except for the strafing parts
 
 @TeleOp(name = "Main TeleOp (tap me)", group = "TeleOp")
 public class MainTeleOp extends LinearOpMode {
 
-    public static final double ARM_SPEED = 0.95;
-    //public static final double ARM_SPEED = 0.5;
-    public static final double intake_SPEED = 0.92;
+    public static final double SLIDE_SPEED = 0.95;
+    public static final double INTAKE_SPEED = 0.92;
 
     /* Declare OpMode members. */
-    HardwareConfig robot = new HardwareConfig();   //Configs hardware
+    TeleOpMap robot = new TeleOpMap();   //Configs hardware
 
 
     @Override
@@ -116,10 +111,10 @@ public class MainTeleOp extends LinearOpMode {
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
             slidePower = (((gamepad1.left_trigger + gamepad2.left_trigger) + (-gamepad2.left_stick_y)) - (gamepad1.right_trigger + gamepad2.right_trigger));
-            slidePower *= ARM_SPEED;
+            slidePower *= SLIDE_SPEED;
 
             //sets maxes for each value
-            slidePower = Range.clip(slidePower, -ARM_SPEED, ARM_SPEED);
+            slidePower = Range.clip(slidePower, -SLIDE_SPEED, SLIDE_SPEED);
 
             robot.slide.setPower(slidePower);
 
@@ -145,13 +140,13 @@ public class MainTeleOp extends LinearOpMode {
             }
 
             if (runintake) {
-                robot.intakeR.setPower(intake_SPEED);
+                robot.intake.setPower(INTAKE_SPEED);
             } else if (reverseintake) {
-                robot.intakeR.setPower(-0.125);
+                robot.intake.setPower(-0.125);
             } else if (slowintake) {
-                robot.intakeR.setPower(0.5);
+                robot.intake.setPower(0.5);
             } else {
-                robot.intakeR.setPower(0);
+                robot.intake.setPower(0);
             }
 
             if (gamepad1.dpad_left || gamepad2.dpad_down || gamepad2.dpad_left) {
@@ -164,7 +159,7 @@ public class MainTeleOp extends LinearOpMode {
 
             telemetry.addData("Status", "Speed: " + speed + "\n" +
                     "Power: " + drive + "        Turn: " + turn + "        Strafe: " + strafe + "\n" +
-                    "Slide Power: " + slidePower + "     intake Power: " + intake_SPEED);
+                    "Slide Power: " + slidePower + "     intake Power: " + INTAKE_SPEED);
             telemetry.update();
         }
     }
