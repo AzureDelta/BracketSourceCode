@@ -4,14 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="TestAuton", group="Auto")
 
@@ -20,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class TestAuton extends LinearOpMode {
 
-    HardwareConfig robot = new HardwareConfig();
+    TeleOpMap robot = new TeleOpMap();
 
     private GoldAlignDetector detector;
 
@@ -249,7 +242,7 @@ public class TestAuton extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
-            robot.intakeR.setPower(speed);
+            robot.intake.setPower(speed);
         }
     }
 }

@@ -2,22 +2,19 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
-import java.util.*;
 
 //*In theory* this should also be compatible with tank drive.
 
 @TeleOp(name ="WestCoastDrive (LEGACY)", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
 
-    public static final double ARM_SPEED = 1;
-    //public static final double ARM_SPEED = 0.5;
-    public static final double intake_SPEED = 0.5;
+    public static final double SLIDE_SPEED = 1;
+    //public static final double SLIDE_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
-    HardwareConfig robot           = new HardwareConfig();   //Configs hardware
+    TeleOpMap robot           = new TeleOpMap();   //Configs hardware
 
 
     @Override
@@ -95,10 +92,10 @@ public class WestCoastDrive extends LinearOpMode{
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
             slidePower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
-            slidePower *= ARM_SPEED;
+            slidePower *= SLIDE_SPEED;
 
             //sets maxes for each value
-            slidePower = Range.clip(slidePower, -ARM_SPEED, ARM_SPEED);
+            slidePower = Range.clip(slidePower, -SLIDE_SPEED, SLIDE_SPEED);
 
             robot.slide.setPower(slidePower);
             robot.actuator.setPower(slidePower);
@@ -135,20 +132,20 @@ public class WestCoastDrive extends LinearOpMode{
                 speed = 0.5;
             }
             if(runintake){
-                robot.intakeR.setPower(intake_SPEED);
+                robot.intake.setPower(INTAKE_SPEED);
             } else if (reverseintake) {
-                robot.intakeR.setPower(-0.1);
+                robot.intake.setPower(-0.1);
             } else if (slowintake){
-                robot.intakeR.setPower(0.1);
+                robot.intake.setPower(0.1);
             } else {
-                robot.intakeR.setPower(0);
+                robot.intake.setPower(0);
             }
 
 
 
             telemetry.addData("Status", "Left: "+ leftValue+"        Right: "+ rightValue+"\n" +
                     "Power: "+ drive +"        Turn: "+turn+"\n"+
-            "Arm Power: "+slidePower+"     intake Power: "+intake_SPEED);
+            "Arm Power: "+slidePower+"     intake Power: "+INTAKE_SPEED);
             telemetry.update();
     }
 }
