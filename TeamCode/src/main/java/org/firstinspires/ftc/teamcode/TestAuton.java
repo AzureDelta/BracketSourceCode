@@ -18,8 +18,6 @@ public class TestAuton extends LinearOpMode {
 
     private boolean cancerFound;
 
-    int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
-
     private GoldAlignDetector detector;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -41,6 +39,10 @@ public class TestAuton extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
+        // Look for the audio file
+        int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
+
+        // Preload the audio if the file has a valid ID
         if (cancerSoundID != 0)
             cancerFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, cancerSoundID);
 
@@ -48,9 +50,12 @@ public class TestAuton extends LinearOpMode {
         telemetry.addData("Status", "Ready to run Test Autonomous");
         telemetry.update();
 
-        //it'll wait 2.5 seconds
-        sleep(2500);
-        //drive, strafe, turn
+        waitForStart();
+
+        // Play the audio
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, cancerSoundID);
+
+        //drive, strafe
         drive(0.5, 6 * INCHES * M);
         sleep(1000);
         drive(0.5, -6 * INCHES * M);
@@ -63,8 +68,6 @@ public class TestAuton extends LinearOpMode {
         //then left 4 inches
         strafe(0.5, -6 * INCHES * M);
         sleep(1000);
-
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, cancerSoundID);
 
         //test intake
 /*        intake(0.5, 3);
