@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="TestAuton", group="Auto")
+@Autonomous(name="Full Autonomous Rewrite Test", group="F.A.R.T.")
 
 /* Declare OpMode members. */
 
