@@ -16,12 +16,6 @@ public class TestAuton extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
-    private boolean soundFound;
-
-
-    int soundID = hardwareMap.appContext.getResources().getIdentifier("allStar", "raw", hardwareMap.appContext.getPackageName());
-
-
     private GoldAlignDetector detector;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -43,14 +37,9 @@ public class TestAuton extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-
-        if (soundID != 0)
-            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
-
         // Look for the audio file
-        int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
-        boolean cancerFound;
-        int soundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
+        boolean soundFound;
+        int soundID = hardwareMap.appContext.getResources().getIdentifier("jurassicPark", "raw", hardwareMap.appContext.getPackageName());
 
         // Preload the audio if the file has a valid ID
         if (soundID != 0)
@@ -79,10 +68,6 @@ public class TestAuton extends LinearOpMode {
         //then left 4 inches
         strafe(0.5, -6 * INCHES * M);
         sleep(1000);
-
-
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
-
 
         //test intake
 /*        intake(0.5, 3);
