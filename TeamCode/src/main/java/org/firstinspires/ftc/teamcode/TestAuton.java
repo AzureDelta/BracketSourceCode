@@ -16,6 +16,15 @@ public class TestAuton extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
+    private boolean soundFound;
+
+
+    int soundID = hardwareMap.appContext.getResources().getIdentifier("allStar", "raw", hardwareMap.appContext.getPackageName());
+
+
+    private GoldAlignDetector detector;
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 80/120;     // This is < 1.0 if geared UP
@@ -34,13 +43,19 @@ public class TestAuton extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
+
+        if (soundID != 0)
+            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
+
         // Look for the audio file
         int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
         boolean cancerFound;
+        int soundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
 
         // Preload the audio if the file has a valid ID
-        if (cancerSoundID != 0)
-            cancerFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, cancerSoundID);
+        if (soundID != 0)
+            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
+
 
         //send telemetry
         telemetry.addData("Status", "Ready to run Test Autonomous");
@@ -49,7 +64,7 @@ public class TestAuton extends LinearOpMode {
         waitForStart();
 
         // Play the audio
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, cancerSoundID);
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
 
         //drive, strafe
         drive(0.5, 6 * INCHES * M);
@@ -64,6 +79,10 @@ public class TestAuton extends LinearOpMode {
         //then left 4 inches
         strafe(0.5, -6 * INCHES * M);
         sleep(1000);
+
+
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
+
 
         //test intake
 /*        intake(0.5, 3);
