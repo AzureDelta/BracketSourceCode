@@ -16,9 +16,11 @@ public class TestAuton extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
-    private boolean allStarFound;
+    private boolean soundFound;
 
-    int allStarID = hardwareMap.appContext.getResources().getIdentifier("allStar", "raw", hardwareMap.appContext.getPackageName());
+
+    int soundID = hardwareMap.appContext.getResources().getIdentifier("allStar", "raw", hardwareMap.appContext.getPackageName());
+
 
     private GoldAlignDetector detector;
 
@@ -41,16 +43,28 @@ public class TestAuton extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-        if (allStarID != 0)
-            allStarFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, allStarID);
+
+        if (soundID != 0)
+            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
+
+        // Look for the audio file
+        int soundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
+
+        // Preload the audio if the file has a valid ID
+        if (soundID != 0)
+            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
+
 
         //send telemetry
         telemetry.addData("Status", "Ready to run Test Autonomous");
         telemetry.update();
 
-        //it'll wait 2.5 seconds
-        sleep(2500);
-        //drive, strafe, turn
+        waitForStart();
+
+        // Play the audio
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
+
+        //drive, strafe
         drive(0.5, 6 * INCHES * M);
         sleep(1000);
         drive(0.5, -6 * INCHES * M);
@@ -64,7 +78,9 @@ public class TestAuton extends LinearOpMode {
         strafe(0.5, -6 * INCHES * M);
         sleep(1000);
 
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, allStarID);
+
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
+
 
         //test intake
 /*        intake(0.5, 3);
