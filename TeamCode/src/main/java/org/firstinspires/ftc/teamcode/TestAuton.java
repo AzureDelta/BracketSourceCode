@@ -16,19 +16,14 @@ public class TestAuton extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
-    private boolean cancerFound;
-
-    private GoldAlignDetector detector;
-
-    private ElapsedTime runtime = new ElapsedTime();
-
 
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 80/120;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
     static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
-    public static final double M = (2 / Math.sqrt(2));
+    public static final double M
+            = (2 / Math.sqrt(2));
     /*
     660 counts of encoder = 4 inches
     1 inch = 165 counts
@@ -41,6 +36,7 @@ public class TestAuton extends LinearOpMode {
 
         // Look for the audio file
         int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
+        boolean cancerFound;
 
         // Preload the audio if the file has a valid ID
         if (cancerSoundID != 0)

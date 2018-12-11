@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name ="WestCoastDrive (LEGACY)", group ="TeleOp")
 public class WestCoastDrive extends LinearOpMode{
 
-    public static final double SLIDE_SPEED = 1;
-    //public static final double SLIDE_SPEED = 0.5;
+    public static final double ARM_SPEED = 1;
+    //public static final double ARM_SPEED = 0.5;
     public static final double INTAKE_SPEED = 0.5;
 
     /* Declare OpMode members. */
@@ -92,10 +92,10 @@ public class WestCoastDrive extends LinearOpMode{
             //both gamepads can control the arm
             //gamepad2 can use left stick for fine arm control
             slidePower = (((gamepad1.right_trigger+gamepad2.right_trigger)+(0.1*-gamepad2.left_stick_y))-(gamepad1.left_trigger+gamepad2.left_trigger));
-            slidePower *= SLIDE_SPEED;
+            slidePower *= ARM_SPEED;
 
             //sets maxes for each value
-            slidePower = Range.clip(slidePower, -SLIDE_SPEED, SLIDE_SPEED);
+            slidePower = Range.clip(slidePower, -ARM_SPEED, ARM_SPEED);
 
             robot.slide.setPower(slidePower);
             robot.actuator.setPower(slidePower);
