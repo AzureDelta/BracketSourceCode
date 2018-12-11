@@ -16,9 +16,9 @@ public class TestAuton extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
-    private boolean cancerFound;
+    private boolean allStarFound;
 
-    int cancerSoundID = hardwareMap.appContext.getResources().getIdentifier("cancer", "raw", hardwareMap.appContext.getPackageName());
+    int allStarID = hardwareMap.appContext.getResources().getIdentifier("allStar", "raw", hardwareMap.appContext.getPackageName());
 
     private GoldAlignDetector detector;
 
@@ -41,8 +41,8 @@ public class TestAuton extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-        if (cancerSoundID != 0)
-            cancerFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, cancerSoundID);
+        if (allStarID != 0)
+            allStarFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, allStarID);
 
         //send telemetry
         telemetry.addData("Status", "Ready to run Test Autonomous");
@@ -64,7 +64,7 @@ public class TestAuton extends LinearOpMode {
         strafe(0.5, -6 * INCHES * M);
         sleep(1000);
 
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, cancerSoundID);
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, allStarID);
 
         //test intake
 /*        intake(0.5, 3);
