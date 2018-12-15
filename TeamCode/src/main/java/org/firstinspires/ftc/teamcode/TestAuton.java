@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.vuforia.CameraDevice;
 
 @Autonomous(name="Full Autonomous Rewrite Test", group="F.A.R.T.")
 
@@ -45,6 +46,7 @@ public class TestAuton extends LinearOpMode {
         if (soundID != 0)
             soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
 
+        CameraDevice.getInstance().setFlashTorchMode(true);
 
         //send telemetry
         telemetry.addData("Status", "Ready to run Test Autonomous");
@@ -74,6 +76,8 @@ public class TestAuton extends LinearOpMode {
         sleep(1000);
         //test actuator
         actuate(1, 5);*/
+
+        CameraDevice.getInstance().setFlashTorchMode(false);
     }
 
     public void drive(double speed, double distance) {
