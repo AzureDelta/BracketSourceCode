@@ -24,7 +24,7 @@ public class TestAuton extends LinearOpMode {
     static final double DRIVE_GEAR_REDUCTION = 80/120;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
+    static final double INCHES = (COUNTS_PER_ROTATION * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     public static final double M = (2 / Math.sqrt(2));
     /*
     660 counts of encoder = 4 inches
@@ -38,7 +38,7 @@ public class TestAuton extends LinearOpMode {
 
         // Look for the audio file
         boolean soundFound;
-        int soundID = hardwareMap.appContext.getResources().getIdentifier("jurassicPark", "raw", hardwareMap.appContext.getPackageName());
+        int soundID = hardwareMap.appContext.getResources().getIdentifier("attackontitan", "raw", hardwareMap.appContext.getPackageName());
 
         // Preload the audio if the file has a valid ID
         if (soundID != 0)
@@ -55,18 +55,18 @@ public class TestAuton extends LinearOpMode {
         SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
 
         //drive, strafe
-        drive(0.5, 6 * INCHES * M);
-        sleep(1000);
-        drive(0.5, -6 * INCHES * M);
-        sleep(1000);
+        drive(0.5, 3 * INCHES * M);
+        sleep(500);
+        drive(0.5, -3 * INCHES * M);
+        sleep(500);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        strafe(0.5, 6 * INCHES * M);
-        sleep(1000);
-        //then left 4 inches
-        strafe(0.5, -6 * INCHES * M);
-        sleep(1000);
+        strafe(0.5, 3 * INCHES * M);
+        sleep(500);
+        //then left 3 inches
+        strafe(0.5, -3 * INCHES * M);
+        sleep(500);
 
         //test intake
 /*        intake(0.5, 3);
@@ -146,10 +146,10 @@ public class TestAuton extends LinearOpMode {
             int targetRR;
 
             // Determines new target position, and pass to motor controller
-            targetFL = robot.motorFL.getCurrentPosition() + (int) (distance);
+            targetFL = robot.motorFL.getCurrentPosition() + (int) (-distance);
             targetFR = robot.motorFR.getCurrentPosition() + (int) (distance);
             targetRL = robot.motorRL.getCurrentPosition() + (int) (distance);
-            targetRR = robot.motorRR.getCurrentPosition() + (int) (distance);
+            targetRR = robot.motorRR.getCurrentPosition() + (int) (-distance);
             robot.motorFL.setTargetPosition(targetFL);
             robot.motorFR.setTargetPosition(targetFR);
             robot.motorRL.setTargetPosition(targetRL);
@@ -157,10 +157,10 @@ public class TestAuton extends LinearOpMode {
 
             // Motors are set to run at a certain speed until one reaches its target position
             while (robot.motorFL.isBusy() && robot.motorFR.isBusy() && robot.motorRL.isBusy() && robot.motorRR.isBusy()) {
-                robot.motorFL.setPower(Math.abs(-speed));
+                robot.motorFL.setPower(Math.abs(speed));
                 robot.motorFR.setPower(Math.abs(speed));
                 robot.motorRL.setPower(Math.abs(speed));
-                robot.motorRR.setPower(Math.abs(-speed));
+                robot.motorRR.setPower(Math.abs(speed));
                 // keep looping while we are still active, and there is time left, and both motors are running.
                 // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
                 // its target position, the motion will stop.  This is "safer" in the event that the robot will
