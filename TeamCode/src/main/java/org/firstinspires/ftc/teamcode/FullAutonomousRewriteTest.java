@@ -59,6 +59,9 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
         parameters.vuforiaLicenseKey = "ARvoW7v/////AAABmYoAtzjbfUl5gYNuLdrfUl8xlfcBiKF/LznPg4EMgSTGYH6BSBuFXw6l0WYTIwevC/nUQjfQ2KFn2j9YE1doWfQ/Tip4ONRj1SiKI8Yd1bTcgVrdPJYTynrkFNlUWg13P8wxc1KxgOd1KFyGpyQwyKAgUz454AhxkYxeAY8FxynFozAMvVojpLrUNxkAi6Ph16wu/1ykQScD14i87X3nVZyd0NfSGCimTKUryARPQf+WCZuSCIid4nPX1WTVIyEa5DXoTXnWZhvsb6/c8tN0GaVC+s6MoKVWSC1Lu4syK6tRbWoX5OirzW20nb8F8ZOUe2gM8KsON7UEMWTet2EyNZiLNIluxBIDG9wtJbgl3rf7\n";
 
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
         /**
          * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
          * in this data set: all three of the VuMarks in the game were created from this one template,
