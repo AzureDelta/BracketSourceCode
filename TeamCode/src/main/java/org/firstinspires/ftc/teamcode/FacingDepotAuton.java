@@ -14,7 +14,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
 public class FacingDepotAuton extends LinearOpMode {
 
-    TeleOpMap robot = new TeleOpMap();
+    AutonMap robot = new AutonMap();
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();

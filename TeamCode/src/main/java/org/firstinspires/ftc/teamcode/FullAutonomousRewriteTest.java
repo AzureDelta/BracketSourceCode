@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 /* Declare OpMode members. */
 
 
-public class TestAuton extends LinearOpMode {
+public class FullAutonomousRewriteTest extends LinearOpMode {
 
     VuforiaLocalizer vuforia;
 
