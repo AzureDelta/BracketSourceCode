@@ -14,7 +14,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
 public class FacingDepotAuton extends LinearOpMode {
 
-    AutonMap robot = new AutonMap();
+    TeleOpMap robot = new TeleOpMap();
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
@@ -313,6 +313,16 @@ public class FacingDepotAuton extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
+
+
+
+
+
+
+
+
+
+            //BRANDON CHECK ACTUATOR, IT'S NOT INITIALIZED IN AUTONMAP
             robot.actuator.setPower(speed);
         }
     }

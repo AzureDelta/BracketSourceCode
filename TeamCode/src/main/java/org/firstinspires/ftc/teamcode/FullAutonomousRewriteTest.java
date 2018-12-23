@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,7 +22,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class FullAutonomousRewriteTest extends LinearOpMode {
 
+/*
     VuforiaLocalizer vuforia;
+*/
 
     AutonMap robot = new AutonMap();
 
@@ -34,6 +38,7 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
     static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
     static final double INCHES = (COUNTS_PER_ROTATION * 0.5) / (WHEEL_DIAMETER_INCHES * Math.PI); //calculates counts per inch
     public static final double M = (2 / Math.sqrt(2));
+    int OFFSET = 0;
     /*
     660 counts of encoder = 4 inches
     1 inch = 165 counts
@@ -43,36 +48,50 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
     public void runOpMode() {
         robot.init(hardwareMap);
+        //this section of the code runs what would normally be run in the initialization method
+        //consider abstracting later
+       /* int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = "ARvoW7v/////AAABmYoAtzjbfUl5gYNuLdrfUl8xlfcBiKF/LznPg4EMgSTGYH6BSBuFXw6l0WYTIwevC/nUQjfQ2KFn2j9YE1doWfQ/Tip4ONRj1SiKI8Yd1bTcgVrdPJYTynrkFNlUWg13P8wxc1KxgOd1KFyGpyQwyKAgUz454AhxkYxeAY8FxynFozAMvVojpLrUNxkAi6Ph16wu/1ykQScD14i87X3nVZyd0NfSGCimTKUryARPQf+WCZuSCIid4nPX1WTVIyEa5DXoTXnWZhvsb6/c8tN0GaVC+s6MoKVWSC1Lu4syK6tRbWoX5OirzW20nb8F8ZOUe2gM8KsON7UEMWTet2EyNZiLNIluxBIDG9wtJbgl3rf7\n";
+*/
+        detector = new GoldAlignDetector();
+        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
+
+        // Optional Tuning
+        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
+        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
+        detector.downscale = 0.4; // How much to downscale the input frames
+
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.maxAreaScorer.weight = 0.005;
+
+        detector.ratioScorer.weight = 5;
+        detector.ratioScorer.perfectRatio = 1.0;
+
+        detector.enable();
+
+        telemetry.addData("Status", "Insertion checklist complete. All systems GO.");    //
+        telemetry.update();
 
         // Look for the audio file
-        boolean soundFound;
+
+        //comment out audio for now
+       /* boolean soundFound;
 
         int soundID = hardwareMap.appContext.getResources().getIdentifier("spritecranberry", "raw", hardwareMap.appContext.getPackageName());
 
         // Preload the audio if the file has a valid ID
         if (soundID != 0)
-            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
-
-        //Vuforia documentation - Brandon look at this dude
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        parameters.vuforiaLicenseKey = "ARvoW7v/////AAABmYoAtzjbfUl5gYNuLdrfUl8xlfcBiKF/LznPg4EMgSTGYH6BSBuFXw6l0WYTIwevC/nUQjfQ2KFn2j9YE1doWfQ/Tip4ONRj1SiKI8Yd1bTcgVrdPJYTynrkFNlUWg13P8wxc1KxgOd1KFyGpyQwyKAgUz454AhxkYxeAY8FxynFozAMvVojpLrUNxkAi6Ph16wu/1ykQScD14i87X3nVZyd0NfSGCimTKUryARPQf+WCZuSCIid4nPX1WTVIyEa5DXoTXnWZhvsb6/c8tN0GaVC+s6MoKVWSC1Lu4syK6tRbWoX5OirzW20nb8F8ZOUe2gM8KsON7UEMWTet2EyNZiLNIluxBIDG9wtJbgl3rf7\n";
-
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
+            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);*/
         /**
          * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
          * in this data set: all three of the VuMarks in the game were created from this one template,
          * but differ in their instance id information.
          * @see VuMarkInstanceId
          */
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
-
-        CameraDevice.getInstance().setFlashTorchMode(true);
 
         //send telemetry
         telemetry.addData("Status", "Ready to run Test Autonomous");
@@ -80,23 +99,25 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
         waitForStart();
 
-
+        CameraDevice.getInstance().setFlashTorchMode(true);
 
         // Play the audio
+/*
         SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
+*/
 
         //drive, strafe
-        drive(0.5, 3 * INCHES * M);
+        drive(0.5, 12 * INCHES * M);
         sleep(500);
-        drive(0.5, -3 * INCHES * M);
+        drive(0.5, -12 * INCHES * M);
         sleep(500);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        strafe(0.5, 3 * INCHES * M);
+        strafe(0.5, 12 * INCHES * M);
         sleep(500);
         //then left 3 inches
-        strafe(0.5, -3 * INCHES * M);
+        strafe(0.5, -12 * INCHES * M);
         sleep(500);
 
         //test intake
@@ -106,6 +127,9 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         actuate(1, 5);*/
 
         CameraDevice.getInstance().setFlashTorchMode(false);
+
+        detector.disable();
+
     }
 
     public void drive(double speed, double distance) {
@@ -206,6 +230,23 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         robot.motorFR.setPower(0);
         robot.motorRL.setPower(0);
         robot.motorRR.setPower(0);
+    }
+
+    public void alignGold(){
+        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            if (detector.getXPosition() < 320 && detector.isFound()) {
+                strafe(0.5, -0.1 * INCHES * M);
+                OFFSET--;
+                telemetry.addData("Status", "Target left.");
+                telemetry.update();
+
+            } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                strafe(0.5, 0.1 * INCHES * M);
+                OFFSET++;
+                telemetry.addData("Status", "Target Right");
+                telemetry.update();
+            }
+        }
     }
 
 /*    public void actuate(double speed, double time) {
