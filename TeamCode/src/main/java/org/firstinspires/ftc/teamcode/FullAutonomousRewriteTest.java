@@ -56,6 +56,7 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         parameters.vuforiaLicenseKey = "ARvoW7v/////AAABmYoAtzjbfUl5gYNuLdrfUl8xlfcBiKF/LznPg4EMgSTGYH6BSBuFXw6l0WYTIwevC/nUQjfQ2KFn2j9YE1doWfQ/Tip4ONRj1SiKI8Yd1bTcgVrdPJYTynrkFNlUWg13P8wxc1KxgOd1KFyGpyQwyKAgUz454AhxkYxeAY8FxynFozAMvVojpLrUNxkAi6Ph16wu/1ykQScD14i87X3nVZyd0NfSGCimTKUryARPQf+WCZuSCIid4nPX1WTVIyEa5DXoTXnWZhvsb6/c8tN0GaVC+s6MoKVWSC1Lu4syK6tRbWoX5OirzW20nb8F8ZOUe2gM8KsON7UEMWTet2EyNZiLNIluxBIDG9wtJbgl3rf7\n";
 */
         detector = new GoldAlignDetector();
+        //CameraViewDisplay correpsonds to DogeCV, not Vuforia
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
 
@@ -77,15 +78,13 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         telemetry.update();
 
         // Look for the audio file
-
-        //comment out audio for now
-       /* boolean soundFound;
+        boolean soundFound;
 
         int soundID = hardwareMap.appContext.getResources().getIdentifier("spritecranberry", "raw", hardwareMap.appContext.getPackageName());
 
         // Preload the audio if the file has a valid ID
         if (soundID != 0)
-            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);*/
+            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
         /**
          * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
          * in this data set: all three of the VuMarks in the game were created from this one template,
@@ -99,7 +98,9 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
         waitForStart();
 
+/*
         CameraDevice.getInstance().setFlashTorchMode(true);
+*/
 
         // Play the audio
 /*
@@ -126,7 +127,9 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         //test actuator
         actuate(1, 5);*/
 
+/*
         CameraDevice.getInstance().setFlashTorchMode(false);
+*/
 
         detector.disable();
 
