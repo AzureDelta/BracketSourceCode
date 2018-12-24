@@ -9,25 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
-@Autonomous(name="Full Autonomous Rewrite Test", group="F.A.R.T.")
-
-/* Declare OpMode members. */
-
-
-public class FullAutonomousRewriteTest extends LinearOpMode {
-
-/*
-    VuforiaLocalizer vuforia;
-*/
-
+public class AutonomousControls {
     AutonMap robot = new AutonMap();
 
-//    private GoldAlignDetector detector;
+    private GoldAlignDetector detector;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -42,103 +27,7 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
     660 counts of encoder = 4 inches
     1 inch = 165 counts
     */
-
-
-
-    @Override
-
-    public void runOpMode() {
-        robot.init(hardwareMap);
-        //this section of the code runs what would normally be run in the initialization method
-        //consider abstracting later
-       /* int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = "ARvoW7v/////AAABmYoAtzjbfUl5gYNuLdrfUl8xlfcBiKF/LznPg4EMgSTGYH6BSBuFXw6l0WYTIwevC/nUQjfQ2KFn2j9YE1doWfQ/Tip4ONRj1SiKI8Yd1bTcgVrdPJYTynrkFNlUWg13P8wxc1KxgOd1KFyGpyQwyKAgUz454AhxkYxeAY8FxynFozAMvVojpLrUNxkAi6Ph16wu/1ykQScD14i87X3nVZyd0NfSGCimTKUryARPQf+WCZuSCIid4nPX1WTVIyEa5DXoTXnWZhvsb6/c8tN0GaVC+s6MoKVWSC1Lu4syK6tRbWoX5OirzW20nb8F8ZOUe2gM8KsON7UEMWTet2EyNZiLNIluxBIDG9wtJbgl3rf7\n";
-*/
-//        detector = new GoldAlignDetector();
-//        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-//        detector.useDefaults();
-//
-//        // Optional Tuning
-//        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
-//        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
-//        detector.downscale = 0.4; // How much to downscale the input frames
-//
-//        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-//        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
-//        detector.maxAreaScorer.weight = 0.005;
-//
-//        detector.ratioScorer.weight = 5;
-//        detector.ratioScorer.perfectRatio = 1.0;
-//
-//        detector.enable();
-
-        telemetry.addData("Status", "Insertion checklist complete. All systems GO.");    //
-        telemetry.update();
-
-        // Look for the audio file
-
-        //comment out audio for now
-       /* boolean soundFound;
-
-        int soundID = hardwareMap.appContext.getResources().getIdentifier("spritecranberry", "raw", hardwareMap.appContext.getPackageName());
-
-        // Preload the audio if the file has a valid ID
-        if (soundID != 0)
-            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);*/
-        /**
-         * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
-         * in this data set: all three of the VuMarks in the game were created from this one template,
-         * but differ in their instance id information.
-         * @see VuMarkInstanceId
-         */
-
-        //send telemetry
-        telemetry.addData("Status", "Ready to run Test Autonomous");
-        telemetry.update();
-
-        waitForStart();
-
-/*
-        CameraDevice.getInstance().setFlashTorchMode(true);
-*/
-
-        // Play the audio
-/*
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
-*/
-
-        //drive, strafe
-        drive(0.5, 12 * INCHES * M);
-        sleep(500);
-        drive(0.5, -12 * INCHES * M);
-        sleep(500);
-        //positive dist. is right
-        //negative dist. is left
-        //first right 3 inches
-        strafe(0.5, 12 * INCHES * M);
-        sleep(500);
-        //then left 3 inches
-        strafe(0.5, -12 * INCHES * M);
-        sleep(500);
-
-        //test intake
-/*        intake(0.5, 3);
-        sleep(1000);
-        //test actuator
-        actuate(1, 5);*/
-
-/*
-        CameraDevice.getInstance().setFlashTorchMode(false);
-*/
-
-//        detector.disable();
-
-    }
-
     public void drive(double speed, double distance) {
-        if (opModeIsActive()) {
             // Resets encoder values so that it doesn't attempt to run to outdated values
             robot.motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -178,7 +67,7 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
                 // its target position, the motion will stop.  This is "safer" in the event that the robot will
                 // always end the motion as soon as possible.
                 // However, if you require that BOTH motors have finished their moves before the robot continues
-            }
+
         }
         // The motors are shutdown when a motor gets to its target position
         robot.motorFL.setPower(0);
@@ -188,7 +77,6 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
     }
 
     public void strafe(double speed, double distance) {
-        if (opModeIsActive()) {
             // Resets encoder values so that it doesn't attempt to run to outdated values
             robot.motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -229,7 +117,7 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
                 // always end the motion as soon as possible.
                 // However, if you require that BOTH motors have finished their moves before the robot continues
             }
-        }
+
         // The motors are shutdown when a motor gets to its target position
         robot.motorFL.setPower(0);
         robot.motorFR.setPower(0);
@@ -237,39 +125,17 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         robot.motorRR.setPower(0);
     }
 
+    public void alignGold(){
 
-//    public void alignGold(){
-//        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
-//            if (detector.getXPosition() < 320 && detector.isFound()) {
-//                strafe(0.5, -0.1 * INCHES * M);
-//                OFFSET--;
-//                telemetry.addData("Status", "Target left.");
-//                telemetry.update();
-//
-//            } else if (detector.getXPosition() > 320 && detector.isFound()) {
-//                strafe(0.5, 0.1 * INCHES * M);
-//                OFFSET++;
-//                telemetry.addData("Status", "Target Right");
-//                telemetry.update();
-//            }
-//        }
-//    }
+        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            if (detector.getXPosition() < 320 && detector.isFound()) {
+                strafe(0.5, -0.1 * INCHES * M);
+                OFFSET--;
 
-/*    public void actuate(double speed, double time) {
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < time)) {
-            telemetry.addData("Status:", "Actuating", runtime.seconds());
-            telemetry.update();
-            robot.actuator.setPower(speed);
+            } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                strafe(0.5, 0.1 * INCHES * M);
+                OFFSET++;
+            }
         }
-    }*/
-
-    /*public void intake(double speed, double time) {
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < time)) {
-            telemetry.addData("Status:", "Actuating", runtime.seconds());
-            telemetry.update();
-            robot.intake.setPower(speed);
-        }
-    }*/
+    }
 }
