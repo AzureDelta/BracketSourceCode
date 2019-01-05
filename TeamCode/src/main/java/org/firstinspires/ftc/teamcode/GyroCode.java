@@ -37,6 +37,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+
+
 /**
  * This file illustrates the concept of driving a path based on Gyro heading and encoder counts.
  * It uses the common Pushbot hardware class to define the drive on the robot.
@@ -78,11 +80,11 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
     HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
     ModernRoboticsI2cGyro   gyro    = null;                    // Additional Gyro device
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: Andymark Motor Encoder (40:1)
+    static final double     DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+            (WHEEL_DIAMETER_INCHES * Math.PI);
 
     // These constants define the desired driving/control characteristics
     // The can/should be tweaked to suite the specific robot drive train.
@@ -102,7 +104,23 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
          * The init() method of the hardware class does most of the work here
          */
         robot.init(hardwareMap);
+        //loads hardwareMap
         gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+
+        double drive;
+        double turn;
+        double strafe;
+        double leftValue;
+        double rightValue;
+        double powerFL;
+        double powerFR;
+        double powerRL;
+        double powerRR;
+        double slidePower;
+        boolean runintake = false;
+        boolean reverseintake = false;
+        boolean slowintake = false;
+        double speed = 0.5;
 
         // Ensure the robot it stationary, then reset the encoders and calibrate the gyro.
         robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -233,8 +251,10 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
             }
 
             // Stop all motion;
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
+            robot.motorFL.setPower(0);
+            robot.motorFR.setPower(0);
+            robot.motorRL.setPower(0);
+            robot.motorRR.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -253,7 +273,7 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
      *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
      *                   If a relative angle is required, add/subtract from current heading.
      */
-    public void gyroTurn (  double speed, double angle) {
+    public void gyroTurn (double speed, double angle) {
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
@@ -285,8 +305,10 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
         }
 
         // Stop all motion;
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
+        robot.motorFL.setPower(0);
+        robot.motorFR.setPower(0);
+        robot.motorRL.setPower(0);
+        robot.motorRR.setPower(0);
     }
 
     /**
