@@ -48,7 +48,7 @@ public class TeleOpMap {
         motorFL.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         motorRR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
         motorRL.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        slide.setDirection(DcMotor.Direction.FORWARD);//requires testing
+        slide.setDirection(DcMotor.Direction.REVERSE);//requires testing
         actuator.setDirection(DcMotor.Direction.REVERSE);//requires testing
         intake.setDirection(DcMotor.Direction.REVERSE);//requires testing
 

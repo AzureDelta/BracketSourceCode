@@ -20,8 +20,8 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name = "Main TeleOp (tap me)", group = "TeleOp")
 public class MainTeleOp extends LinearOpMode {
 
-    public static final double ARM_SPEED = 0.95;
-    public static final double INTAKE_SPEED = 0.92;
+    public static final double ARM_SPEED = 0.90;
+    public static final double INTAKE_SPEED = 0.90;
 
     /* Declare OpMode members. */
     TeleOpMap robot = new TeleOpMap();   //Configs hardware
@@ -142,9 +142,9 @@ public class MainTeleOp extends LinearOpMode {
             if (runintake) {
                 robot.intake.setPower(INTAKE_SPEED);
             } else if (reverseintake) {
-                robot.intake.setPower(-0.125);
+                robot.intake.setPower(-1*(INTAKE_SPEED/3));
             } else if (slowintake) {
-                robot.intake.setPower(0.5);
+                robot.intake.setPower(INTAKE_SPEED/2);
             } else {
                 robot.intake.setPower(0);
             }
