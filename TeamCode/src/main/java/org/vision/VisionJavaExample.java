@@ -1,4 +1,4 @@
-package org.vision;
+package BracketSourceCode.TeamCode.src.main.java.org.vision
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -30,7 +30,7 @@ public class VisionJavaExample extends LinearOpMode{
         goldPosition = vision.getTfLite().getLastKnownSampleOrder();
 
         while(opModeIsActive()){
-            telemetry.addData("goldPosition was", go    ldPosition);// giving feedback
+            telemetry.addData("goldPosition was", goldPosition);// giving feedback
 
             switch (goldPosition){ // using for things in the autonomous program
                 case LEFT:
