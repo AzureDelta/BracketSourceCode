@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
-@Autonomous(name = "OriginalCrater", group = "Auto")
+@Autonomous(name = "gOLD aLIGN tEST", group = "Auto")
 
 /* Declare OpMode members. */
 
-public class FacingCraterAuton extends LinearOpMode {
+public class GoldAlignTest extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
@@ -63,56 +63,16 @@ public class FacingCraterAuton extends LinearOpMode {
         //write main portion of the opMode here
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Dropping Dusty!");
+        telemetry.addData("Status", "Testing!");
         telemetry.update();
 
-        //lower the robot
-        //actuate(1.0, 12.5);
-        //detach arm
-        robot.strafe(DRIVE_SPEED, 2 * INCHES * M);
-        //store arm
-/*
-        actuate(-0.9, 10);
-*/
-        //reset position
-        robot.drive(DRIVE_SPEED, 2 * INCHES * M);
-        //detach arm
-        robot.strafe(DRIVE_SPEED, -2 * INCHES * M);
-
-        //declare sentinel variable
-        boolean runLoop = true;
-
-        telemetry.addData("Status", "I'm going for missile lock!");
-        telemetry.update();
-
-        //length diagonally across a tile is 33.9411255
-        //basically 34
-
-        alignGold();
-        if(!detector.isFound()){
-            robot.strafe(DRIVE_SPEED, M * -17 * INCHES);
-            OFFSET-=170;
+        while(opModeIsActive()) {
             alignGold();
-        }
-        if(!detector.isFound()){
-            robot.strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
-            OFFSET+=340;
-            alignGold();
+            telemetry.addData("OFFSET", OFFSET);
+            telemetry.update();
         }
 
         //runs loop until robot is aligned with mineral
-
-        if (detector.isFound()) {
-
-            telemetry.addData("Status", "I've got a good lock! Firing!");
-            telemetry.update();
-
-            //ONE TILE IS 24 INCHES X 24 INCHES
-
-            //drive to crater
-            robot.drive(0.5, M * ((2*FEET) + (10 * INCHES)));
-
-        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
