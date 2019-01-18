@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class AutonMap {
     /* Public OpMode members. */
@@ -21,6 +23,8 @@ public class AutonMap {
     /* local OpMode members. */
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     /* Constructor */
     public AutonMap() {
@@ -60,5 +64,17 @@ public class AutonMap {
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void drive(double speed, double time) {
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Status:", "driving     Time Left: " + time, runtime.seconds());
+            telemetry.update();
+            motorFL.setPower(speed);
+            motorFR.setPower(speed);
+            motorRL.setPower(speed);
+            motorRR.setPower(speed);
+        }
     }
 }
