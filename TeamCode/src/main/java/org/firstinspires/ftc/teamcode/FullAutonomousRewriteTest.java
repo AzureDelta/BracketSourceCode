@@ -38,11 +38,11 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
         // Look for the audio file
         boolean soundFound;
-        int soundID = hardwareMap.appContext.getResources().getIdentifier("attackontitan", "raw", hardwareMap.appContext.getPackageName());
+        //int soundID = hardwareMap.appContext.getResources().getIdentifier("attackontitan", "raw", hardwareMap.appContext.getPackageName());
 
         // Preload the audio if the file has a valid ID
-        if (soundID != 0)
-            soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
+        //if (soundID != 0)
+            //soundFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, soundID);
 
 
         //send telemetry
@@ -54,20 +54,20 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
 
         // Play the audio
-        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
+        //SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
 
         //drive, strafe
-        drive(0.5, 3 * INCHES * M);
+        robot.drive(0.5, 12 * INCHES * M);
         sleep(500);
-        drive(0.5, -3 * INCHES * M);
+        robot.drive(0.5, -12 * INCHES * M);
         sleep(500);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        strafe(0.5, 3 * INCHES * M);
+        robot.strafe(0.5, 12 * INCHES * M);
         sleep(500);
         //then left 3 inches
-        robot.strafe(0.5, -3 * INCHES * M);
+        robot.strafe(0.5, -12 * INCHES * M);
         sleep(500);
 
         //test intake
