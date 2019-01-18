@@ -123,25 +123,25 @@ public class FacingCraterAuton extends LinearOpMode {
     }
 
     public void alignGold(){
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
                 robot.motorFL.setPower(-DRIVE_SPEED);
                 robot.motorFR.setPower(-DRIVE_SPEED);
                 robot.motorRL.setPower(DRIVE_SPEED);
                 robot.motorRR.setPower(DRIVE_SPEED);
+
                 OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
                 robot.motorFL.setPower(DRIVE_SPEED);
                 robot.motorFR.setPower(DRIVE_SPEED);
                 robot.motorRL.setPower(-DRIVE_SPEED);
                 robot.motorRR.setPower(-DRIVE_SPEED);
+
                 OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
