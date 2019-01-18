@@ -96,7 +96,6 @@ public class GoldAlignTest extends LinearOpMode {
                 OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
-
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
                 robot.motorFL.setPower(DRIVE_SPEED);
                 robot.motorFR.setPower(DRIVE_SPEED);
