@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,9 +16,6 @@ public class TeleOpMap {
     public DcMotor actuator = null;
     public DcMotor intake = null;
 
-    public static final double MID_SERVO = 0.5;//legacy code, can be removed
-    //public ColorSensor colorSensor;//legacy code, can be removed
-
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
@@ -27,7 +23,6 @@ public class TeleOpMap {
 
     /* Constructor */
     public TeleOpMap() {
-
     }
 
     /* Initialize standard Hardware interfaces */
@@ -44,6 +39,7 @@ public class TeleOpMap {
         actuator = hwMap.get(DcMotor.class, "a");
         intake = hwMap.get(DcMotor.class, "ir");
 
+<<<<<<< HEAD
         motorFR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
         motorFL.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         motorRR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
@@ -51,6 +47,15 @@ public class TeleOpMap {
         slide.setDirection(DcMotor.Direction.REVERSE);//requires testing
         actuator.setDirection(DcMotor.Direction.REVERSE);//requires testing
         intake.setDirection(DcMotor.Direction.REVERSE);//requires testing
+=======
+        motorFR.setDirection(DcMotor.Direction.FORWARD);
+        motorFL.setDirection(DcMotor.Direction.REVERSE);
+        motorRR.setDirection(DcMotor.Direction.FORWARD);
+        motorRL.setDirection(DcMotor.Direction.REVERSE);
+        slide.setDirection(DcMotor.Direction.FORWARD);
+        actuator.setDirection(DcMotor.Direction.REVERSE);
+        intake.setDirection(DcMotor.Direction.REVERSE);
+>>>>>>> 4c4eef34de6f8e429052621ad46fbac507e37c37
 
         // Set all motors to zero power
         motorFR.setPower(0);
