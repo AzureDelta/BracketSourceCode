@@ -65,16 +65,4 @@ public class AutonMap {
         motorRL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
-    public void drive(double speed, double time) {
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < time)) {
-            telemetry.addData("Status:", "driving     Time Left: " + time, runtime.seconds());
-            telemetry.update();
-            motorFL.setPower(speed);
-            motorFR.setPower(speed);
-            motorRL.setPower(speed);
-            motorRR.setPower(speed);
-        }
-    }
 }

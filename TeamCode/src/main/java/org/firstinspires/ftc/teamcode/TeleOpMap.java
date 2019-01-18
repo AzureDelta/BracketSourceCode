@@ -39,7 +39,6 @@ public class TeleOpMap {
         actuator = hwMap.get(DcMotor.class, "a");
         intake = hwMap.get(DcMotor.class, "ir");
 
-<<<<<<< HEAD
         motorFR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
         motorFL.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         motorRR.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
@@ -47,7 +46,7 @@ public class TeleOpMap {
         slide.setDirection(DcMotor.Direction.REVERSE);//requires testing
         actuator.setDirection(DcMotor.Direction.REVERSE);//requires testing
         intake.setDirection(DcMotor.Direction.REVERSE);//requires testing
-=======
+
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorRR.setDirection(DcMotor.Direction.FORWARD);
@@ -55,7 +54,6 @@ public class TeleOpMap {
         slide.setDirection(DcMotor.Direction.FORWARD);
         actuator.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.REVERSE);
->>>>>>> 4c4eef34de6f8e429052621ad46fbac507e37c37
 
         // Set all motors to zero power
         motorFR.setPower(0);
