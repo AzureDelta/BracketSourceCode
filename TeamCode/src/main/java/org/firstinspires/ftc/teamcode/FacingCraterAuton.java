@@ -19,16 +19,6 @@ public class FacingCraterAuton extends LinearOpMode {
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
-    static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
-    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
-    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
-    static final double FEET = 12 * INCHES;
-    double OFFSET = 0;
-    public static final double M = (2 / Math.sqrt(2));
-    public static final double DRIVE_SPEED = 0.5;
-
     @Override
 
     public void runOpMode() {
@@ -69,15 +59,15 @@ public class FacingCraterAuton extends LinearOpMode {
         //lower the robot
         //actuate(1.0, 12.5);
         //detach arm
-        robot.strafe(DRIVE_SPEED, 2 * INCHES * M);
+        robot.strafe(robot.DRIVE_SPEED, 2 * robot.INCHES * robot.M);
         //store arm
 /*
         actuate(-0.9, 10);
 */
         //reset position
-        robot.drive(DRIVE_SPEED, 2 * INCHES * M);
+        robot.drive(robot.DRIVE_SPEED, 2 * robot.INCHES * robot.M);
         //detach arm
-        robot.strafe(DRIVE_SPEED, -2 * INCHES * M);
+        robot.strafe(robot.DRIVE_SPEED, -2 * robot.INCHES * robot.M);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -90,13 +80,13 @@ public class FacingCraterAuton extends LinearOpMode {
 
         alignGold();
         if(!detector.isFound()){
-            robot.strafe(DRIVE_SPEED, M * -17 * INCHES);
-            OFFSET-=170;
+            robot.strafe(robot.DRIVE_SPEED, robot.M * -17 * robot.INCHES);
+            robot.OFFSET-=170;
             alignGold();
         }
         if(!detector.isFound()){
-            robot.strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
-            OFFSET+=340;
+            robot.strafe(robot.DRIVE_SPEED, robot.M * ((2*robot.FEET) + (10 * robot.INCHES)));
+            robot.OFFSET+=340;
             alignGold();
         }
 
@@ -110,7 +100,7 @@ public class FacingCraterAuton extends LinearOpMode {
             //ONE TILE IS 24 INCHES X 24 INCHES
 
             //drive to crater
-            robot.drive(0.5, M * ((2*FEET) + (10 * INCHES)));
+            robot.drive(0.5, robot.M * ((2*robot.FEET) + (10 * robot.INCHES)));
 
         }
 
@@ -129,20 +119,20 @@ public class FacingCraterAuton extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
-                robot.motorFL.setPower(-DRIVE_SPEED);
-                robot.motorFR.setPower(-DRIVE_SPEED);
-                robot.motorRL.setPower(DRIVE_SPEED);
-                robot.motorRR.setPower(DRIVE_SPEED);
-                OFFSET--;
+                robot.motorFL.setPower(-robot.DRIVE_SPEED);
+                robot.motorFR.setPower(-robot.DRIVE_SPEED);
+                robot.motorRL.setPower(robot.DRIVE_SPEED);
+                robot.motorRR.setPower(robot.DRIVE_SPEED);
+                robot.OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
-                robot.motorFL.setPower(DRIVE_SPEED);
-                robot.motorFR.setPower(DRIVE_SPEED);
-                robot.motorRL.setPower(-DRIVE_SPEED);
-                robot.motorRR.setPower(-DRIVE_SPEED);
-                OFFSET++;
+                robot.motorFL.setPower(robot.DRIVE_SPEED);
+                robot.motorFR.setPower(robot.DRIVE_SPEED);
+                robot.motorRL.setPower(-robot.DRIVE_SPEED);
+                robot.motorRR.setPower(-robot.DRIVE_SPEED);
+                robot.OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
             }
