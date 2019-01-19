@@ -116,13 +116,6 @@ public class FacingCraterAuton extends LinearOpMode {
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
 
-                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
-                robot.motorFL.setPower(-DRIVE_SPEED);
-                robot.motorFR.setPower(-DRIVE_SPEED);
-                robot.motorRL.setPower(DRIVE_SPEED);
-                robot.motorRR.setPower(DRIVE_SPEED);
-
-                OFFSET--;
                 robot.motorFL.setPower(-robot.DRIVE_SPEED);
                 robot.motorFR.setPower(-robot.DRIVE_SPEED);
                 robot.motorRL.setPower(robot.DRIVE_SPEED);
@@ -134,14 +127,7 @@ public class FacingCraterAuton extends LinearOpMode {
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
 
-                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
-                robot.motorFL.setPower(DRIVE_SPEED);
-                robot.motorFR.setPower(DRIVE_SPEED);
-                robot.motorRL.setPower(-DRIVE_SPEED);
-                robot.motorRR.setPower(-DRIVE_SPEED);
-
-                OFFSET++;
-
+                robot.OFFSET++;
                 robot.motorFL.setPower(robot.DRIVE_SPEED);
                 robot.motorFR.setPower(robot.DRIVE_SPEED);
                 robot.motorRL.setPower(-robot.DRIVE_SPEED);
