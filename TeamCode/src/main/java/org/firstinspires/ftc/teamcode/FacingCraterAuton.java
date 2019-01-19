@@ -92,7 +92,7 @@ public class FacingCraterAuton extends LinearOpMode {
 
         //runs loop until robot is aligned with mineral
 
-        if (detector.isFound()) {
+        else {
 
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
