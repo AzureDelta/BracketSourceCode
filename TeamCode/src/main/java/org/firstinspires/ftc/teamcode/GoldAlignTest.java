@@ -89,23 +89,27 @@ public class GoldAlignTest extends LinearOpMode {
         robot.motorRL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
-                robot.motorFL.setPower(-DRIVE_SPEED);
+                robot.motorFL.setPower(DRIVE_SPEED);
                 robot.motorFR.setPower(-DRIVE_SPEED);
-                robot.motorRL.setPower(DRIVE_SPEED);
+                robot.motorRL.setPower(-DRIVE_SPEED);
                 robot.motorRR.setPower(DRIVE_SPEED);
                 OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
                 robot.motorFL.setPower(DRIVE_SPEED);
-                robot.motorFR.setPower(DRIVE_SPEED);
+                robot.motorFR.setPower(-DRIVE_SPEED);
                 robot.motorRL.setPower(-DRIVE_SPEED);
-                robot.motorRR.setPower(-DRIVE_SPEED);
+                robot.motorRR.setPower(DRIVE_SPEED);
                 OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
             }
         }
+        robot.motorFL.setPower(0);
+        robot.motorFR.setPower(0);
+        robot.motorRL.setPower(0);
+        robot.motorRR.setPower(0);
     }
 
 /*    public void actuate(double speed, double time) {

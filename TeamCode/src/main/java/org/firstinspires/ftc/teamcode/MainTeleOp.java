@@ -72,7 +72,6 @@ public class MainTeleOp extends LinearOpMode {
             turn = gamepad1.right_stick_x;
             strafe = gamepad1.left_stick_x;
 
-
             // Combine drive and turn for blended motion.
             leftValue = drive + turn;
             rightValue = drive - turn;
@@ -142,9 +141,9 @@ public class MainTeleOp extends LinearOpMode {
             if (runintake) {
                 robot.intake.setPower(INTAKE_SPEED);
             } else if (reverseintake) {
-                robot.intake.setPower(-1*(INTAKE_SPEED/3));
+                robot.intake.setPower(-1 * (INTAKE_SPEED / 3));
             } else if (slowintake) {
-                robot.intake.setPower(INTAKE_SPEED/2);
+                robot.intake.setPower(INTAKE_SPEED / 2);
             } else {
                 robot.intake.setPower(0);
             }
