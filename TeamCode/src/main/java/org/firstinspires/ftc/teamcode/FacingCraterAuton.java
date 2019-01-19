@@ -115,7 +115,7 @@ public class FacingCraterAuton extends LinearOpMode {
     public void alignGold(){
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
-<<<<<<< HEAD
+
                 strafe(DRIVE_SPEED, -0.1 * INCHES * M);
                 robot.motorFL.setPower(-DRIVE_SPEED);
                 robot.motorFR.setPower(-DRIVE_SPEED);
@@ -123,18 +123,17 @@ public class FacingCraterAuton extends LinearOpMode {
                 robot.motorRR.setPower(DRIVE_SPEED);
 
                 OFFSET--;
-=======
                 robot.motorFL.setPower(-robot.DRIVE_SPEED);
                 robot.motorFR.setPower(-robot.DRIVE_SPEED);
                 robot.motorRL.setPower(robot.DRIVE_SPEED);
                 robot.motorRR.setPower(robot.DRIVE_SPEED);
                 robot.OFFSET--;
->>>>>>> 463099a32e4dbae66b51ae8a041ada28740ee69b
+
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
-<<<<<<< HEAD
+
                 strafe(DRIVE_SPEED, 0.1 * INCHES * M);
                 robot.motorFL.setPower(DRIVE_SPEED);
                 robot.motorFR.setPower(DRIVE_SPEED);
@@ -142,13 +141,13 @@ public class FacingCraterAuton extends LinearOpMode {
                 robot.motorRR.setPower(-DRIVE_SPEED);
 
                 OFFSET++;
-=======
+
                 robot.motorFL.setPower(robot.DRIVE_SPEED);
                 robot.motorFR.setPower(robot.DRIVE_SPEED);
                 robot.motorRL.setPower(-robot.DRIVE_SPEED);
                 robot.motorRR.setPower(-robot.DRIVE_SPEED);
                 robot.OFFSET++;
->>>>>>> 463099a32e4dbae66b51ae8a041ada28740ee69b
+
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
             }
