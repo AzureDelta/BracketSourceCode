@@ -51,17 +51,17 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         //SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
 
         //drive, strafe
-        robot.drive(0.5, (int) (12 * robot.INCHES * robot.M));
+        robot.drive(0.5, 1008);
         sleep(500);
-        robot.drive(0.5, (int) (-12 * robot.INCHES * robot.M));
+        robot.drive(-0.5, -1008);
         sleep(500);
         //positive dist. is right
         //negative dist. is left
         //first right 3 inches
-        robot.strafe(0.5, (int) (12 * robot.INCHES * robot.M));
+        robot.strafe(0.5, 1008);
         sleep(500);
         //then left 3 inches
-        robot.strafe(0.5, (int) (-12 * robot.INCHES * robot.M));
+        robot.strafe(-0.5, -1008);
         sleep(500);
 
         //test intake

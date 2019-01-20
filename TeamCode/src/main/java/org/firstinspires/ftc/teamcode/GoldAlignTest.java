@@ -68,8 +68,6 @@ public class GoldAlignTest extends LinearOpMode {
 
         while(opModeIsActive()) {
             alignGold();
-            telemetry.addData("OFFSET", OFFSET);
-            telemetry.update();
         }
 
         //runs loop until robot is aligned with mineral
@@ -83,11 +81,12 @@ public class GoldAlignTest extends LinearOpMode {
     }
 
     public void alignGold(){
-        robot.motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motorRR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motorRL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            telemetry.addData("OFFSET", OFFSET);
             if (detector.getXPosition() < 320 && detector.isFound()) {
                 robot.motorFL.setPower(DRIVE_SPEED);
                 robot.motorFR.setPower(-DRIVE_SPEED);
