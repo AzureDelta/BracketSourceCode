@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
-//Dpad Up = speed 100%
-//Dpad Down = speed 50%
-//RT Raises intake
-//LT Lowers intake
-//Second player can also control intake with left stick for fine control, or RT/LT
-//Button A does intake (toggle)
-//Button X is reverse intake (toggle)
-//Button Y is slow intake (50% speed) (toggle)
-//Dpad left is actuator down (hold)
-//Dpad right is actuator up (hold)
+/*
+Dpad Up = speed 100%
+Dpad Down = speed 50%
+RT Raises intake
+LT Lowers intake
+Second player can also control intake with left stick for fine control, or RT/LT
+Button A does intake (toggle)
+Button X is reverse intake (toggle)
+Button Y is slow intake (50% speed) (toggle)
+dPad Up is Open motor running forward
+dPad Down is Close motor running forward
+dPad Right is Open motor running backward
+dPad Left is Close motor running backward
+*/
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
