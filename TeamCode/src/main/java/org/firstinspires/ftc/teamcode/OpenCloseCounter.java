@@ -1,19 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-/*
-Dpad Up = speed 100%
-Dpad Down = speed 50%
-RT Raises intake
-LT Lowers intake
-Second player can also control intake with left stick for fine control, or RT/LT
-Button A does intake (toggle)
-Button X is reverse intake (toggle)
-Button Y is slow intake (50% speed) (toggle)
-dPad Up is Open motor running forward
-dPad Down is Close motor running forward
-dPad Right is Open motor running backward
-dPad Left is Close motor running backward
-*/
+//Dpad Up = speed 100%
+//Dpad Down = speed 50%
+//RT Raises intake
+//LT Lowers intake
+//Second player can also control intake with left stick for fine control, or RT/LT
+//Button A does intake (toggle)
+//Button X is reverse intake (toggle)
+//Button Y is slow intake (50% speed) (toggle)
+//Dpad left is actuator down (hold)
+//Dpad right is actuator up (hold)
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,7 +17,7 @@ import com.qualcomm.robotcore.util.Range;
 
 //*In theory* this should also be compatible with tank drive, except for the strafing parts
 
-@TeleOp(name = "OpenCloseCounter", group = "TeleOp")
+@TeleOp(name = "Hanging Mechanism Test", group = "TeleOp")
 public class OpenCloseCounter extends LinearOpMode {
 
     public static final double ARM_SPEED = 0.90;
@@ -50,9 +46,11 @@ public class OpenCloseCounter extends LinearOpMode {
         boolean runintake = false;
         boolean reverseintake = false;
         boolean slowintake = false;
-        double speed = 0.5;
-        int counterOpen = 0;
-        int counterClose = 0;
+        double speed = 0.8;
+        int counterUpTighten = 0;
+        int counterUpLoosen = 0;
+        int counterDownTighten = 0;
+        int counterDownLoosen = 0;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Shock drone going live!");
@@ -154,18 +152,31 @@ public class OpenCloseCounter extends LinearOpMode {
                 robot.intake.setPower(0);
             }
 
+
+            //
+            //pull down tighten: robot.open.setPower(1)
+            //pull down loosen: robot.open.setPower(-1)
+            //pull up loosen: robot.close.setPower(1)
+            //pull up tighten: robot.close.setPower(-1)
+            ///*
+
+
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                robot.open.setPower(0.25);
-                counterOpen += 1;
+                //Pull up tighten
+                robot.close.setPower(-0.6);
+                counterUpTighten += 1;
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                robot.close.setPower(0.25);
-                counterClose += 1;
+                //Pull down tighten
+                robot.open.setPower(0.6);
+                counterDownTighten += 1;
             } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
-                robot.open.setPower(-0.25);
-                counterOpen -= 1;
+                //Pull down loosen
+                robot.open.setPower(-0.6);
+                counterDownLoosen += 1;
             } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
-                robot.close.setPower(-0.25);
-                counterClose -= 1;
+                //Pull up loosen
+                robot.close.setPower(0.6);
+                counterUpLoosen += 1;
             } else {
                 robot.open.setPower(0);
                 robot.close.setPower(0);
@@ -174,7 +185,8 @@ public class OpenCloseCounter extends LinearOpMode {
             telemetry.addData("Status", "Speed: " + speed + "\n" +
                     "Power: " + drive + "        Turn: " + turn + "        Strafe: " + strafe + "\n" +
                     "Slide Power: " + slidePower + "     intake Power: " + INTAKE_SPEED + "\n" +
-                    "Counter Up: " + counterOpen + "Counter Down: " + counterClose);
+                    "Counter Up Tighten: " + counterUpTighten + "Counter Down Tighten: " + counterDownTighten + "\n"
+                    + "Counter Up Loosen: " + counterUpLoosen + "Counter Down Loosen: " + counterDownLoosen);
             telemetry.update();
         }
     }

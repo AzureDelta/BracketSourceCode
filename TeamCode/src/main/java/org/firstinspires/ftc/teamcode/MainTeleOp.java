@@ -46,7 +46,11 @@ public class MainTeleOp extends LinearOpMode {
         boolean runintake = false;
         boolean reverseintake = false;
         boolean slowintake = false;
-        double speed = 0.5;
+        double speed = 0.8;
+        int counterUpTighten = 0;
+        int counterUpLoosen = 0;
+        int counterDownTighten = 0;
+        int counterDownLoosen = 0;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Shock drone going live!");
@@ -148,10 +152,31 @@ public class MainTeleOp extends LinearOpMode {
                 robot.intake.setPower(0);
             }
 
+
+            //
+            //pull down tighten: robot.open.setPower(1)
+            //pull down loosen: robot.open.setPower(-1)
+            //pull up loosen: robot.close.setPower(1)
+            //pull up tighten: robot.close.setPower(-1)
+            ///*
+
+
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                robot.open.setPower(1);
+                //Pull up tighten
+                robot.close.setPower(-0.6);
+                counterUpTighten += 1;
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                robot.close.setPower(1);
+                //Pull down tighten
+                robot.open.setPower(0.6);
+                counterDownTighten += 1;
+            } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
+                //Pull down loosen
+                robot.open.setPower(-0.6);
+                counterDownLoosen += 1;
+            } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
+                //Pull up loosen
+                robot.close.setPower(0.6);
+                counterUpLoosen += 1;
             } else {
                 robot.open.setPower(0);
                 robot.close.setPower(0);
@@ -159,7 +184,9 @@ public class MainTeleOp extends LinearOpMode {
 
             telemetry.addData("Status", "Speed: " + speed + "\n" +
                     "Power: " + drive + "        Turn: " + turn + "        Strafe: " + strafe + "\n" +
-                    "Slide Power: " + slidePower + "     intake Power: " + INTAKE_SPEED);
+                    "Slide Power: " + slidePower + "     intake Power: " + INTAKE_SPEED + "\n" +
+                    "Counter Up Tighten: " + counterUpTighten + "Counter Down Tighten: " + counterDownTighten + "\n"
+             + "Counter Up Loosen: " + counterUpLoosen + "Counter Down Loosen: " + counterDownLoosen);
             telemetry.update();
         }
     }
