@@ -117,11 +117,6 @@ public class AutonMap {
             motorFR.setPower(Math.abs(1));
             motorRL.setPower(Math.abs(1));
             motorRR.setPower(Math.abs(1));
-            telemetry.addData("Motor FL", motorFL.getCurrentPosition() + "/" + targetFL);
-            telemetry.addData("Motor FR", motorFL.getCurrentPosition() + "/" + targetFR);
-            telemetry.addData("Motor RL", motorFL.getCurrentPosition() + "/" + targetRL);
-            telemetry.addData("Motor RR", motorFL.getCurrentPosition() + "/" + targetRR);
-            telemetry.update();
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -173,11 +168,6 @@ public class AutonMap {
             motorFR.setPower(Math.abs(1));
             motorRL.setPower(Math.abs(1));
             motorRR.setPower(Math.abs(1));
-            telemetry.addData("Motor FL", motorFL.getCurrentPosition() + "/" + targetFL);
-            telemetry.addData("Motor FR", motorFL.getCurrentPosition() + "/" + targetFR);
-            telemetry.addData("Motor RL", motorFL.getCurrentPosition() + "/" + targetRL);
-            telemetry.addData("Motor RR", motorFL.getCurrentPosition() + "/" + targetRR);
-            telemetry.update();
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
