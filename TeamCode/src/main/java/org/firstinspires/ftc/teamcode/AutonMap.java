@@ -20,6 +20,8 @@ public class AutonMap {
     public DcMotor motorFL = null;
     public DcMotor motorRR = null;
     public DcMotor motorRL = null;
+    public DcMotor open = null;
+    public DcMotor close = null;
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
@@ -57,27 +59,37 @@ public class AutonMap {
         motorFL = hwMap.get(DcMotor.class, "fl");
         motorRR = hwMap.get(DcMotor.class, "rr");
         motorRL = hwMap.get(DcMotor.class, "rl");
+        open = hwMap.get(DcMotor.class, "open");
+        close = hwMap.get(DcMotor.class, "close");
 
         motorFR.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if motors are facing outward
         motorFL.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
         motorRR.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if motors are facing outward
         motorRL.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
+        open.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if motors are facing outward
+        close.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
 
         // Sets zero power behavior to brake for more precise movement
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        open.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        close.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Resets encoder values to prevent the robot from freaking out as soon as we init
         motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        open.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        close.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set all motors to zero power
         motorFR.setPower(0);
         motorFL.setPower(0);
+        motorRR.setPower(0);
+        motorRL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
     }
@@ -89,6 +101,7 @@ public class AutonMap {
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         // Declares target point storage variables
         int targetFL;
@@ -113,10 +126,10 @@ public class AutonMap {
 
         // Motors are set to run at a certain speed until one reaches its target position
         while (motorFL.isBusy() && motorFR.isBusy() && motorRL.isBusy() && motorRR.isBusy()) {
-            motorFL.setPower(Math.abs(1));
-            motorFR.setPower(Math.abs(1));
-            motorRL.setPower(Math.abs(1));
-            motorRR.setPower(Math.abs(1));
+            motorFL.setPower(Math.abs(speed));
+            motorFR.setPower(Math.abs(speed));
+            motorRL.setPower(Math.abs(speed));
+            motorRR.setPower(Math.abs(speed));
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -164,10 +177,10 @@ public class AutonMap {
 
         // Motors are set to run at a certain speed until one reaches its target position
         while (motorFL.isBusy() && motorFR.isBusy() && motorRL.isBusy() && motorRR.isBusy()) {
-            motorFL.setPower(Math.abs(1));
-            motorFR.setPower(Math.abs(1));
-            motorRL.setPower(Math.abs(1));
-            motorRR.setPower(Math.abs(1));
+            motorFL.setPower(Math.abs(speed));
+            motorFR.setPower(Math.abs(speed));
+            motorRL.setPower(Math.abs(speed));
+            motorRR.setPower(Math.abs(speed));
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -177,12 +190,30 @@ public class AutonMap {
         // The motors are shutdown when a motor gets to its target position
         motorFL.setPower(0);
         motorFR.setPower(0);
-        motorRL.setPower(0);
-        motorRR.setPower(0);
+        motorRR.setPower(0);        motorRL.setPower(0);
+
         targetFL=0;
         targetFR=0;
         targetRL=0;
         targetRR=0;
+    }
+
+    public void open(double speed, double time) {
+        runtime.reset();
+        while ((runtime.seconds() < time)) {
+            telemetry.addData("Status:", "opening     Time Left: " + time, runtime.seconds());
+            telemetry.update();
+            open.setPower(speed);
+        }
+    }
+
+    public void close(double speed, double time) {
+        runtime.reset();
+        while ((runtime.seconds() < time)) {
+            telemetry.addData("Status:", "opening     Time Left: " + time, runtime.seconds());
+            telemetry.update();
+            close.setPower(speed);
+        }
     }
 
     /*    public void actuate(double speed, double time) {
