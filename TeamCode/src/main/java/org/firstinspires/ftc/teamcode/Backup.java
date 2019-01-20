@@ -58,14 +58,7 @@ public class Backup extends LinearOpMode {
             robot.motorRR.setPower(speed);
         }
     }
-    public void actuate(double speed, double time) {
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < time)) {
-            telemetry.addData("Status:", "actuating     Time Left: " + time, runtime.seconds());
-            telemetry.update();
-            robot.actuator.setPower(speed);
-        }
-    }
+
 
     public void intake(double speed, double time) {
         runtime.reset();
