@@ -69,15 +69,15 @@ public class FacingDepotAuton extends LinearOpMode {
         //lower the robot
         actuate(1.0, 12.5);
         //detach arm
-        strafe(DRIVE_SPEED, 2 * INCHES * M);
+        strafe(DRIVE_SPEED, 2 * 84.02952 * M);
         //store arm
 /*
         actuate(-0.9, 1.9);
 */
         //reset position
-        drive(DRIVE_SPEED, 2 * INCHES * M);
+        drive(DRIVE_SPEED, 2 * 84.02952 * M);
         //detach arm
-        strafe(DRIVE_SPEED, -2 * INCHES * M);
+        strafe(DRIVE_SPEED, -2 * 84.02952 * M);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -90,12 +90,12 @@ public class FacingDepotAuton extends LinearOpMode {
 
         alignGold();
         if(!detector.isFound()){
-            strafe(DRIVE_SPEED, M * -17 * INCHES);
+            strafe(DRIVE_SPEED, M * -17 * 84.02952);
             OFFSET-=170;
             alignGold();
         }
         if(!detector.isFound()){
-            strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * INCHES)));
+            strafe(DRIVE_SPEED, M * ((2*FEET) + (10 * 84.02952)));
             OFFSET+=340;
             alignGold();
         }
@@ -113,7 +113,7 @@ public class FacingDepotAuton extends LinearOpMode {
             //current implementation of rotation count is a placeholder
             drive(DRIVE_SPEED, (M*4.5*FEET));
             //recenters based on the value of offset
-            strafe(DRIVE_SPEED, -OFFSET*0.1*INCHES*M);
+            strafe(DRIVE_SPEED, -OFFSET*0.1*84.02952*M);
 
             //drive into the depot
             drive(DRIVE_SPEED, M*1*FEET);
@@ -132,13 +132,13 @@ public class FacingDepotAuton extends LinearOpMode {
     public void alignGold(){
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
-                strafe(DRIVE_SPEED, -0.1 * INCHES * M);
+                strafe(DRIVE_SPEED, -0.1 * 84.02952 * M);
                 OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
-                strafe(DRIVE_SPEED, 0.1 * INCHES * M);
+                strafe(DRIVE_SPEED, 0.1 * 84.02952 * M);
                 OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
