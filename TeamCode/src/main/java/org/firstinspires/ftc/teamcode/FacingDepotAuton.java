@@ -132,13 +132,13 @@ public class FacingDepotAuton extends LinearOpMode {
     public void alignGold(){
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
             if (detector.getXPosition() < 320 && detector.isFound()) {
-                strafe(DRIVE_SPEED, -0.1 * 84.02952 * M);
+                strafe(-DRIVE_SPEED, -21);
                 OFFSET--;
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
 
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
-                strafe(DRIVE_SPEED, 0.1 * 84.02952 * M);
+                strafe(DRIVE_SPEED, 21);
                 OFFSET++;
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
