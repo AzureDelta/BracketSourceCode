@@ -156,16 +156,16 @@ public class OpenCloseCounter extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                robot.open.setPower(1);
+                robot.open.setPower(0.1);
                 counterOpen += 1;
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                robot.close.setPower(1);
+                robot.close.setPower(0.1);
                 counterClose += 1;
             } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
-                robot.open.setPower(-1);
+                robot.open.setPower(-0.1);
                 counterOpen -= 1;
             } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
-                robot.close.setPower(-1);
+                robot.close.setPower(-0.1);
                 counterClose -= 1;
             } else {
                 robot.open.setPower(0);
