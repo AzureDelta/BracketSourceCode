@@ -22,6 +22,7 @@ public class AutonMap {
     public DcMotor motorRL = null;
     public DcMotor open = null;
     public DcMotor close = null;
+    public DcMotor intake = null;
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
@@ -35,7 +36,7 @@ public class AutonMap {
     static final double FEET = 12 * INCHES;
     //59.41785 base inches (no mec compensation)
     //84.02952 per inch
-    double OFFSET = 0;
+    int OFFSET = 0;
     public static final double M = (2 / Math.sqrt(2));
     public static final double DRIVE_SPEED = 0.5;
 
@@ -63,6 +64,7 @@ public class AutonMap {
         motorRL = hwMap.get(DcMotor.class, "rl");
         open = hwMap.get(DcMotor.class, "open");
         close = hwMap.get(DcMotor.class, "close");
+        intake = hwMap.get(DcMotor.class, "ir");
 
         motorFR.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if motors are facing outward
         motorFL.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
@@ -70,6 +72,7 @@ public class AutonMap {
         motorRL.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
         open.setDirection(DcMotor.Direction.FORWARD);
         close.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.REVERSE);
 
         // Sets zero power behavior to brake for more precise movement
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -78,6 +81,7 @@ public class AutonMap {
         motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         open.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         close.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Resets encoder values to prevent the robot from freaking out as soon as we init
         motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -86,14 +90,16 @@ public class AutonMap {
         motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         open.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         close.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set all motors to zero power
         motorFR.setPower(0);
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-        motorRR.setPower(0);
-        motorRL.setPower(0);
+        open.setPower(0);
+        close.setPower(0);
+        intake.setPower(0);
     }
 
 

@@ -78,12 +78,12 @@ public class FacingCraterAuton extends LinearOpMode {
         alignGold();
         if(!detector.isFound()){
             robot.strafe(-DRIVE_SPEED, -1428);
-            robot.OFFSET-=170;
+            robot.OFFSET-=68;
             alignGold();
         }
         if(!detector.isFound()){
             robot.strafe(DRIVE_SPEED, 2856);
-            robot.OFFSET+=340;
+            robot.OFFSET+=136;
             alignGold();
         }
 
@@ -100,6 +100,8 @@ public class FacingCraterAuton extends LinearOpMode {
             robot.drive(DRIVE_SPEED, 2856);
 
         }
+
+        intake(0.9, 2.25);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -134,21 +136,12 @@ public class FacingCraterAuton extends LinearOpMode {
         robot.motorRR.setPower(0);
     }
 
-/*    public void actuate(double speed, double time) {
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < time)) {
-            telemetry.addData("Status:", "Actuating", runtime.seconds());
-            telemetry.update();
-            robot.actuator.setPower(speed);
-        }
-    }*/
-
-    /*public void intake(double speed, double time) {
+    public void intake(double speed, double time) {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "Actuating", runtime.seconds());
             telemetry.update();
             robot.intake.setPower(speed);
         }
-    }*/
+    }
 }
