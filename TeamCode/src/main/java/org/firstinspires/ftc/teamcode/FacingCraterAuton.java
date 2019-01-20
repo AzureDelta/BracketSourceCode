@@ -59,15 +59,15 @@ public class FacingCraterAuton extends LinearOpMode {
         //lower the robot
         //actuate(1.0, 12.5);
         //detach arm
-        robot.strafe(robot.DRIVE_SPEED, 2 * robot.INCHES * robot.M);
+        robot.strafe(robot.DRIVE_SPEED, (int)(2 * robot.INCHES * robot.M));
         //store arm
 /*
         actuate(-0.9, 10);
 */
         //reset position
-        robot.drive(robot.DRIVE_SPEED, 2 * robot.INCHES * robot.M);
+        robot.drive(robot.DRIVE_SPEED, (int)(2 * robot.INCHES * robot.M));
         //detach arm
-        robot.strafe(robot.DRIVE_SPEED, -2 * robot.INCHES * robot.M);
+        robot.strafe(robot.DRIVE_SPEED, (int)(-2 * robot.INCHES * robot.M));
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -80,12 +80,12 @@ public class FacingCraterAuton extends LinearOpMode {
 
         alignGold();
         if(!detector.isFound()){
-            robot.strafe(robot.DRIVE_SPEED, robot.M * -17 * robot.INCHES);
+            robot.strafe(robot.DRIVE_SPEED, (int)(robot.M * -17 * robot.INCHES));
             robot.OFFSET-=170;
             alignGold();
         }
         if(!detector.isFound()){
-            robot.strafe(robot.DRIVE_SPEED, robot.M * ((2*robot.FEET) + (10 * robot.INCHES)));
+            robot.strafe(robot.DRIVE_SPEED, (int)(robot.M * ((2*robot.FEET) + (10 * robot.INCHES))));
             robot.OFFSET+=340;
             alignGold();
         }
@@ -100,7 +100,7 @@ public class FacingCraterAuton extends LinearOpMode {
             //ONE TILE IS 24 INCHES X 24 INCHES
 
             //drive to crater
-            robot.drive(0.5, robot.M * ((2*robot.FEET) + (10 * robot.INCHES)));
+            robot.drive(0.5, (int)(robot.M * ((2*robot.FEET) + (10 * robot.INCHES))));
 
         }
 
