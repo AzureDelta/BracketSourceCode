@@ -11,7 +11,7 @@ public class HardwareConfigLite {
     public DcMotor motorFR = null;
     public DcMotor motorFL = null;
 
-    public static final double MID_SERVO = 0.5;//legacy code, can be removed
+    public static final double MID_SERVO = 0.5; //legacy code, can be removed
     //public ColorSensor colorSensor;//legacy code, can be removed
 
 
