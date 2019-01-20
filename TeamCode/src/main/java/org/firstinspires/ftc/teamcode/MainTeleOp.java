@@ -149,12 +149,13 @@ public class MainTeleOp extends LinearOpMode {
                 robot.intake.setPower(0);
             }
 
-            if (gamepad1.dpad_left || gamepad2.dpad_down || gamepad2.dpad_left) {
-                robot.actuator.setPower(-1);
-            } else if (gamepad1.dpad_right || gamepad2.dpad_up || gamepad2.dpad_right) {
-                robot.actuator.setPower(1);
+            if (gamepad1.dpad_up || gamepad2.dpad_up) {
+                robot.open.setPower(1);
+            } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
+                robot.close.setPower(1);
             } else {
-                robot.actuator.setPower(0);
+                robot.open.setPower(0);
+                robot.close.setPower(0);
             }
 
             telemetry.addData("Status", "Speed: " + speed + "\n" +

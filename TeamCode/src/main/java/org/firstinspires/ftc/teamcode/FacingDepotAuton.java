@@ -323,7 +323,6 @@ public class FacingDepotAuton extends LinearOpMode {
 
 
             //BRANDON CHECK ACTUATOR, IT'S NOT INITIALIZED IN AUTONMAP
-            robot.actuator.setPower(speed);
         }
     }
 
