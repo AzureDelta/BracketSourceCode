@@ -15,15 +15,14 @@ import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
 public class AutonMap {
-    /* Public OpMode members. */
-    public DcMotor motorFR = null;
-    public DcMotor motorFL = null;
-    public DcMotor motorRR = null;
-    public DcMotor motorRL = null;
+    private DcMotor motorFR = null;
+    private DcMotor motorFL = null;
+    private DcMotor motorRR = null;
+    private DcMotor motorRL = null;
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
-
+\
     static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
     static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
@@ -31,8 +30,8 @@ public class AutonMap {
     static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
     static final double FEET = 12 * INCHES;
     double OFFSET = 0;
-    public static final double M = (2 / Math.sqrt(2));
-    public static final double DRIVE_SPEED = 0.5;
+    private static final double M = (2 / Math.sqrt(2));
+    private static final double DRIVE_SPEED = 0.5;
 
     public static final double MID_SERVO = 0.5;//legacy code, can be removed
     //public ColorSensor colorSensor;//legacy code, can be removed
@@ -42,7 +41,7 @@ public class AutonMap {
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     /* Constructor */
-    public AutonMap() {
+    private AutonMap() {
 
     }
 
