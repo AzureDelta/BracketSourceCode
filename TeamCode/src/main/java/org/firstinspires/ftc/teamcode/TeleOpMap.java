@@ -12,7 +12,8 @@ public class TeleOpMap {
     public DcMotor motorFL = null;
     public DcMotor motorRR = null;
     public DcMotor motorRL = null;
-    public DcMotor slide = null;
+    public DcMotor open = null;
+    public DcMotor close = null;
     public DcMotor actuator = null;
     public DcMotor intake = null;
 
@@ -35,7 +36,8 @@ public class TeleOpMap {
         motorFL = hwMap.get(DcMotor.class, "fl");
         motorRR = hwMap.get(DcMotor.class, "rr");
         motorRL = hwMap.get(DcMotor.class, "rl");
-        slide = hwMap.get(DcMotor.class, "s");
+        open = hwMap.get(DcMotor.class, "open");
+        close = hwMap.get(DcMotor.class, "close");
         actuator = hwMap.get(DcMotor.class, "a");
         intake = hwMap.get(DcMotor.class, "ir");
 
