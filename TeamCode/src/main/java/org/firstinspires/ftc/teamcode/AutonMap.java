@@ -66,8 +66,8 @@ public class AutonMap {
         motorFL.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
         motorRR.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if motors are facing outward
         motorRL.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
-        open.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if motors are facing outward
-        close.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if motors are facing outward
+        open.setDirection(DcMotor.Direction.FORWARD);
+        close.setDirection(DcMotor.Direction.FORWARD);
 
         // Sets zero power behavior to brake for more precise movement
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
