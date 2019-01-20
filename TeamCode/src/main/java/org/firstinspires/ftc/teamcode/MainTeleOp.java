@@ -115,7 +115,8 @@ public class MainTeleOp extends LinearOpMode {
             //sets maxes for each value
             slidePower = Range.clip(slidePower, -ARM_SPEED, ARM_SPEED);
 
-            robot.slide.setPower(slidePower);
+            robot.open.setPower(slidePower);
+            robot.close.setPower(slidePower);
 
             if (gamepad1.a || gamepad2.a) {
                 runintake = true;
