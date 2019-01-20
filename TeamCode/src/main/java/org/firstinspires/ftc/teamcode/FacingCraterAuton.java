@@ -18,6 +18,7 @@ public class FacingCraterAuton extends LinearOpMode {
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
+    public static double DRIVE_SPEED = 0.5;
 
     @Override
 
@@ -59,15 +60,11 @@ public class FacingCraterAuton extends LinearOpMode {
         //lower the robot
         //actuate(1.0, 12.5);
         //detach arm
-        robot.strafe(robot.DRIVE_SPEED, (int)(2 * 84.02952 * robot.M));
-        //store arm
-/*
-        actuate(-0.9, 10);
-*/
-        //reset position
-        robot.drive(robot.DRIVE_SPEED, (int)(2 * 84.02952 * robot.M));
-        //detach arm
-        robot.strafe(robot.DRIVE_SPEED, (int)(-2 * 84.02952 * robot.M));
+        robot.strafe(DRIVE_SPEED,168);
+        //move forward
+        robot.drive(DRIVE_SPEED, 168);
+        //reset x position
+        robot.strafe(DRIVE_SPEED, -168);
 
         //declare sentinel variable
         boolean runLoop = true;
@@ -80,12 +77,12 @@ public class FacingCraterAuton extends LinearOpMode {
 
         alignGold();
         if(!detector.isFound()){
-            robot.strafe(robot.DRIVE_SPEED, (int)(robot.M * -17 * 84.02952));
+            robot.strafe(-DRIVE_SPEED, -1428);
             robot.OFFSET-=170;
             alignGold();
         }
         if(!detector.isFound()){
-            robot.strafe(robot.DRIVE_SPEED, (int)(robot.M * ((2*robot.FEET) + (10 * 84.02952))));
+            robot.strafe(DRIVE_SPEED, 2856);
             robot.OFFSET+=340;
             alignGold();
         }
@@ -100,7 +97,7 @@ public class FacingCraterAuton extends LinearOpMode {
             //ONE TILE IS 24 INCHES X 24 INCHES
 
             //drive to crater
-            robot.drive(0.5, (int)(robot.M * ((2*robot.FEET) + (10 * 84.02952))));
+            robot.drive(DRIVE_SPEED, 2856);
 
         }
 
@@ -113,31 +110,28 @@ public class FacingCraterAuton extends LinearOpMode {
     }
 
     public void alignGold(){
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            telemetry.addData("OFFSET", robot.OFFSET);
             if (detector.getXPosition() < 320 && detector.isFound()) {
-
-                robot.motorFL.setPower(-robot.DRIVE_SPEED);
-                robot.motorFR.setPower(-robot.DRIVE_SPEED);
-                robot.motorRL.setPower(robot.DRIVE_SPEED);
-                robot.motorRR.setPower(robot.DRIVE_SPEED);
+                robot.strafe(DRIVE_SPEED, -21);
                 robot.OFFSET--;
-
                 telemetry.addData("Status", "Target left.");
                 telemetry.update();
-
             } else if (detector.getXPosition() > 320 && detector.isFound()) {
-
+                robot.strafe(DRIVE_SPEED, 21);
                 robot.OFFSET++;
-                robot.motorFL.setPower(robot.DRIVE_SPEED);
-                robot.motorFR.setPower(robot.DRIVE_SPEED);
-                robot.motorRL.setPower(-robot.DRIVE_SPEED);
-                robot.motorRR.setPower(-robot.DRIVE_SPEED);
-                robot.OFFSET++;
-
                 telemetry.addData("Status", "Target Right");
                 telemetry.update();
             }
         }
+        robot.motorFL.setPower(0);
+        robot.motorFR.setPower(0);
+        robot.motorRL.setPower(0);
+        robot.motorRR.setPower(0);
     }
 
 /*    public void actuate(double speed, double time) {
