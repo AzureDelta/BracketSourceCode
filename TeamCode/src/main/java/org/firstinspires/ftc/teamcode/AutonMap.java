@@ -43,8 +43,23 @@ public class AutonMap {
     public static final double MID_SERVO = 0.5;//legacy code, can be removed
     //public ColorSensor colorSensor;//legacy code, can be removed
 
+    //YellowJacket for Close
+    //NeverRest for Open
+
+    //NeverRest 40 motor: Diameter = 0.85 inches
+    //NeverREST: 120 rpm
+    //Circumference = 2.669 inches
+    //NeverRest: IPM: 320.28 inches/min
+    //GoBilda Yellow Jacket motor: Diameter = 1 inch
+    //GoBilda: 84 rpm
+    //Circumference: 3.14 inches
+    //GoBilda: IPM: 263.76 inches/min
+    //YellowJacket is close
+    //NeverRest is open
+    //Run NeverRest at 82.35% to get same power
 
     /* local OpMode members. */
+
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     /* Constructor */
@@ -198,7 +213,8 @@ public class AutonMap {
         // The motors are shutdown when a motor gets to its target position
         motorFL.setPower(0);
         motorFR.setPower(0);
-        motorRR.setPower(0);        motorRL.setPower(0);
+        motorRR.setPower(0);
+        motorRL.setPower(0);
 
         targetFL=0;
         targetFR=0;
@@ -214,6 +230,21 @@ public class AutonMap {
             open.setPower(speed);
         }
     }
+
+        public void openandclose(double speed, int numCounts){
+            int counter = 0;
+            while ((counter < numCounts)) {
+                telemetry.addData("Status:", "opening     Time Left: " + numCounts, runtime.seconds());
+                telemetry.update();
+                //YellowJacket is close
+                //NeverRest is open
+                //Run NeverRest at 82.35% to get same power
+                open.setPower(speed * 0.8);
+                close.setPower(speed);
+                counter ++;
+            }
+        }
+
 
     public void close(double speed, double time) {
         runtime.reset();

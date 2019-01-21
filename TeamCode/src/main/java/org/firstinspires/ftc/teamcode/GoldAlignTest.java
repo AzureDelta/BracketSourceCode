@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "gOLD aLIGN tEST", group = "Auto")
+@Autonomous(name = "gOLD aLIGN tEST", group = "Test")
 
 /* Declare OpMode members. */
 

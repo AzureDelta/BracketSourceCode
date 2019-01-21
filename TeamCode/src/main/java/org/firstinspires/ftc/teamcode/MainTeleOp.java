@@ -21,11 +21,22 @@ import com.qualcomm.robotcore.util.Range;
 public class MainTeleOp extends LinearOpMode {
 
     public static final double ARM_SPEED = 0.90;
-    public static final double INTAKE_SPEED = 0.90;
+    public static final double INTAKE_SPEED = 0.80;
 
     /* Declare OpMode members. */
     TeleOpMap robot = new TeleOpMap();   //Configs hardware
 
+    //NeverRest 40 motor: Diameter = 0.85 inches
+    //NeverREST: 120 rpm
+    //Circumference = 2.669 inches
+    //NeverRest: IPM: 320.28 inches/min
+    //GoBilda Yellow Jacket motor: Diameter = 1 inch
+    //GoBilda: 84 rpm
+    //Circumference: 3.14 inches
+    //GoBilda: IPM: 263.76 inches/min
+
+    //To run at the same rate, the NeverRest must run at 82.35% of it's speed
+    //This puts both motors running @ approx. 263.75 in/min
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -46,7 +57,7 @@ public class MainTeleOp extends LinearOpMode {
         boolean runintake = false;
         boolean reverseintake = false;
         boolean slowintake = false;
-        double speed = 0.8;
+        double speed = 0.5;
         int counterUpTighten = 0;
         int counterUpLoosen = 0;
         int counterDownTighten = 0;
@@ -63,10 +74,10 @@ public class MainTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             //speed is
-            if (gamepad1.dpad_up || gamepad2.dpad_up) {
+            if (gamepad2.left_stick_button) {
                 speed = 1;
             }
-            if (gamepad1.dpad_down || gamepad2.dpad_down) {
+            if (gamepad2.right_stick_button) {
                 speed = 0.5;
             }
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
@@ -144,10 +155,13 @@ public class MainTeleOp extends LinearOpMode {
 
             if (runintake) {
                 robot.intake.setPower(INTAKE_SPEED);
+                //intake speed is 0.8
             } else if (reverseintake) {
                 robot.intake.setPower(-1 * (INTAKE_SPEED / 3));
+                //reverse speed is -0.3
             } else if (slowintake) {
-                robot.intake.setPower(INTAKE_SPEED / 2);
+                robot.intake.setPower(INTAKE_SPEED * 0.5625);
+                //intake speed is 0.45
             } else {
                 robot.intake.setPower(0);
             }
@@ -160,6 +174,9 @@ public class MainTeleOp extends LinearOpMode {
             //pull up tighten: robot.close.setPower(-1)
             ///*
 
+
+            //YellowJacket for Close
+            //NeverRest for Open
 
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
                 //Pull up tighten

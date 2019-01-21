@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Drive and Dump)", group = "Auto")
+@Autonomous(name = "Drive and Dump)", group = "Extra")
 
 /* Declare OpMode members. */
 
@@ -36,7 +36,7 @@ public class Backup extends LinearOpMode {
 
         //drive through
         //current implementation of rotation count is a placeholder
-        drive(DRIVE_SPEED, 1.6);
+        drive(DRIVE_SPEED, 1.5);
         //recenters based on the value of offset
 /*
         strafe(0.5, -OFFSET * 0.25);
@@ -45,7 +45,7 @@ public class Backup extends LinearOpMode {
         //drive into the depot
         //drive(0.5, M * 1 * FEET);
 
-        intake(INTAKE_SPEED, 2.25);
+        intake(INTAKE_SPEED, 2);
     }
 
     public void strafe(double speed, double time) {

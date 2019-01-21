@@ -8,7 +8,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
-@Autonomous(name = "OriginalDepot", group = "Auto")
+@Autonomous(name = "Full Depot", group = "Depot")
 
 /* Declare OpMode members. */
 
@@ -66,15 +66,13 @@ public class FacingDepotAuton extends LinearOpMode {
         telemetry.addData("Status", "Dropping Dusty!");
         telemetry.update();
 
+        robot.open(1, 8);
         //lower the robot
         //actuate(1.0, 12.5);
         //detach arm
         robot.strafe(DRIVE_SPEED,168);
         //move forward
         robot.drive(DRIVE_SPEED, 168);
-        //reset x position
-        robot.strafe(DRIVE_SPEED, -168);
-
         //declare sentinel variable
         boolean runLoop = true;
 
@@ -98,19 +96,22 @@ public class FacingDepotAuton extends LinearOpMode {
 
         //runs loop until robot is aligned with mineral
 
-        else {
+        //drive to crater
+        robot.drive(DRIVE_SPEED, 2856);
+
+        int offsetTotal = robot.OFFSET*4;
+        robot.strafe(DRIVE_SPEED, offsetTotal);
+
+
 
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
             //ONE TILE IS 24 INCHES X 24 INCHES
 
-            //drive to crater
-            robot.drive(DRIVE_SPEED, 2856);
 
-        }
-        int offsetTotal = robot.OFFSET*4;
-        robot.strafe(DRIVE_SPEED, offsetTotal);
+
+
 
         intake(0.9, 2.25);
 

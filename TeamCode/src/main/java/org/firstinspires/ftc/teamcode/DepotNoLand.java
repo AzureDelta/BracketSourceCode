@@ -1,24 +1,33 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 
-@Autonomous(name = "Full Crater", group = "Crater")
+@Autonomous(name = "No Land Depot", group = "Depot")
 
 /* Declare OpMode members. */
 
-public class FacingCraterAuton extends LinearOpMode {
+public class DepotNoLand extends LinearOpMode {
 
     AutonMap robot = new AutonMap();
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
-    public static double DRIVE_SPEED = 0.5;
+
+    static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder (40:1)
+    static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    static final double COUNTS_PER_ROTATION = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;     //used to compute degrees
+    static final double INCHES = (COUNTS_PER_MOTOR_REV * (80/120) / (WHEEL_DIAMETER_INCHES * Math.PI)); //calculates counts per inch
+    static final double FEET = 12 * INCHES;
+    double OFFSET = 0;
+    public static final double M = (2 / Math.sqrt(2));
+    public static final double DRIVE_SPEED = 0.5;
 
     @Override
 
@@ -89,17 +98,20 @@ public class FacingCraterAuton extends LinearOpMode {
 
         //runs loop until robot is aligned with mineral
 
-        else {
+        //drive to crater
+        robot.drive(DRIVE_SPEED, 2856);
+
+        int offsetTotal = robot.OFFSET*4;
+        robot.strafe(DRIVE_SPEED, offsetTotal);
+
+
 
             telemetry.addData("Status", "I've got a good lock! Firing!");
             telemetry.update();
 
             //ONE TILE IS 24 INCHES X 24 INCHES
 
-            //drive to crater
-            robot.drive(DRIVE_SPEED, 2856);
 
-        }
 
         intake(0.9, 2.25);
 

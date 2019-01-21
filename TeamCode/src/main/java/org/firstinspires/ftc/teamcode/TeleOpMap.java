@@ -67,8 +67,8 @@ public class TeleOpMap {
         motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        open.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        close.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        open.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        close.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set all motors to run without encoders.

@@ -20,6 +20,8 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    public static double DRIVE_SPEED = 0.5;
+
     /*
     660 counts of encoder = 4 inches
     1 inch = 165 counts
@@ -50,25 +52,70 @@ public class FullAutonomousRewriteTest extends LinearOpMode {
         // Play the audio
         //SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundID);
 
-        //drive, strafe
-        robot.drive(0.5, 1008);
-        sleep(500);
-        robot.drive(-0.5, -1008);
-        sleep(500);
-        //positive dist. is right
-        //negative dist. is left
-        //first right 3 inches
-        robot.strafe(0.5, 1008);
-        sleep(500);
-        //then left 3 inches
-        robot.strafe(-0.5, -1008);
-        sleep(500);
+
+            robot.strafe(-DRIVE_SPEED, -1428);
+            robot.OFFSET-=68;
+
+            robot.strafe(DRIVE_SPEED, 2856);
+            robot.OFFSET+=136;
+
+        //runs loop until robot is aligned with mineral
+
+        int offsetTotal = robot.OFFSET*4;
+        robot.strafe(DRIVE_SPEED, offsetTotal);
+
+
+
+        telemetry.addData("Status", "I've got a good lock! Firing!");
+        telemetry.update();
+
+        //ONE TILE IS 24 INCHES X 24 INCHES
+
+        //drive to crater
+        robot.drive(DRIVE_SPEED, 2856);
+
+
+
+        intake(0.9, 2.25);
 
         //test intake
 /*        intake(0.5, 3);
         sleep(1000);
         //test actuator
         actuate(1, 5);*/
+    }
+    public void alignGold(){
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while (detector.getAligned() != true && runtime.seconds() < 20 && detector.isFound()) {
+            telemetry.addData("OFFSET", robot.OFFSET);
+            if (detector.getXPosition() < 320 && detector.isFound()) {
+                robot.strafe(DRIVE_SPEED, -21);
+                robot.OFFSET--;
+                telemetry.addData("Status", "Target left.");
+                telemetry.update();
+            } else if (detector.getXPosition() > 320 && detector.isFound()) {
+                robot.strafe(DRIVE_SPEED, 21);
+                robot.OFFSET++;
+                telemetry.addData("Status", "Target Right");
+                telemetry.update();
+            }
+        }
+        robot.motorFL.setPower(0);
+        robot.motorFR.setPower(0);
+        robot.motorRL.setPower(0);
+        robot.motorRR.setPower(0);
+    }
+
+    public void intake(double speed, double time) {
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Status:", "Actuating", runtime.seconds());
+            telemetry.update();
+            robot.intake.setPower(speed);
+        }
     }
 
 /*    public void actuate(double speed, double time) {
