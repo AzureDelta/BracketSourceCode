@@ -27,7 +27,7 @@ public class HardwareConfigVeryLite {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        yellowJacket = hwMap.get(DcMotor.class, "al");
+        yellowJacket = hwMap.get(DcMotor.class, "test");
 
         yellowJacket.setDirection(DcMotor.Direction.FORWARD);//requires testing
 
