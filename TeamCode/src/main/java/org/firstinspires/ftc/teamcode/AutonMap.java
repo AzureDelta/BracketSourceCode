@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Point;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,6 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import java.util.*;
 
 public class AutonMap {
     /* Public OpMode members. */
@@ -23,6 +26,8 @@ public class AutonMap {
     public DcMotor open = null;
     public DcMotor close = null;
     public DcMotor intake = null;
+    private double x = 0;
+    private double y = 0;
 
     private GoldAlignDetector detector;
     private ElapsedTime runtime = new ElapsedTime();
@@ -115,6 +120,20 @@ public class AutonMap {
         open.setPower(0);
         close.setPower(0);
         intake.setPower(0);
+
+        // fucking gyro init hell yeet dab
+    }
+
+    //use these for calculating changes in x and y for odometry
+    //they did the monster math
+    //it was a graveyard graph
+    public void updateX(int dist){
+        int ans = Math.cos(getangle) * dist;
+        x+=ans;
+    }
+    public void updateY(int dist){
+        int ans = Math.sin(getangle) * dist;
+        y+=ans;
     }
 
 
