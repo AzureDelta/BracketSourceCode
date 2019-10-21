@@ -128,12 +128,9 @@ public class AutonMap {
     //they did the monster math
     //it was a graveyard graph
     public void updateX(int dist){
-        int ans = Math.cos(getangle) * dist;
-        x+=ans;
+
     }
     public void updateY(int dist){
-        int ans = Math.sin(getangle) * dist;
-        y+=ans;
     }
 
 

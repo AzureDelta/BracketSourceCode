@@ -45,7 +45,6 @@ public class Backup extends LinearOpMode {
         //drive into the depot
         //drive(0.5, M * 1 * FEET);
 
-        intake(INTAKE_SPEED, 2);
     }
 
     public void strafe(double speed, double time) {
@@ -65,7 +64,6 @@ public class Backup extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Status:", "intaking     Time Left: " + time, runtime.seconds());
             telemetry.update();
-            robot.intake.setPower(speed);
         }
     }
 
