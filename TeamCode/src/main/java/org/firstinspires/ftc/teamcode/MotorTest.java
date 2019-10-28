@@ -21,7 +21,7 @@ public class MotorTest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-        telemetry.addData("Allen", "is bad");
+        telemetry.addData("Brandon", "is cancer");
         telemetry.update();
 
         waitForStart();
