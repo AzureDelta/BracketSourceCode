@@ -13,11 +13,11 @@ public class TeleOpMap {
     public DcMotor motorFL = null;
     public DcMotor motorRR = null;
     public DcMotor motorRL = null;
-    public DcMotor open = null;
-    public DcMotor intakeR = null;
-    public DcMotor arm = null;
     public DcMotor intakeL = null;
+    public DcMotor intakeR = null;
 
+    public Servo    claw    = null;
+    public static final double MID_SERVO       =  0.5 ;
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
@@ -38,14 +38,13 @@ public class TeleOpMap {
         motorRR = hwMap.get(DcMotor.class, "rr");
         motorRL = hwMap.get(DcMotor.class, "rl");
         intakeL = hwMap.get(DcMotor.class, "il");
-        intakeR = hwMap.get(DcMotor.class, "ir");
-        arm = hwMap.get(DcMotor.class, "a");
+        intakeR = hwMap.get(DcMotor.class, "iR");
+        claw  = hwMap.get(Servo.class, "claw");
 
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorRR.setDirection(DcMotor.Direction.FORWARD);
         motorRL.setDirection(DcMotor.Direction.REVERSE);
-        arm.setDirection(DcMotor.Direction.REVERSE);
         intakeR.setDirection(DcMotor.Direction.FORWARD);
         intakeL.setDirection(DcMotor.Direction.REVERSE);
 
@@ -54,7 +53,6 @@ public class TeleOpMap {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-        arm.setPower(0);
         intakeR.setPower(0);
         intakeL.setPower(0);
 
@@ -63,10 +61,8 @@ public class TeleOpMap {
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorRL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -74,7 +70,6 @@ public class TeleOpMap {
         motorRR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //Not using encoders for non drive train to allow for more direct control of power.
         //Arm uses encoders to make sure motors stay in sync

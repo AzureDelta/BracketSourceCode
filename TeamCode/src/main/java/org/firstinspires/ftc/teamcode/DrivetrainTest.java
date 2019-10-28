@@ -53,6 +53,9 @@ public class DrivetrainTest extends LinearOpMode {
         double powerFR;
         double powerRL;
         double powerRR;
+        double intakePower;
+        double clawOffset = 0;
+        final double CLAW_SPEED = 0.02;
         double slidePower;
         boolean runintake = false;
         boolean reverseintake = false;
@@ -119,6 +122,31 @@ public class DrivetrainTest extends LinearOpMode {
             robot.motorRL.setPower(powerRL);
             robot.motorRR.setPower(powerRR);
 
+            //intake stuff
+            if(gamepad1.a == true){
+                robot.motorRR.setPower(0.5);
+                robot.motorRR.setPower(0.5);
+            }
+            if(gamepad1.b == true){
+                robot.motorRR.setPower(-0.5);
+                robot.motorRR.setPower(-0.5);
+            }if(gamepad1.x == true){
+                robot.motorRR.setPower(0);
+                robot.motorRR.setPower(0);
+            }
+
+            // Use gamepad left & right Bumpers to open and close the claw
+
+
+            if (gamepad1.right_bumper)
+                clawOffset += CLAW_SPEED;
+            else if (gamepad1 .left_bumper)
+                clawOffset -= CLAW_SPEED;
+
+            // Move both servos to new position.  Assume servos are mirror image of each other.
+            clawOffset = Range.clip(clawOffset, -0.5, 0.5);
+
+            robot.claw.setPosition(robot.MID_SERVO + clawOffset);
 
 
             telemetry.addData("Status", "Speed: " + speed + "\n" +
