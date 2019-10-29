@@ -17,11 +17,11 @@ import com.qualcomm.robotcore.util.Range;
 
 //*In theory* this should also be compatible with tank drive, except for the strafing parts
 
-@TeleOp(name = "Drivetrain", group = "TeleOp")
+@TeleOp(name = "DrivetrainTest", group = "TeleOp")
 public class DrivetrainTest extends LinearOpMode {
 
-    public static final double ARM_SPEED = 0.90;
-    public static final double INTAKE_SPEED = 0.80;
+    public static final double ARM_SPEED = 0.925;
+    public static final double INTAKE_SPEED = 0.825;
 
     /* Declare OpMode members. */
     TeleOpMap robot = new TeleOpMap();   //Configs hardware
@@ -67,16 +67,17 @@ public class DrivetrainTest extends LinearOpMode {
         int counterDownLoosen = 0;
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Shock drone going live!");
+        telemetry.addData("Status", "Robot is waiting.");
         telemetry.update();
 
         waitForStart();
 
-        telemetry.addData("Status", "ASSUMING DIRECT CONTROL");
+        telemetry.addData("Status", "Robot can drive.");
         telemetry.update();
 
         while (opModeIsActive()) {
             //speed is
+            //LS is fast, RS is half speed
             if (gamepad1.left_stick_button) {
                 speed = 1;
             }
@@ -122,22 +123,23 @@ public class DrivetrainTest extends LinearOpMode {
             robot.motorRL.setPower(powerRL);
             robot.motorRR.setPower(powerRR);
 
-            //intake stuff
-            if(gamepad1.a == true){
+            //rear right motor test while buttons are held
+            while (gamepad1.a){
                 robot.motorRR.setPower(0.5);
                 robot.motorRR.setPower(0.5);
             }
-            if(gamepad1.b == true){
+            while(gamepad1.b) {
                 robot.motorRR.setPower(-0.5);
                 robot.motorRR.setPower(-0.5);
-            }if(gamepad1.x == true){
+            }
+            while(gamepad1.x){
                 robot.motorRR.setPower(0);
                 robot.motorRR.setPower(0);
             }
 
-            // Use gamepad left & right Bumpers to open and close the claw
 
-
+            //Use LB and RB to open and close the claw
+            //try to swap to triggers
             if (gamepad1.right_bumper)
                 clawOffset += CLAW_SPEED;
             else if (gamepad1 .left_bumper)
